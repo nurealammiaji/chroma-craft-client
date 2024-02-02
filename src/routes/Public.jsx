@@ -4,6 +4,7 @@ import {
   } from "react-router-dom";
 import Error from '../pages/Error/Error';
 import Login from '../pages/Login/Login';
+import Register from '../pages/Register/Register';
 
 const Public = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const Public = createBrowserRouter([
     {
         path: "/login",
         element: <Login></Login>
+    },
+    {
+        path: "/register",
+        element: <Register></Register>
     }
 ])
 
