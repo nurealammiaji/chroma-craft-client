@@ -3,6 +3,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { Link, NavLink } from "react-router-dom";
 import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons/tb";
 import Swal from "sweetalert2";
+import logo from "/logo.png";
 
 const Navbar = () => {
 
@@ -40,18 +41,18 @@ const Navbar = () => {
 
     return (
         <div className="relative">
-            <div className="z-10 font-semibold text-white bg-black shadow px-auto navbar bg-opacity-30">
+            <div className="z-10 font-semibold rounded-full shadow px-auto navbar bg-opacity-30">
                 <div className="navbar-start">
                     <details className="dropdown">
-                        <summary tabIndex={0} className="btn btn-ghost lg:hidden">
-                            <TbMenu2 className="text-lg" />
+                        <summary tabIndex={0} className="mr-2 btn btn-sm lg:hidden">
+                            <TbMenu2 className="text-2xl" />
                         </summary>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black">
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             {links}
                         </ul>
                     </details>
                     <Link to="/">
-                        <img className="md:h-[60px]" src={""} alt="Tasty Food Logo" />
+                        <img className="md:h-[60px]" src={logo} alt="Tasty Food Logo" />
                     </Link>
                 </div>
                 <div className="hidden navbar-center lg:flex">
@@ -69,7 +70,7 @@ const Navbar = () => {
                         <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
-                                <span className="absolute p-1 left-4 bottom-4 badge badge-primary badge-sm">
+                                <span className="absolute p-1 left-3 top-3 badge badge-primary badge-sm">
                                     {
                                         (user) ?
                                             0 : 0
