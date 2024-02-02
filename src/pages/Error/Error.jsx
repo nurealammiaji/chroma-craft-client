@@ -1,6 +1,7 @@
 import { Link, useRouteError } from "react-router-dom";
 import error_image from "../../assets/404_Error.png";
 import { Helmet } from "react-helmet-async";
+import { TbCircleArrowLeftFilled } from "react-icons/tb";
 
 const Error = () => {
 
@@ -34,7 +35,7 @@ const Error = () => {
             }
             <div className="mt-3 text-center">
                 <Link to={"/"}>
-                    <button className="btn">Back to Home</button>
+                    <button className="btn"><TbCircleArrowLeftFilled className="text-xl" /> Back to Home</button>
                 </Link>
             </div>
         </div>

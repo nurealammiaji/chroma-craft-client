@@ -1,7 +1,7 @@
-import { PiHeart, PiListBold, PiShoppingCart, PiSignIn, PiSignOut } from "react-icons/pi";
-import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
+import { Link, NavLink } from "react-router-dom";
+import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
@@ -28,8 +28,8 @@ const Navbar = () => {
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
-        <li><NavLink to="/shop">Our Shop</NavLink></li>
-        <li><NavLink to="/contact">Contact Us</NavLink></li>
+        <li><NavLink to="/courses">Courses</NavLink></li>
+        <li><NavLink to="/contact">Contact</NavLink></li>
         {
             (user) ?
                 (user) ?
@@ -44,7 +44,7 @@ const Navbar = () => {
                 <div className="navbar-start">
                     <details className="dropdown">
                         <summary tabIndex={0} className="btn btn-ghost lg:hidden">
-                            <PiListBold className="text-lg" />
+                            <TbMenu2 className="text-lg" />
                         </summary>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black">
                             {links}
@@ -59,25 +59,20 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-red-600">
-                    {/* <div className="mr-1 drawer-content tooltip" data-tip="Wishlist">
+                <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-purple-700">
+                    <div className="mr-2 drawer-content tooltip" data-tip="Search">
                         <label htmlFor="wishlist-drawer" className="relative drawer-button">
-                            <PiHeart className="text-xl md:text-2xl" />
-                            <span className="absolute left-0 p-1 top-2 badge badge-primary badge-sm">
-                                {
-                                    (user && cart) && 0
-                                }
-                            </span>
+                            <TbSearch className="text-xl md:text-2xl" />
                         </label>
-                    </div> */}
+                    </div>
                     {
                         <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
-                                <PiShoppingCart className="text-xl md:text-2xl" />
+                                <TbShoppingBag className="text-xl md:text-2xl" />
                                 <span className="absolute p-1 left-4 bottom-4 badge badge-primary badge-sm">
                                     {
-                                        (user) &&
-                                        0
+                                        (user) ?
+                                            0 : 0
                                     }
                                 </span>
                             </Link>
@@ -92,10 +87,10 @@ const Navbar = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <button onClick={logoutHandler} className="tooltip" data-tip="Logout"><PiSignOut className="text-lg md:text-2xl" /></button>
+                            <button onClick={logoutHandler} className="tooltip" data-tip="Logout"><TbLogout className="text-lg md:text-2xl" /></button>
                         </> :
                         <>
-                            <button className="tooltip" data-tip="Login"><Link to="/login"><PiSignIn className="text-lg md:text-2xl" /></Link></button>
+                            <button className="tooltip" data-tip="Login"><Link to="/login"><TbLogin className="text-lg md:text-2xl" /></Link></button>
                         </>}
                 </div>
             </div>

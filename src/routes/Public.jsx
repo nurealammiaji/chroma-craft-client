@@ -15,13 +15,17 @@ const Public = createBrowserRouter([
         errorElement: <Error></Error>,
         children: [
             {
+                path: "about",
+                element: <About></About>
+            },
+            {
+                path: "courses",
+                element: ""
+            },
+            {
                 path: "contact",
                 element: <Contact></Contact>
             },
-            {
-                path: "about",
-                element: <About></About>
-            }
         ]
     },
     {
