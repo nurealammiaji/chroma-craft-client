@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import Banner from "./Banner";
 
 const Home = () => {
     return (
@@ -7,6 +8,9 @@ const Home = () => {
                 <title>Home || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
+            <div>
+                <Banner></Banner>
+            </div>
         </div>
     );
 };
