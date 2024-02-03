@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle } from "react-icons/tb";
 import { Link } from "react-router-dom";
 
 const Login = () => {
@@ -58,9 +59,9 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="flex items-center justify-center mt-3">
-                            <button className="btn btn-outline btn-circle btn-success btn-sm">G</button>
-                            <button className="mx-5 btn-sm btn btn-outline btn-circle">G</button>
-                            <button className="btn btn-outline btn-circle btn-primary btn-sm">F</button>
+                            <button className="btn btn-outline btn-circle btn-success btn-sm"><TbBrandGoogle className="text-2xl" /></button>
+                            <button className="mx-5 btn-sm btn btn-outline btn-circle text-black hover:text-white hover:bg-black"><TbBrandGithub className="text-2xl" /></button>
+                            <button className="btn btn-outline btn-circle btn-info btn-sm"><TbBrandFacebook className="text-2xl" /></button>
                         </div>
                     </div>
                 </div>
