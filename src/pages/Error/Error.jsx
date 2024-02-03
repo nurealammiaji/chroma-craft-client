@@ -30,12 +30,12 @@ const Error = () => {
                     <div className="text-center">
                         <p className="text-2xl text-purple-700">{error.data}</p>
                     </div>
-                    <br /><br />
                 </>
             }
+            <br /><br />
             <div className="mt-3 text-center">
                 <Link to={"/"}>
-                    <button className="btn"><TbCircleArrowLeftFilled className="text-xl" /> Back to Home</button>
+                    <button className="btn btn-secondary"><TbCircleArrowLeftFilled className="text-xl" /> Back to Home</button>
                 </Link>
             </div>
         </div>

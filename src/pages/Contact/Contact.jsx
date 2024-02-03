@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
     return (
-        <div>
+        <div className="min-h-screen">
             <Helmet>
                 <title>Contact || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />

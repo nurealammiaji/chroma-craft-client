@@ -4,6 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons/tb";
 import Swal from "sweetalert2";
 import logo from "/logo.png";
+import shape1 from "../../assets/shapes/art-protrait-01.png";
+
 
 const Navbar = () => {
 
@@ -40,8 +42,8 @@ const Navbar = () => {
     </>;
 
     return (
-        <div className="relative">
-            <div className="z-10 font-semibold rounded-full shadow px-auto navbar bg-opacity-30">
+        <nav className="relative">
+            <div style={{ background: `url(${shape1}) center no-repeat`}} className="fixed max-w-screen-xl z-10 font-semibold rounded-full shadow-md px-auto navbar border border-primary top-1 text-pink-800">
                 <div className="navbar-start">
                     <details className="dropdown">
                         <summary tabIndex={0} className="mr-2 btn btn-sm lg:hidden">
@@ -52,11 +54,11 @@ const Navbar = () => {
                         </ul>
                     </details>
                     <Link to="/">
-                        <img className="md:h-[60px]" src={logo} alt="Tasty Food Logo" />
+                        <img className="md:h-[60px]" src={logo} alt="Chroma Craft" />
                     </Link>
                 </div>
                 <div className="hidden navbar-center lg:flex">
-                    <ul className="px-1 menu menu-horizontal z-[1]">
+                    <ul className="p-3 menu menu-horizontal z-[1] bg-primary bg-opacity-20 rounded-full">
                         {links}
                     </ul>
                 </div>
@@ -70,7 +72,7 @@ const Navbar = () => {
                         <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
-                                <span className="absolute p-1 left-3 top-3 badge badge-primary badge-sm">
+                                <span className="absolute p-1 left-3 top-3 badge badge-secondary badge-sm">
                                     {
                                         (user) ?
                                             0 : 0
@@ -95,7 +97,8 @@ const Navbar = () => {
                         </>}
                 </div>
             </div>
-        </div>
+            <br /><br />
+        </nav>
     );
 };
 
