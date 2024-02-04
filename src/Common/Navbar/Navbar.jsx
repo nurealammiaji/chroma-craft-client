@@ -72,7 +72,7 @@ const Navbar = () => {
                         <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
-                                <span className="absolute p-1 left-3 top-3 badge badge-secondary badge-sm">
+                                <span className="absolute p-1 left-3 top-3 badge badge-info badge-sm">
                                     {
                                         (user) ?
                                             0 : 0

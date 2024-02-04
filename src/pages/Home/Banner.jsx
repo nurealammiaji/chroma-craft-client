@@ -12,7 +12,7 @@ const Banner = () => {
             <div style={{ background: `url(${shape1}) right top no-repeat` }} className="grid md:grid-cols-2 gap-20">
                 <div className="ps-10" >
             <div style={{ background: `url(${shape5}) left 90% / 110% 80% no-repeat` }} className="h-32"></div>
-                    <h4 className="text-2xl">Chroma Craft</h4>
+                    <h4 className="text-2xl text-primary font-medium">Chroma Craft</h4>
                     <br />
                     <h2 className="text-5xl font-bold">Develop Your Own<br />Artistic Style</h2>
                     <br />
