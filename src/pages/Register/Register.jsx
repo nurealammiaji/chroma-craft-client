@@ -66,7 +66,7 @@ const Register = () => {
                                 />
                             </div>
                             <div className="mt-6 form-control">
-                                <button className="btn btn-secondary" type="submit">Register</button>
+                                <button className="btn btn-neutral" type="submit">Register</button>
                             </div>
                         </form>
                         <div className="flex items-center justify-center mt-3">
