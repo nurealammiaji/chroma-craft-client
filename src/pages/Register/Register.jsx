@@ -1,8 +1,19 @@
 import { Helmet } from "react-helmet-async";
 import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Register = () => {
+
+    const { emailRegister, googleLogin } = useContext(AuthContext);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+
+    const emailRegisterHandler = (data) => {
+        console.log(data);
+    }
+
     return (
         <div>
             <Helmet>
@@ -12,7 +23,7 @@ const Register = () => {
             <div className="min-h-screen hero">
                 <div className="p-10 mx-auto my-auto shadow-2xl md:w-6/12 hero-content rounded-3xl">
                     <div className="mx-auto md:w-10/12">
-                        <form>
+                        <form onSubmit={handleSubmit(emailRegisterHandler)}>
                             <div className="text-center">
                                 <h3 className="text-2xl font-semibold">Register</h3>
                             </div>
@@ -21,48 +32,47 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Name</span>
                                 </label>
-                                <input
+                                <input {...register("name", { required: true })}
                                     type="text"
                                     placeholder="name"
                                     name="name"
                                     className="input input-bordered"
-                                    required
                                 />
+                                {errors.name && <label className="label">
+                                    <span className="text-error">This Field is required !!</span>
+                                </label>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Photo URL</span>
                                 </label>
-                                <input
+                                <input {...register("photo", { required: true })}
                                     type="url"
                                     placeholder="https://"
                                     name="photo"
                                     className="input input-bordered"
-                                    required
                                 />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input
+                                <input {...register("email", { required: true })}
                                     type="email"
                                     placeholder="email"
                                     name="email"
                                     className="input input-bordered"
-                                    required
                                 />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input
+                                <input {...register("password", { required: true })}
                                     type="password"
                                     placeholder="password"
                                     name="password"
                                     className="input input-bordered"
-                                    required
                                 />
                             </div>
                             <div className="mt-6 form-control">

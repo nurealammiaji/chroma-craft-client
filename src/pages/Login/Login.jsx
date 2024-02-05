@@ -10,18 +10,18 @@ const Login = () => {
     const { googleLogin, emailLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-    const handleLogin = (data) => {
+    const emailLoginHandler = (data) => {
         console.log(data);
     }
 
     const handleGoogleLogin = () => {
         googleLogin()
-        .then(result => {
-            console.log(result);
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -33,7 +33,7 @@ const Login = () => {
             <div className="min-h-screen hero">
                 <div className="p-10 mx-auto my-auto shadow-2xl rounded-3xl md:w-6/12 hero-content">
                     <div className="mx-auto md:w-10/12">
-                        <form onSubmit={handleSubmit(handleLogin)}>
+                        <form onSubmit={handleSubmit(emailLoginHandler)}>
                             <div className="text-center">
                                 <h3 className="text-2xl font-semibold">Login</h3>
                             </div>
@@ -42,25 +42,13 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input {...register("email")}
-                                    type="email"
-                                    placeholder="email"
-                                    name="email"
-                                    className="input input-bordered"
-                                    required
-                                />
+                                <input {...register("email", { required: true })} type="email" placeholder="email" name="email" className="input input-bordered"/>
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input
-                                    type="password"
-                                    placeholder="password"
-                                    name="password"
-                                    className="input input-bordered"
-                                    required
-                                />
+                                <input {...register("password", { required: true })} type="password" placeholder="password" name="password" className="input input-bordered"/>
                             </div>
                             <div className="mt-6 form-control">
                                 <button className="btn btn-neutral" type="submit">Login</button>
