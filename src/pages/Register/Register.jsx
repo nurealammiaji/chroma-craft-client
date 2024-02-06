@@ -152,8 +152,8 @@ const Register = () => {
                                     name="name"
                                     className="input input-bordered"
                                 />
-                                {errors.name && <label className="label">
-                                    <span className="text-error">This Field is required !!</span>
+                                {errors.name?.type === 'required' && <label className="label">
+                                    <span className="text-error">Name is required !!</span>
                                 </label>}
                             </div>
                             <div className="form-control">
@@ -166,8 +166,8 @@ const Register = () => {
                                     name="photo"
                                     className="input input-bordered"
                                 />
-                                {errors.photo && <label className="label">
-                                    <span className="text-error">This Field is required !!</span>
+                                {errors.photo?.type === 'required' && <label className="label">
+                                    <span className="text-error">Photo URL is required !!</span>
                                 </label>}
                             </div>
                             <div className="form-control">
@@ -182,23 +182,23 @@ const Register = () => {
                                     name="email"
                                     className="input input-bordered"
                                 />
-                                {errors.email && <label className="label">
-                                    <span className="text-error">This Field is required !!</span>
+                                {errors.email?.type === 'required' && <label className="label">
+                                    <span className="text-error">Email is required !!</span>
                                 </label>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password", { pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8}$/, required: true })}
+                                <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6}$/ })}
                                     type="password"
                                     placeholder="password"
                                     name="password"
                                     className="input input-bordered"
                                 />
-                                {errors.password && <label className="label">
-                                    <span className="text-error">This Field is required !!</span>
-                                </label>}
+                                {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
+                                {errors.password?.type === 'minLength' && <span className="text-error">Password must be 6 character !!</span>}
+                                {errors.password?.type === 'pattern' && <span className="text-error">At least one upper case, one lower case, one number and one special character is required !!</span>}
                             </div>
                             <div className="mt-6 form-control">
                                 <button className="btn btn-neutral" type="submit">Register</button>

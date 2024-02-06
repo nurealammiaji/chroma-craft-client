@@ -130,12 +130,14 @@ const Login = () => {
                                     <span className="label-text">Email</span>
                                 </label>
                                 <input {...register("email", { required: true })} type="email" placeholder="email" name="email" className="input input-bordered" />
+                                {errors.email?.type === 'required' && <span className="text-error">Email is required !!</span>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
                                 <input {...register("password", { required: true })} type="password" placeholder="password" name="password" className="input input-bordered" />
+                                {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                             </div>
                             <div className="mt-6 form-control">
                                 <button className="btn btn-neutral" type="submit">Login</button>
