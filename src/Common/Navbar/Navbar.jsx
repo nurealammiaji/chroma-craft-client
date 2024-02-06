@@ -32,6 +32,7 @@ const Navbar = () => {
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
         <li><NavLink to="/courses">Courses</NavLink></li>
+        <li><NavLink to="/instructors">Instructors</NavLink></li>
         <li><NavLink to="/contact">Contact</NavLink></li>
         {
             (user) ?
@@ -43,7 +44,7 @@ const Navbar = () => {
 
     return (
         <nav className="relative">
-            <div style={{ background: `url(${shape1}) center no-repeat`}} className="fixed max-w-screen-xl z-10 font-semibold rounded-full shadow-md px-auto navbar border border-primary top-1 text-pink-800">
+            <div style={{ background: `url(${shape1}) center no-repeat` }} className="fixed z-10 max-w-screen-xl font-semibold text-pink-800 border rounded-full shadow-md px-auto navbar border-primary top-1">
                 <div className="navbar-start">
                     <details className="dropdown">
                         <summary tabIndex={0} className="mr-2 btn btn-sm lg:hidden">

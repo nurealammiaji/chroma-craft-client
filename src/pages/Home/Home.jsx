@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Banner from "./Banner";
+import Slider from "./Slider/Slider";
 
 const Home = () => {
     return (
@@ -8,8 +9,11 @@ const Home = () => {
                 <title>Home || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
-            <div>
+            {/* <div>
                 <Banner></Banner>
+            </div> */}
+            <div>
+                <Slider></Slider>
             </div>
         </div>
     );
