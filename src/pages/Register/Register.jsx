@@ -11,8 +11,10 @@ const Register = () => {
 
     const { emailRegister, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [eyeClose, setEyeClose] = useState(true);
-
+    const [eyeCloseOne, setEyeCloseOne] = useState(true);
+    const [eyeCloseTwo, setEyeCloseTwo] = useState(true);
+    const pwd = watch("password");
+    const rePwd = watch("confirmPassword");
 
     const handleEmailRegister = (data) => {
         console.log(data);
@@ -193,15 +195,15 @@ const Register = () => {
                                     <span className="label-text">Password</span>
                                 </label>
                                 <div className="relative flex items-center">
-                                    <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6}$/ })}
-                                        type={(eyeClose) ? 'password' : 'text'}
+                                    <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$/ })}
+                                        type={(eyeCloseOne) ? 'password' : 'text'}
                                         placeholder="password"
                                         name="password"
                                         className="w-full input input-bordered"
                                     />
-                                    <button onClick={() => setEyeClose(!eyeClose)} className="absolute right-2 btn btn-xs">
+                                    <button onClick={() => setEyeCloseOne(!eyeCloseOne)} className="absolute right-2 btn btn-xs">
                                         {
-                                            (eyeClose) ?
+                                            (eyeCloseOne) ?
                                                 <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
                                         }
                                     </button>
@@ -209,6 +211,27 @@ const Register = () => {
                                 {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                                 {errors.password?.type === 'minLength' && <span className="text-error">Password must be 6 character !!</span>}
                                 {errors.password?.type === 'pattern' && <span className="text-error">At least one upper case, one lower case, one number and one special character is required !!</span>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Confirm Password</span>
+                                </label>
+                                <div className="relative flex items-center">
+                                    <input {...register("confirmPassword", { required: true })}
+                                        type={(eyeCloseTwo) ? 'password' : 'text'}
+                                        placeholder="confirm password"
+                                        name="confirmPassword"
+                                        className="w-full input input-bordered"
+                                    />
+                                    <button onClick={() => setEyeCloseTwo(!eyeCloseTwo)} className="absolute right-2 btn btn-xs">
+                                        {
+                                            (eyeCloseTwo) ?
+                                                <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
+                                        }
+                                    </button>
+                                </div>
+                                {errors.confirmPassword?.type === 'required' && <span className="text-error">Confirm Password is required !!</span>}
+                                {pwd == rePwd || <span className="text-error">Password is not matched !!</span>}
                             </div>
                             <div className="mt-6 form-control">
                                 <button className="btn btn-neutral" type="submit">Register</button>
