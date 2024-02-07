@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
-import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle } from "react-icons/tb";
+import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
@@ -11,6 +11,8 @@ const Register = () => {
 
     const { emailRegister, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [eyeClose, setEyeClose] = useState(true);
+
 
     const handleEmailRegister = (data) => {
         console.log(data);
@@ -190,12 +192,20 @@ const Register = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6}$/ })}
-                                    type="password"
-                                    placeholder="password"
-                                    name="password"
-                                    className="input input-bordered"
-                                />
+                                <div className="relative flex items-center">
+                                    <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6}$/ })}
+                                        type={(eyeClose) ? 'password' : 'text'}
+                                        placeholder="password"
+                                        name="password"
+                                        className="w-full input input-bordered"
+                                    />
+                                    <button onClick={() => setEyeClose(!eyeClose)} className="absolute right-2 btn btn-xs">
+                                        {
+                                            (eyeClose) ?
+                                                <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
+                                        }
+                                    </button>
+                                </div>
                                 {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                                 {errors.password?.type === 'minLength' && <span className="text-error">Password must be 6 character !!</span>}
                                 {errors.password?.type === 'pattern' && <span className="text-error">At least one upper case, one lower case, one number and one special character is required !!</span>}

@@ -59,11 +59,11 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="hidden navbar-center lg:flex">
-                    <ul className="p-3 menu menu-horizontal z-[1] bg-primary bg-opacity-20 rounded-full">
+                    <ul className="p-3 menu menu-horizontal z-[1] bg-primary bg-opacity-20 rounded-full font-medium text-base">
                         {links}
                     </ul>
                 </div>
-                <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-purple-700">
+                <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-purple-700 text-base">
                     <div className="mr-2 drawer-content tooltip" data-tip="Search">
                         <label htmlFor="wishlist-drawer" className="relative drawer-button">
                             <TbSearch className="text-xl md:text-2xl" />
@@ -73,7 +73,7 @@ const Navbar = () => {
                         <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
-                                <span className="absolute p-1 left-3 top-3 badge badge-info badge-sm">
+                                <span className="absolute p-1 left-3 top-3 badge badge-secondary badge-sm">
                                     {
                                         (user) ?
                                             0 : 0
@@ -82,20 +82,22 @@ const Navbar = () => {
                             </Link>
                         </div>
                     }
-                    {(user) ?
-                        <>
-                            <div className="mr-1 avatar tooltip" data-tip={`${user.displayName}`}>
-                                <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                    <Link to="/profile">
-                                        <img src={user.photoURL} />
-                                    </Link>
+                    {
+                        (user) ?
+                            <>
+                                <div className="mr-1 avatar tooltip" data-tip={`${user.displayName}`}>
+                                    <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                        <Link to="/profile">
+                                            <img src={user.photoURL} />
+                                        </Link>
+                                    </div>
                                 </div>
-                            </div>
-                            <button onClick={logoutHandler} className="tooltip" data-tip="Logout"><TbLogout className="text-lg md:text-2xl" /></button>
-                        </> :
-                        <>
-                            <button className="tooltip" data-tip="Login"><Link to="/login"><TbLogin className="text-lg md:text-2xl" /></Link></button>
-                        </>}
+                                <button onClick={logoutHandler} className="tooltip" data-tip="Logout"><TbLogout className="text-lg md:text-2xl" /></button>
+                            </> :
+                            <>
+                                <button className="tooltip" data-tip="Login"><Link to="/login"><TbLogin className="text-lg md:text-2xl" /></Link></button>
+                            </>
+                    }
                 </div>
             </div>
             <br /><br />

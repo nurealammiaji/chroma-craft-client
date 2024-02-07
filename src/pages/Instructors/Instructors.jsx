@@ -1,18 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import Slider from "./Slider/Slider";
 
-const Home = () => {
+const Instructors = () => {
     return (
         <div className="min-h-screen">
             <Helmet>
-                <title>Home || Chroma Craft</title>
+                <title>Instructors || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
             <div>
-                <Slider></Slider>
             </div>
         </div>
     );
 };
 
-export default Home;
+export default Instructors;

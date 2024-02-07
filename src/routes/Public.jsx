@@ -1,7 +1,7 @@
 import App from '../App';
 import {
     createBrowserRouter,
-  } from "react-router-dom";
+} from "react-router-dom";
 import Error from '../pages/Error/Error';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
@@ -9,6 +9,7 @@ import Contact from '../pages/Contact/Contact';
 import About from '../pages/About/About';
 import Home from '../pages/Home/Home';
 import Courses from '../pages/Courses/Courses';
+import Instructors from '../pages/Instructors/Instructors';
 
 const Public = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const Public = createBrowserRouter([
             {
                 path: "courses",
                 element: <Courses></Courses>
+            },
+            {
+                path: "instructors",
+                element: <Instructors></Instructors>
             },
             {
                 path: "contact",

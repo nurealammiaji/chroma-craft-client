@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet-async";
-import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle } from "react-icons/tb";
+import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from "sweetalert2";
 
@@ -10,6 +10,7 @@ const Login = () => {
 
     const { emailLogin, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [eyeClose, setEyeClose] = useState(true);
 
     const handleEmailLogin = (data) => {
         console.log(data);
@@ -136,7 +137,15 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input {...register("password", { required: true })} type="password" placeholder="password" name="password" className="input input-bordered" />
+                                <div className="relative flex items-center">
+                                    <input {...register("password", { required: true })} type={(eyeClose) ? 'password' : 'text'} placeholder="password" name="password" className="w-full input input-bordered" />
+                                    <button onClick={() => setEyeClose(!eyeClose)} className="absolute right-2 btn btn-xs">
+                                        {
+                                            (eyeClose) ?
+                                                <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
+                                        }
+                                    </button>
+                                </div>
                                 {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                             </div>
                             <div className="mt-6 form-control">
