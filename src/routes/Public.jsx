@@ -8,8 +8,8 @@ import Register from '../pages/Register/Register';
 import Contact from '../pages/Contact/Contact';
 import About from '../pages/About/About';
 import Home from '../pages/Home/Home';
-import Courses from '../pages/Courses/Courses';
 import Instructors from '../pages/Instructors/Instructors';
+import Classes from '../pages/Classes/Classes';
 
 const Public = createBrowserRouter([
     {
@@ -26,8 +26,8 @@ const Public = createBrowserRouter([
                 element: <About></About>
             },
             {
-                path: "courses",
-                element: <Courses></Courses>
+                path: "classes",
+                element: <Classes></Classes>
             },
             {
                 path: "instructors",
