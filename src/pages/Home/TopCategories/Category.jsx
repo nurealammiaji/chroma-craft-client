@@ -5,7 +5,7 @@ const Category = ({ category }) => {
     const { name, image, icon, category_id, description } = category;
 
     return (
-        <div className="border border-neutral hover:bg-primary hover:bg-opacity-30 rounded-t-full rounded-bl-full">
+        <div className="border border-neutral hover:bg-secondary hover:bg-opacity-30 rounded-t-full rounded-bl-full">
             <Link to={`/categories/${category_id}`}>
                 <div className="card card-side w-full rounded-t-full rounded-bl-full glass">
                     <figure className="max-w-[150px]">

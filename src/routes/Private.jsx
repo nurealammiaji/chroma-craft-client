@@ -11,7 +11,7 @@ const Private = ({ children }) => {
 
     if (loading) {
         return <>
-            <div className="text-center">
+            <div className="flex items-center justify-center">
                 <RotatingLines
                     visible={true}
                     height="96"
