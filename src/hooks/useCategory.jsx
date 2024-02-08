@@ -1,13 +1,14 @@
-import useAxiosSecure from "./useAxiosSecure";
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from './useAxiosPublic';
 
 const useCategory = () => {
 
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
-    const { isPending, isError, data: categories, error } = useQuery({
+    const { isPending, isError, data, error } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/categories')
+            const res = await axiosPublic.get('/categories')
             return res.data
         }
     })
@@ -19,6 +20,9 @@ const useCategory = () => {
     if (isError) {
         return <span>Error: {error.message}</span>
     }
+
+    console.log(data);
+    return [data, isPending];
 
 };
 

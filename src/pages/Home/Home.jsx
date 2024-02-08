@@ -12,6 +12,7 @@ const Home = () => {
             <div>
                 <Slider></Slider>
             </div>
+            <br /><br />
             <div>
                 <Categories></Categories>
             </div>
