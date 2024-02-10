@@ -7,8 +7,7 @@ const ClassItem = ({ item }) => {
     const { _id, title, image, description, instructor, duration, price, reviews, seat_capacity, category_name, category_id, level, rating } = item;
 
     return (
-        <div style={{ background: `url(${shape1}) no-repeat bottom right` }} className="hover:motion-safe:animate-bounce rounded-tl-[150px] rounded-br-[150px] shadow-xl">
-            <Link to={`/classes/${_id}`}>
+        <div style={{ background: `url(${shape1}) no-repeat bottom right` }} className="hover:motion-safe:animate-pulse border hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
                 <div className="w-full rounded-tl-[150px] rounded-br-[150px]">
                     <figure>
                         <img className="h-[250px] w-full md:w-[270px] rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
@@ -28,7 +27,6 @@ const ClassItem = ({ item }) => {
                         </div>
                     </div>
                 </div>
-            </Link>
         </div>
     );
 };
