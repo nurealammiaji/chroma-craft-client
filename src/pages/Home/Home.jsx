@@ -14,15 +14,15 @@ const Home = () => {
             <div>
                 <Slider></Slider>
             </div>
-            <br /><br />
+            <br /><br /><br />
             <div className="w-11/12 mx-auto">
                 <TopCategories></TopCategories>
             </div>
-            <br /><br />
+            <br /><br /><br />
             <div className="w-11/12 mx-auto">
                 <PopularClasses></PopularClasses>
             </div>
-            <br /><br />
+            <br /><br /><br />
             <div className="w-11/12 mx-auto">
                 <PopularInstructors></PopularInstructors>
             </div>

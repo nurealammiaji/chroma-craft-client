@@ -13,8 +13,6 @@ const PopularClasses = () => {
             .then(data => setClasses(data))
     }, [])
 
-    console.log(classes);
-
     return (
         <div>
             <div className="text-center" style={{ background: `url(${shape}) center no-repeat` }}>
