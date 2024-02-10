@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
 import shape from "../../../assets/6.png";
-import { DNA } from "react-loader-spinner";
-import ClassItem from "./ClassItem";
 
-const PopularClasses = () => {
 
-    const [classes, setClasses] = useState();
-
-    useEffect(() => {
-        fetch('http://localhost:5000/classes')
-            .then(res => res.json())
-            .then(data => setClasses(data))
-    }, [])
-
-    console.log(classes);
-
+const PopularInstructors = () => {
     return (
         <div>
-            <div className="text-center" style={{ background: `url(${shape}) center no-repeat` }}>
-                <h3 className="py-5 text-4xl font-semibold text-white">Popular Classes</h3>
-            </div>
-            <br /><br />
             <div>
+                <div className="text-center" style={{ background: `url(${shape}) center no-repeat` }}>
+                    <h3 className="py-5 text-4xl font-semibold text-white">Popular Instructors</h3>
+                </div>
+                <br /><br />
+                {/* <div>
                 {
                     (classes) ?
                         <div className="grid gap-5 md:grid-cols-3">
@@ -43,9 +31,10 @@ const PopularClasses = () => {
                         </>
 
                 }
+            </div> */}
             </div>
         </div>
     );
 };
 
-export default PopularClasses;
+export default PopularInstructors;

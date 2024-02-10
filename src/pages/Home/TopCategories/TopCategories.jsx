@@ -27,7 +27,7 @@ const TopCategories = () => {
             <div>
                 {
                     (categories) ?
-                        <div className="grid gap-5 md:grid-cols-3">
+                        <div className="grid gap-5 md:grid-cols-2">
                             {
                                 (categories) &&
                                 categories.map(category => <Category key={category._id} category={category}></Category>)
