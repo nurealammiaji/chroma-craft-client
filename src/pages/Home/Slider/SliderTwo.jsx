@@ -10,7 +10,7 @@ const SliderTwo = () => {
     return (
         <div className="p-5" style={{ background: `url(${shape3}) bottom center no-repeat` }}>
             <div style={{ background: `url(${shape1}) left top no-repeat` }} className="grid gap-20 md:grid-cols-2">
-                <div style={{ background: `url(${shape2}) bottom left no-repeat` }} className="p-10 md:mt-20 md:ml-24 md:p-0">
+                <div style={{ background: `url(${shape2}) bottom left no-repeat` }} className="p-10 md:mt-36 md:ml-24 md:p-0">
                     <figure style={{ background: `url(${shape4}) right top no-repeat` }}>
                         <img src={image} className="rounded-t-[250px] rounded-bl-[250px] md:w-10/12 mb-5" alt="" />
                     </figure>

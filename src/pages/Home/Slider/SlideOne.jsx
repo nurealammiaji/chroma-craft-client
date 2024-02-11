@@ -20,9 +20,9 @@ const SliderOne = () => {
                     <br /><br />
                     <button className="mb-5 text-lg btn btn-neutral">Get Started Now <TbCircleArrowRight className="text-2xl" /></button>
                 </div>
-                <div style={{ background: `url(${shape2}) bottom right no-repeat` }} className="p-10 md:mt-20 md:mr-24 md:p-0">
+                <div style={{ background: `url(${shape2}) bottom right no-repeat` }} className="p-10 md:mt-36 md:mr-24 md:p-0">
                     <figure style={{ background: `url(${shape4}) no-repeat` }}>
-                        <img src={image} className="rounded-t-[250px] rounded-br-[250px] md:w-10/12 mb-5" alt="" />
+                        <img src={image} className="rounded-t-[250px] rounded-br-[250px] mb-5" alt="" />
                     </figure>
                 </div>
             </div>
