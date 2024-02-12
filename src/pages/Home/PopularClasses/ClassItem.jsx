@@ -10,20 +10,20 @@ const ClassItem = ({ item }) => {
         <div style={{ background: `url(${shape1}) no-repeat bottom right` }} className="hover:motion-safe:animate-pulse border hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
                 <div className="w-full rounded-tl-[150px] rounded-br-[150px]">
                     <figure>
-                        <img className="h-[250px] w-full md:w-[270px] rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
+                        <img className="h-[250px] w-full md:w-11/12 rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
                     </figure>
                     <div style={{ background: `url(${shape2}) no-repeat right` }} className="card-body">
                         <div className="flex items-center justify-evenly">
-                            <span className="badge badge-accent text-xs">{category_name}</span>
-                            <span className="badge badge-outline badge-primary text-xs">{level}</span>
+                            <span className="text-xs badge badge-accent">{category_name}</span>
+                            <span className="text-xs badge badge-outline badge-primary">{level}</span>
                         </div>
-                        <h2 className="card-title my-2">{title}</h2>
+                        <h2 className="my-2 card-title">{title}</h2>
                         <p>Rating: {rating}</p>
                         <p>Price: $ {price}</p>
                         <p>Seats: {seat_capacity}</p>
                         <div className="justify-start card-actions">
-                            <Link to={`/classes/${_id}`}><button className="btn btn-neutral btn-sm mt-5">Details</button></Link>
-                            <button className="btn btn-secondary btn-sm mt-5">Enroll</button>
+                            <Link to={`/classes/${_id}`}><button className="mt-5 btn btn-neutral btn-sm">Details</button></Link>
+                            <button className="mt-5 btn btn-secondary btn-sm">Enroll</button>
                         </div>
                     </div>
                 </div>

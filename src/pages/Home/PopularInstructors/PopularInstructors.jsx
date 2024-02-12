@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react";
 import shape from "../../../assets/6.png";
 import InstructorItem from './InstructorItem';
 import { DNA } from "react-loader-spinner";
+import useInstructors from "../../../hooks/useInstructors";
+import SectionHeader from '../../../components/SectionHeader/SectionHeader';
 
 
 const PopularInstructors = () => {
 
-    const [instructors, setInstructors] = useState(null);
-
-    useEffect(() => {
-        fetch('http://localhost:5000/instructors')
-            .then(res => res.json())
-            .then(data => setInstructors(data))
-    }, [])
+    const [instructors] = useInstructors();
 
     return (
         <div>
             <div>
-                <div className="text-center" style={{ background: `url(${shape}) center no-repeat` }}>
-                    <h3 className="py-5 text-4xl font-semibold text-white">Popular Instructors</h3>
-                </div>
+                <SectionHeader title={"Popular Instructors"} background={shape}></SectionHeader>
                 <br /><br />
                 <div>
                     {
@@ -41,7 +34,6 @@ const PopularInstructors = () => {
                                     />
                                 </div>
                             </>
-
                     }
                 </div>
             </div>

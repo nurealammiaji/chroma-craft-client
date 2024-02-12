@@ -1,28 +1,17 @@
-import { useEffect, useState } from "react";
 import Category from "./Category";
 import { DNA } from "react-loader-spinner";
 import shape from "../../../assets/6.png";
+import SectionHeader from '../../../components/SectionHeader/SectionHeader';
+import useCategories from '../../../hooks/useCategories';
 
 
 const TopCategories = () => {
 
-    const [categories, setCategories] = useState(null);
-
-    useEffect(() => {
-
-        fetch('http://localhost:5000/categories')
-            .then(res => res.json())
-            .then(data => {
-                setCategories(data);
-            })
-
-    }, [])
+    const [categories] = useCategories();
 
     return (
-        <div >
-            <div className="text-center" style={{ background: `url(${shape}) center no-repeat` }}>
-                <h3 className="text-4xl font-semibold py-5 text-white">Top Categories</h3>
-            </div>
+        <div>
+            <SectionHeader title={"Top Categories"} background={shape}></SectionHeader>
             <br /><br />
             <div>
                 {
