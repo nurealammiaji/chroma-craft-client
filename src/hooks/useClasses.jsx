@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useClasses = () => {
+
     const [loading, setLoading] = useState(true);
     const [classes, setClasses] = useState();
 
