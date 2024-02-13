@@ -14,6 +14,8 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import AdminDashboard from '../pages/Dashboard/AdminDashboard/AdminDashboard';
 import InstructorDashboard from '../pages/Dashboard/InstructorDashboard/InstructorDashboard';
 import StudentDashboard from '../pages/Dashboard/StudentDashboard/StudentDashboard';
+import EnrolledClass from '../pages/Dashboard/StudentDashboard/EnrolledClass/EnrolledClass';
+import SelectedClass from '../pages/Dashboard/StudentDashboard/SelectedClass /SelectedClass';
 
 const PublicRoutes = createBrowserRouter([
     {
@@ -66,6 +68,14 @@ const PublicRoutes = createBrowserRouter([
             {
                 path: "student",
                 element: <StudentDashboard></StudentDashboard>
+            },
+            {
+                path: "selected",
+                element: <SelectedClass></SelectedClass>
+            },
+            {
+                path: "enrolled",
+                element: <EnrolledClass></EnrolledClass>
             }
         ]
     }

@@ -11,7 +11,6 @@ const PopularClasses = () => {
 
     if (classes) {
         sortedClasses = classes.slice().sort((a, b) => b.enrolled - a.enrolled);
-        console.log(sortedClasses);
     }
 
     return (

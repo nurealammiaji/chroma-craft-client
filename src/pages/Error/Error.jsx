@@ -14,6 +14,7 @@ const Error = () => {
                 <title>Error || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
+            <br />
             <figure className="w-full mx-auto md:w-4/12">
                 <img src={error_image} alt="" />
             </figure>

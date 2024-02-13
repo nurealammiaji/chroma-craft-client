@@ -34,12 +34,9 @@ const Navbar = () => {
         <li><NavLink to="/instructors">Instructors</NavLink></li>
         <li><NavLink to="/classes">Classes</NavLink></li>
         <li><NavLink to="/contact">Contact</NavLink></li>
-        {
-            (user) ?
-                (user) ?
-                    <li><NavLink to="/dashboard/user-home">User Dashboard</NavLink></li> :
-                    <li><NavLink to="/dashboard/admin-home">Admin Dashboard</NavLink></li> : null
-        }
+        <li><NavLink to="/dashboard/admin">Admin</NavLink></li>
+        <li><NavLink to="/dashboard/instructor">Instructor</NavLink></li>
+        <li><NavLink to="/dashboard/student">Student</NavLink></li>
     </>;
 
     return (
