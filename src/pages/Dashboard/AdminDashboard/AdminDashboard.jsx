@@ -7,6 +7,9 @@ const AdminDashboard = () => {
                 <title>Admin Dashboard || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
+            <div className="min-h-screen">
+                <div>Welcome, Admin !!</div>
+            </div>
         </div>
     );
 };

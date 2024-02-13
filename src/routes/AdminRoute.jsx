@@ -2,7 +2,6 @@
 const AdminRoute = () => {
     return (
         <div>
-            
         </div>
     );
 };

@@ -3,7 +3,7 @@ import { AuthContext } from "../providers/AuthProvider";
 import { Navigate, useLocation } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
-const Private = ({ children }) => {
+const PrivateRoute = ({ children }) => {
 
     const { user, loading } = useContext(AuthContext);
 
@@ -34,4 +34,4 @@ const Private = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace></Navigate>
 };
 
-export default Private;
+export default PrivateRoute;

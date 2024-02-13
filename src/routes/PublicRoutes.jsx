@@ -15,7 +15,7 @@ import AdminDashboard from '../pages/Dashboard/AdminDashboard/AdminDashboard';
 import InstructorDashboard from '../pages/Dashboard/InstructorDashboard/InstructorDashboard';
 import StudentDashboard from '../pages/Dashboard/StudentDashboard/StudentDashboard';
 
-const Public = createBrowserRouter([
+const PublicRoutes = createBrowserRouter([
     {
         path: "/",
         element: <App></App>,
@@ -60,7 +60,7 @@ const Public = createBrowserRouter([
                 element: <AdminDashboard></AdminDashboard>
             },
             {
-                path: "instructors",
+                path: "instructor",
                 element: <InstructorDashboard></InstructorDashboard>
             },
             {
@@ -71,4 +71,4 @@ const Public = createBrowserRouter([
     }
 ])
 
-export default Public;
+export default PublicRoutes;

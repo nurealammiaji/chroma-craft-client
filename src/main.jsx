@@ -4,7 +4,7 @@ import './index.css'
 import {
   RouterProvider,
 } from "react-router-dom";
-import Public from './routes/Public.jsx';
+import PublicRoutes from './routes/PublicRoutes.jsx';
 import { HelmetProvider } from 'react-helmet-async';
 import AuthProvider from './providers/AuthProvider.jsx';
 import {
@@ -12,8 +12,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
-const queryClient = new QueryClient()
-
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -21,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <HelmetProvider>
           <div className='max-w-screen-xl mx-auto'>
-            <RouterProvider router={Public} />
+            <RouterProvider router={PublicRoutes} />
           </div>
         </HelmetProvider>
       </AuthProvider>
