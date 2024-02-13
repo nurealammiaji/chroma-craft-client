@@ -7,6 +7,12 @@ import SectionHeader from "../../../components/SectionHeader/SectionHeader";
 const PopularClasses = () => {
 
     const [classes] = useClasses();
+    let sortedClasses;
+
+    if (classes) {
+        sortedClasses = classes.slice().sort((a, b) => b.enrolled - a.enrolled);
+        console.log(sortedClasses);
+    }
 
     return (
         <div>
@@ -17,8 +23,8 @@ const PopularClasses = () => {
                     (classes) ?
                         <div className="grid gap-5 md:grid-cols-3">
                             {
-                                (classes) &&
-                                classes.slice(0, 6).map(item => <ClassItem key={item._id} item={item}></ClassItem>)
+                                (sortedClasses) &&
+                                sortedClasses.slice(0, 6).map(item => <ClassItem key={item._id} item={item}></ClassItem>)
                             }
                         </div> : <>
                             <div className="flex items-center justify-center">
