@@ -16,8 +16,12 @@ import InstructorDashboard from '../pages/Dashboard/InstructorDashboard/Instruct
 import StudentDashboard from '../pages/Dashboard/StudentDashboard/StudentDashboard';
 import EnrolledClass from '../pages/Dashboard/StudentDashboard/EnrolledClass/EnrolledClass';
 import SelectedClass from '../pages/Dashboard/StudentDashboard/SelectedClass /SelectedClass';
+import ManageInstructors from '../pages/Dashboard/AdminDashboard/ManageInstructors';
+import ManageStudents from '../pages/Dashboard/AdminDashboard/ManageStudents';
+import ManageClasses from '../pages/Dashboard/AdminDashboard/ManageClasses';
+import ManagePayments from '../pages/Dashboard/AdminDashboard/ManagePayments';
 
-const PublicRoutes = createBrowserRouter([
+const Routes = createBrowserRouter([
     {
         path: "/",
         element: <App></App>,
@@ -62,6 +66,22 @@ const PublicRoutes = createBrowserRouter([
                 element: <AdminDashboard></AdminDashboard>
             },
             {
+                path: "instructors",
+                element: <ManageInstructors></ManageInstructors>
+            },
+            {
+                path: "students",
+                element: <ManageStudents></ManageStudents>
+            },
+            {
+                path: "classes",
+                element: <ManageClasses></ManageClasses>
+            },
+            {
+                path: "payments",
+                element: <ManagePayments></ManagePayments>
+            },
+            {
                 path: "instructor",
                 element: <InstructorDashboard></InstructorDashboard>
             },
@@ -81,4 +101,4 @@ const PublicRoutes = createBrowserRouter([
     }
 ])
 
-export default PublicRoutes;
+export default Routes;
