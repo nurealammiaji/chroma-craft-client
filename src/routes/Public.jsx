@@ -10,6 +10,10 @@ import About from '../pages/About/About';
 import Home from '../pages/Home/Home';
 import Instructors from '../pages/Instructors/Instructors';
 import Classes from '../pages/Classes/Classes';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import AdminDashboard from '../pages/Dashboard/AdminDashboard/AdminDashboard';
+import InstructorDashboard from '../pages/Dashboard/InstructorDashboard/InstructorDashboard';
+import StudentDashboard from '../pages/Dashboard/StudentDashboard/StudentDashboard';
 
 const Public = createBrowserRouter([
     {
@@ -46,6 +50,24 @@ const Public = createBrowserRouter([
     {
         path: "register",
         element: <Register></Register>
+    },
+    {
+        path: "dashboard",
+        element: <Dashboard></Dashboard>,
+        children: [
+            {
+                path: "admin",
+                element: <AdminDashboard></AdminDashboard>
+            },
+            {
+                path: "instructors",
+                element: <InstructorDashboard></InstructorDashboard>
+            },
+            {
+                path: "student",
+                element: <StudentDashboard></StudentDashboard>
+            }
+        ]
     }
 ])
 

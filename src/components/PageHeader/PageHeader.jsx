@@ -1,5 +1,5 @@
 
-import { TbArrowBigDownLines, TbArrowsTransferDown } from 'react-icons/tb';
+import { TbArrowBigDownLines } from 'react-icons/tb';
 
 const PageHeader = ({ background, title, subTitle }) => {
     return (
