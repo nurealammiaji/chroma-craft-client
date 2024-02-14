@@ -61,13 +61,13 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-purple-700 text-base">
-                    <div className="mr-2 drawer-content tooltip" data-tip="Search">
+                    <div className="mr-1 drawer-content tooltip" data-tip="Search">
                         <label htmlFor="wishlist-drawer" className="relative drawer-button">
                             <TbSearch className="text-xl md:text-2xl" />
                         </label>
                     </div>
                     {
-                        <div className="mr-3 md:mr-5 drawer-content tooltip" data-tip="Cart">
+                        <div className="mr-3 drawer-content tooltip" data-tip="Cart">
                             <Link to="/dashboard/my-cart">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
                                 <span className="absolute p-1 left-3 top-3 badge badge-secondary badge-sm">

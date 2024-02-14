@@ -39,8 +39,8 @@ const Dashboard = () => {
                         <li><NavLink to={"/dashboard/payments"}><TbWallet className="text-2xl" />Manage Payments</NavLink></li>
                         <li><NavLink to={"/dashboard/instructor"}><TbHome2 className="text-2xl" /> Instructor Home</NavLink></li>
                         <li><NavLink to={"/dashboard/student"}><TbHome2 className="text-2xl" /> Student Home</NavLink></li>
-                        <li><NavLink to={"/dashboard/selected"}><TbList className="text-2xl" /> Selected Class</NavLink></li>
-                        <li><NavLink to={"/dashboard/enrolled"}><TbListCheck className="text-2xl" /> Enrolled Class</NavLink></li>
+                        <li><NavLink to={"/dashboard/selected"}><TbList className="text-2xl" /> Selected Classes</NavLink></li>
+                        <li><NavLink to={"/dashboard/enrolled"}><TbListCheck className="text-2xl" /> Enrolled Classes</NavLink></li>
                         <span className="my-5 divider"></span>
                         <li><Link to={"/"}><TbHome className="text-2xl" />Home</Link></li>
                         <li><Link to={"/about"}><TbInfoHexagon className="text-2xl" />About</Link></li>

@@ -4,7 +4,7 @@ const EnrolledClass = () => {
     return (
         <div>
             <Helmet>
-                <title>Enrolled Class || Chroma Craft</title>
+                <title>Enrolled Classes || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
         </div>

@@ -48,6 +48,23 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setLoading(true);
             setUser(currentUser);
+            if (currentUser) {
+                const user = {
+                    name: currentUser.displayName,
+                    email: currentUser.email,
+                    image: currentUser.photoURL,
+                    role: "student"
+                }
+                fetch('http://localhost:5000/users', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(result => console.log(result))
+                    .catch(error => console.log(error))
+            }
             setLoading(false);
         })
         return () => {

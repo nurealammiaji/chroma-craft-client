@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useContext, useState } from "react";
@@ -13,8 +13,13 @@ const Register = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [eyeCloseOne, setEyeCloseOne] = useState(true);
     const [eyeCloseTwo, setEyeCloseTwo] = useState(true);
+
     const pwd = watch("password");
     const rePwd = watch("confirmPassword");
+
+    const location = useLocation();
+    const destination = location.state?.from?.pathname || "/";
+    const navigate = useNavigate();
 
     const handleEmailRegister = (data) => {
         console.log(data);
@@ -44,6 +49,7 @@ const Register = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
 
             })
             .catch(error => {
@@ -65,10 +71,11 @@ const Register = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Registered Successfully !",
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -89,7 +96,7 @@ const Register = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Registered Successfully !",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -113,7 +120,7 @@ const Register = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Registered Successfully !",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -201,12 +208,12 @@ const Register = () => {
                                         name="password"
                                         className="w-full input input-bordered"
                                     />
-                                    <button onClick={() => setEyeCloseOne(!eyeCloseOne)} className="absolute right-2 btn btn-xs">
+                                    <p onClick={() => setEyeCloseOne(!eyeCloseOne)} className="absolute right-2 btn btn-xs">
                                         {
                                             (eyeCloseOne) ?
                                                 <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
                                         }
-                                    </button>
+                                    </p>
                                 </div>
                                 {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                                 {errors.password?.type === 'minLength' && <span className="text-error">Password must be 6 character !!</span>}
@@ -223,12 +230,12 @@ const Register = () => {
                                         name="confirmPassword"
                                         className="w-full input input-bordered"
                                     />
-                                    <button onClick={() => setEyeCloseTwo(!eyeCloseTwo)} className="absolute right-2 btn btn-xs">
+                                    <p onClick={() => setEyeCloseTwo(!eyeCloseTwo)} className="absolute right-2 btn btn-xs">
                                         {
                                             (eyeCloseTwo) ?
                                                 <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
                                         }
-                                    </button>
+                                    </p>
                                 </div>
                                 {errors.confirmPassword?.type === 'required' && <span className="text-error">Confirm Password is required !!</span>}
                                 {pwd == rePwd || <span className="text-error">Password is not matched !!</span>}

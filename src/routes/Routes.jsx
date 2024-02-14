@@ -14,12 +14,13 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import AdminDashboard from '../pages/Dashboard/AdminDashboard/AdminDashboard';
 import InstructorDashboard from '../pages/Dashboard/InstructorDashboard/InstructorDashboard';
 import StudentDashboard from '../pages/Dashboard/StudentDashboard/StudentDashboard';
-import EnrolledClass from '../pages/Dashboard/StudentDashboard/EnrolledClass/EnrolledClass';
-import SelectedClass from '../pages/Dashboard/StudentDashboard/SelectedClass /SelectedClass';
-import ManageInstructors from '../pages/Dashboard/AdminDashboard/ManageInstructors';
-import ManageStudents from '../pages/Dashboard/AdminDashboard/ManageStudents';
-import ManageClasses from '../pages/Dashboard/AdminDashboard/ManageClasses';
-import ManagePayments from '../pages/Dashboard/AdminDashboard/ManagePayments';
+import EnrolledClasses from '../pages/Dashboard/StudentDashboard/EnrolledClasses/EnrolledClasses';
+import SelectedClasses from '../pages/Dashboard/StudentDashboard/SelectedClasses/SelectedClasses';
+import ManageInstructors from '../pages/Dashboard/AdminDashboard/ManageInstructors/ManageInstructors';
+import ManageStudents from '../pages/Dashboard/AdminDashboard/ManageStudents/ManageStudents';
+import ManageClasses from '../pages/Dashboard/AdminDashboard/ManageClasses/ManageClasses';
+import ManagePayments from '../pages/Dashboard/AdminDashboard/ManagePayments/ManagePayments';
+import PrivateRoute from './PrivateRoute';
 
 const Routes = createBrowserRouter([
     {
@@ -59,7 +60,7 @@ const Routes = createBrowserRouter([
     },
     {
         path: "dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
                 path: "admin",
@@ -91,11 +92,11 @@ const Routes = createBrowserRouter([
             },
             {
                 path: "selected",
-                element: <SelectedClass></SelectedClass>
+                element: <SelectedClasses></SelectedClasses>
             },
             {
                 path: "enrolled",
-                element: <EnrolledClass></EnrolledClass>
+                element: <EnrolledClasses></EnrolledClasses>
             }
         ]
     }

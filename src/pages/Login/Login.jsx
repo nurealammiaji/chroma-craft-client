@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
@@ -11,6 +11,10 @@ const Login = () => {
     const { emailLogin, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [eyeClose, setEyeClose] = useState(true);
+
+    const location = useLocation();
+    const destination = location.state?.from?.pathname || "/";
+    const navigate = useNavigate();
 
     const handleEmailLogin = (data) => {
         console.log(data);
@@ -26,6 +30,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -50,6 +55,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -74,6 +80,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -98,6 +105,7 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(destination, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -139,12 +147,12 @@ const Login = () => {
                                 </label>
                                 <div className="relative flex items-center">
                                     <input {...register("password", { required: true })} type={(eyeClose) ? 'password' : 'text'} placeholder="password" name="password" className="w-full input input-bordered" />
-                                    <button onClick={() => setEyeClose(!eyeClose)} className="absolute right-2 btn btn-xs">
+                                    <p onClick={() => setEyeClose(!eyeClose)} className="absolute right-2 btn btn-xs">
                                         {
                                             (eyeClose) ?
                                                 <TbEyeClosed className="text-2xl" /> : <TbEye className="text-2xl" />
                                         }
-                                    </button>
+                                    </p>
                                 </div>
                                 {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
                             </div>
