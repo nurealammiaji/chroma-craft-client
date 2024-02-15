@@ -5,11 +5,13 @@ import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons
 import Swal from "sweetalert2";
 import logo from "/logo.png";
 import shape1 from "../../assets/shapes/art-protrait-01.png";
+import useUsers from "../../hooks/useUsers";
 
 
 const Navbar = () => {
 
     const { user, logout } = useContext(AuthContext);
+    const [userData] = useUsers();
 
     const logoutHandler = () => {
         logout()
@@ -34,9 +36,18 @@ const Navbar = () => {
         <li><NavLink to="/instructors">Instructors</NavLink></li>
         <li><NavLink to="/classes">Classes</NavLink></li>
         <li><NavLink to="/contact">Contact</NavLink></li>
-        <li><NavLink to="/dashboard/admin">Admin</NavLink></li>
-        <li><NavLink to="/dashboard/instructor">Instructor</NavLink></li>
-        <li><NavLink to="/dashboard/student">Student</NavLink></li>
+        {
+            (user && userData?.role === "admin") &&
+            <li><NavLink to="/dashboard/admin">Admin</NavLink></li>
+        }
+        {
+            (user && userData?.role === "instructor") &&
+            <li><NavLink to="/dashboard/instructor">Instructor</NavLink></li>
+        }
+        {
+            (user && userData?.role === "student") &&
+            <li><NavLink to="/dashboard/student">Student</NavLink></li>
+        }
     </>;
 
     return (
