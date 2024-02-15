@@ -2,8 +2,15 @@ import { Helmet } from "react-helmet-async";
 import { TbHome, TbHome2, TbInfoHexagon, TbList, TbListCheck, TbListDetails, TbPhoneCall, TbUsers, TbUsersGroup, TbWallet, TbX } from "react-icons/tb";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import logo from "/logo.png";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import useUsers from "../../hooks/useUsers";
 
 const Dashboard = () => {
+
+    const { user } = useContext(AuthContext);
+    const [userData] = useUsers();
+
     return (
         <div>
             <Helmet>
@@ -32,15 +39,29 @@ const Dashboard = () => {
                                 <img className="w-full h-full" src={logo} alt="" />
                             </figure>
                         </div>
-                        <li><NavLink to={"/dashboard/admin"}><TbHome2 className="text-2xl" /> Admin Home</NavLink></li>
-                        <li><NavLink to={"/dashboard/instructors"}><TbUsers className="text-2xl" />Manage Instructors</NavLink></li>
-                        <li><NavLink to={"/dashboard/students"}><TbUsersGroup className="text-2xl" />Manage Students</NavLink></li>
-                        <li><NavLink to={"/dashboard/classes"}><TbListDetails className="text-2xl" />Manage Classes</NavLink></li>
-                        <li><NavLink to={"/dashboard/payments"}><TbWallet className="text-2xl" />Manage Payments</NavLink></li>
-                        <li><NavLink to={"/dashboard/instructor"}><TbHome2 className="text-2xl" /> Instructor Home</NavLink></li>
-                        <li><NavLink to={"/dashboard/student"}><TbHome2 className="text-2xl" /> Student Home</NavLink></li>
-                        <li><NavLink to={"/dashboard/selected"}><TbList className="text-2xl" /> Selected Classes</NavLink></li>
-                        <li><NavLink to={"/dashboard/enrolled"}><TbListCheck className="text-2xl" /> Enrolled Classes</NavLink></li>
+                        {
+                            (user && userData?.role === "admin") &&
+                            <>
+                                <li><NavLink to={"/dashboard/admin"}><TbHome2 className="text-2xl" /> Admin Home</NavLink></li>
+                                <li><NavLink to={"/dashboard/instructors"}><TbUsers className="text-2xl" />Manage Instructors</NavLink></li>
+                                <li><NavLink to={"/dashboard/students"}><TbUsersGroup className="text-2xl" />Manage Students</NavLink></li>
+                                <li><NavLink to={"/dashboard/classes"}><TbListDetails className="text-2xl" />Manage Classes</NavLink></li>
+                                <li><NavLink to={"/dashboard/payments"}><TbWallet className="text-2xl" />Manage Payments</NavLink></li>
+                            </>
+                        }
+                        {
+                            (user && userData?.role === "instructor") && <>
+                                <li><NavLink to={"/dashboard/instructor"}><TbHome2 className="text-2xl" /> Instructor Home</NavLink></li>
+                            </>
+                        }
+                        {
+                            (user && userData?.role === "student") &&
+                            <>
+                                <li><NavLink to={"/dashboard/student"}><TbHome2 className="text-2xl" /> Student Home</NavLink></li>
+                                <li><NavLink to={"/dashboard/selected"}><TbList className="text-2xl" /> Selected Classes</NavLink></li>
+                                <li><NavLink to={"/dashboard/enrolled"}><TbListCheck className="text-2xl" /> Enrolled Classes</NavLink></li>
+                            </>
+                        }
                         <span className="my-5 divider"></span>
                         <li><Link to={"/"}><TbHome className="text-2xl" />Home</Link></li>
                         <li><Link to={"/about"}><TbInfoHexagon className="text-2xl" />About</Link></li>
