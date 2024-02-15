@@ -38,15 +38,15 @@ const Navbar = () => {
         <li><NavLink to="/contact">Contact</NavLink></li>
         {
             (user && userData?.role === "admin") &&
-            <li><NavLink to="/dashboard/admin">Admin</NavLink></li>
+            <li><NavLink to="/dashboard/admin">Dashboard</NavLink></li>
         }
         {
             (user && userData?.role === "instructor") &&
-            <li><NavLink to="/dashboard/instructor">Instructor</NavLink></li>
+            <li><NavLink to="/dashboard/instructor">Dashboard</NavLink></li>
         }
         {
             (user && userData?.role === "student") &&
-            <li><NavLink to="/dashboard/student">Student</NavLink></li>
+            <li><NavLink to="/dashboard/student">Dashboard</NavLink></li>
         }
     </>;
 
