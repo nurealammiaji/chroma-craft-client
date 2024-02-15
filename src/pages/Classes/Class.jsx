@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import shape1 from "../../assets/shapes/shape-10-2.png"
 import shape2 from "../../assets/shapes/shape-12-2.png"
+import useUsers from '../../hooks/useUsers';
 
 const Class = ({ item }) => {
 
     const { _id, title, image, description, instructor, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
+
+    const [userData] = useUsers();
 
     return (
         <div style={{ background: `${(seat_capacity - enrolled) <= 0 ? 'rgb(252, 165, 165)' : null}` }} className="relative hover:motion-safe:animate-pulse border border-transparent hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
@@ -29,7 +32,7 @@ const Class = ({ item }) => {
                     <p>Rating: {rating}</p>
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
-                        <button disabled={(seat_capacity - enrolled) <= 0 ? true : false} className="mt-5 btn btn-secondary btn-sm">Enroll</button>
+                        <button disabled={(seat_capacity - enrolled) <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Enroll</button>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import PopularClasses from './PopularClasses/PopularClasses';
 import PopularInstructors from "./PopularInstructors/PopularInstructors";
 
 const Home = () => {
+
     return (
         <div className="min-h-screen">
             <Helmet>

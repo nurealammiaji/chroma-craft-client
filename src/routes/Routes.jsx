@@ -21,6 +21,9 @@ import ManageStudents from '../pages/Dashboard/AdminDashboard/ManageStudents/Man
 import ManageClasses from '../pages/Dashboard/AdminDashboard/ManageClasses/ManageClasses';
 import ManagePayments from '../pages/Dashboard/AdminDashboard/ManagePayments/ManagePayments';
 import PrivateRoute from './PrivateRoute';
+import StudentRoute from './StudentRoute';
+import AdminRoute from './AdminRoute';
+import InstructorRoute from './InstructorRoute';
 
 const Routes = createBrowserRouter([
     {
@@ -64,39 +67,39 @@ const Routes = createBrowserRouter([
         children: [
             {
                 path: "admin",
-                element: <AdminDashboard></AdminDashboard>
+                element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
             },
             {
                 path: "instructors",
-                element: <ManageInstructors></ManageInstructors>
+                element: <AdminRoute><ManageInstructors></ManageInstructors></AdminRoute>
             },
             {
                 path: "students",
-                element: <ManageStudents></ManageStudents>
+                element: <AdminRoute><ManageStudents></ManageStudents></AdminRoute>
             },
             {
                 path: "classes",
-                element: <ManageClasses></ManageClasses>
+                element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
             },
             {
                 path: "payments",
-                element: <ManagePayments></ManagePayments>
+                element: <AdminRoute><ManagePayments></ManagePayments></AdminRoute>
             },
             {
                 path: "instructor",
-                element: <InstructorDashboard></InstructorDashboard>
+                element: <InstructorRoute><InstructorDashboard></InstructorDashboard></InstructorRoute>
             },
             {
                 path: "student",
-                element: <StudentDashboard></StudentDashboard>
+                element: <StudentRoute><StudentDashboard></StudentDashboard></StudentRoute>
             },
             {
                 path: "selected",
-                element: <SelectedClasses></SelectedClasses>
+                element: <StudentRoute><SelectedClasses></SelectedClasses></StudentRoute>
             },
             {
                 path: "enrolled",
-                element: <EnrolledClasses></EnrolledClasses>
+                element: <StudentRoute><EnrolledClasses></EnrolledClasses></StudentRoute>
             }
         ]
     }

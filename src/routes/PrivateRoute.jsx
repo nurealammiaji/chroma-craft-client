@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
 
     if (loading) {
         return <>
-            <div className="flex items-center justify-center">
+            <div className="flex flex-row items-center justify-center h-screen bg-neutral bg-opacity-10">
                 <RotatingLines
                     visible={true}
                     height="96"

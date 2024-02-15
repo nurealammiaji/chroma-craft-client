@@ -62,8 +62,8 @@ const AuthProvider = ({ children }) => {
                     },
                     body: JSON.stringify(user)
                 })
-                    .then(result => console.log(result))
-                    .catch(error => console.log(error))
+                    .then(res => res.json())
+                    .then(data => console.log({data}))
             }
             setLoading(false);
         })
