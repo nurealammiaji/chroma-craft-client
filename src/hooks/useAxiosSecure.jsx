@@ -11,7 +11,7 @@ const useAxiosSecure = () => {
 
     // base url
     const axiosSecure = axios.create({
-        baseURL: 'http://localhost:5000'
+        baseURL: 'https://chroma-craft-server.vercel.app'
     })
 
     // request interceptor
