@@ -4,6 +4,7 @@ import useStudents from '../../../../hooks/useStudents';
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
 import shape from "../../../../assets/6.png"
 import { DNA } from "react-loader-spinner";
+import StudentRow from './StudentRow';
 
 const ManageStudents = () => {
 
@@ -28,7 +29,7 @@ const ManageStudents = () => {
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Instructor</th>
+                                        <th>Student</th>
                                         <th>Information</th>
                                         <th>Action</th>
                                         <th>Action</th>
@@ -38,7 +39,7 @@ const ManageStudents = () => {
                                     {/* row */}
                                     {
                                         (students) &&
-                                        students.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item}></InstructorRow>)
+                                        students.map((item, index) => <StudentRow key={item._id} index={index + 1} item={item}></StudentRow>)
                                     }
                                 </tbody>
                             </table> :
