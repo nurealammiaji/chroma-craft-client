@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const useInstructors = () => {
 
-    const [loading, setLoading] = useState(true);
-    const [instructors, setInstructors] = useState();
+    const { data: instructors, isLoading } = useQuery({
+        queryKey: ['instructors'],
+        queryFn: async () => {
+            const res = await fetch(`https://chroma-craft-server.vercel.app/instructors`)
+            return res.json()
+        }
+    })
 
-    useEffect(() => {
-        fetch('https://chroma-craft-server.vercel.app/instructors')
-            .then(res => res.json())
-            .then(data => setInstructors(data));
-        setLoading(false);
-    }, [])
-
-    return [instructors, loading];
+    return [instructors, isLoading];
 };
 
 export default useInstructors;

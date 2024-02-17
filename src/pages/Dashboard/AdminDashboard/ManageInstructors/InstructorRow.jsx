@@ -31,7 +31,7 @@ const InstructorRow = ({ item, index }) => {
                 <span className="text-xs text-neutral">{instructor_email}</span>
             </td>
             <td>
-                <Link to={"/dashboard/admin/instructor-details"} className="btn btn-xs btn-neutral">Details</Link>
+                <Link to={"/dashboard/admin/instructor-details"} className="btn btn-xs btn-neutral">Edit</Link>
             </td>
             <th>
                 <button className="btn btn-error btn-xs">Delete</button>

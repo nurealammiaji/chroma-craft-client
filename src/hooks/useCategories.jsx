@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const useCategories = () => {
-    const [loading, setLoading] = useState(true);
-    const [categories, setCategories] = useState();
 
-    useEffect(() => {
-        fetch('https://chroma-craft-server.vercel.app/categories')
-            .then(res => res.json())
-            .then(data => setCategories(data));
-        setLoading(false);
-    }, [])
+    const { data: categories, isLoading } = useQuery({
+        queryKey: ['categories'],
+        queryFn: async () => {
+            const res = await fetch(`https://chroma-craft-server.vercel.app/categories`)
+            return res.json()
+        }
+    })
 
-    return [categories, loading];
+    return [categories, isLoading];
 
 };
 

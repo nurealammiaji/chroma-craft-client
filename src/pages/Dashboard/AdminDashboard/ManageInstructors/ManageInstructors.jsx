@@ -42,9 +42,8 @@ const ManageInstructors = () => {
                                         instructors.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item}></InstructorRow>)
                                     }
                                 </tbody>
-                            </table>
-
-                            : <>
+                            </table> :
+                            <>
                                 <div className="flex items-center justify-center">
                                     <DNA
                                         visible={true}
@@ -60,8 +59,8 @@ const ManageInstructors = () => {
                 </div>
                 <br /><br />
                 <div className="flex-row items-center justify-between text-center md:flex">
-                    <h4 className="p-4 text-lg font-medium text-secondary badge badge-outline">Instructors: {instructors?.length}</h4>
-                    <Link to={"/dashboard/admin/add-instructor"} className="mt-5 md:mt-0 btn btn-sm btn-info">Add Instructor</Link>
+                    <h4 className="p-4 font-medium text-neutral badge badge-outline">Instructors: {instructors?.length}</h4>
+                    <Link to={"/dashboard/admin/add-instructor"} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Add Instructor</Link>
                 </div>
             </div>
         </div>
