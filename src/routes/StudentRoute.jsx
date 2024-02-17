@@ -31,7 +31,7 @@ const Student = ({ children }) => {
             position: "center",
             icon: "warning",
             title: "Access Denied !!",
-            text: `${userData.name}, you are not a "Student"`,
+            text: `${userData?.name}, you are not a "Student"`,
             showConfirmButton: false,
             timer: 1500
         });

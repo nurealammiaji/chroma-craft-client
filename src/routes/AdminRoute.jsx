@@ -31,7 +31,7 @@ const AdminRoute = ({ children }) => {
             position: "center",
             icon: "warning",
             title: "Access Denied !!",
-            text: `${userData.name}, you are not an "Admin"`,
+            text: `${userData?.name}, you are not an "Admin"`,
             showConfirmButton: false,
             timer: 1500
         });

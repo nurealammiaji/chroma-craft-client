@@ -19,7 +19,7 @@ const Instructors = () => {
                 <PageHeader background={image} title={"Instructors"} subTitle={"Awesome Instructors"}></PageHeader>
             </div>
             <br /><br />
-            <div>
+            <div className="w-11/12 mx-auto">
                 {
                     (instructors) ?
                         <div className="grid gap-5 md:grid-cols-3">

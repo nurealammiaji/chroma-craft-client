@@ -1,19 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import shape1 from "../../../assets/shapes/shape-10-2.png"
 import shape2 from "../../../assets/shapes/shape-12-2.png"
 import useUsers from '../../../hooks/useUsers';
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const ClassItem = ({ item }) => {
 
     const { _id, title, image, description, instructor, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
 
+    const { user } = useContext(AuthContext);
     const [userData] = useUsers();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const enrollHandler = () => {
+        if (user) {
+            console.log("Enrolled: ", _id);
+        }
+        else {
+            Swal.fire({
+                position: "center",
+                icon: "warning",
+                title: "Please Login first !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/login", {state: {from: location}}, { replace: true });
+        }
+    }
 
     return (
         <div style={{ background: `${(seat_capacity - enrolled) <= 0 ? 'rgb(252, 165, 165)' : null}` }} className="relative hover:motion-safe:animate-pulse border border-transparent hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
             <div style={{ background: `url(${shape1}) no-repeat bottom right` }} className="w-full h-full rounded-tl-[150px] rounded-br-[150px]">
                 <figure>
-                    <img className="h-[250px] w-full md:w-11/12 rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
+                    <img className="h-[250px] w-11/12 rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
                 </figure>
                 {
                     (seat_capacity - enrolled) <= 0 ? <> <span className="absolute border border-black animate-pulse top-5 left-5 badge badge-error">No Seat</span> <span className="absolute border border-black right-5 bottom-5 badge badge-error animate-pulse">No Seat</span></> : null
@@ -30,7 +52,7 @@ const ClassItem = ({ item }) => {
                     <p>Enrolled: {enrolled}</p>
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
-                        <button disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Enroll</button>
+                        <button onClick={enrollHandler} disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Enroll</button>
                     </div>
                 </div>
             </div>

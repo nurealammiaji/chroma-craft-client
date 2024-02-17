@@ -23,7 +23,7 @@ const Classes = () => {
             <div>
                 <PageHeader title={"Classes"} subTitle={"Awesome Classes"} background={bg}></PageHeader>
                 <br /><br />
-                <div>
+                <div className="w-11/12 mx-auto">
                     {
                         (classes) ?
                             <div className="grid gap-5 md:grid-cols-3">

@@ -13,6 +13,7 @@ const Login = () => {
     const [eyeClose, setEyeClose] = useState(true);
 
     const location = useLocation();
+    console.log(location);
     const destination = location.state?.from?.pathname || "/";
     const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const Login = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Logged In !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -51,7 +52,7 @@ const Login = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Logged In !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -76,7 +77,7 @@ const Login = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Logged In !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -101,7 +102,7 @@ const Login = () => {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Logged in Successfully !",
+                    title: "Logged In !!",
                     showConfirmButton: false,
                     timer: 1500
                 });

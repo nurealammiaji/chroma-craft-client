@@ -31,7 +31,7 @@ const InstructorRoute = ({ children }) => {
             position: "center",
             icon: "warning",
             title: "Access Denied !!",
-            text: `${userData.name}, you are not an "Instructor"`,
+            text: `${userData?.name}, you are not an "Instructor"`,
             showConfirmButton: false,
             timer: 1500
         });
