@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "./useAxiosPublic";
 
 const useCategories = () => {
+
+    const axiosPublic = useAxiosPublic();
 
     const { data: categories, isLoading } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
-            const res = await fetch(`https://chroma-craft-server.vercel.app/categories`)
-            return res.json()
+            const res = await axiosPublic.get(`/categories`)
+            return res.data
         }
     })
 

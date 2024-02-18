@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "./useAxiosSecure";
 
 const useStudents = () => {
+
+    const axiosSecure = useAxiosSecure();
 
     const { data: students, isLoading } = useQuery({
         queryKey: ['students'],
         queryFn: async () => {
-            const res = await fetch(`https://chroma-craft-server.vercel.app/students`)
-            return res.json()
+            const res = await axiosSecure.get(`/students`)
+            return res.data
         }
     })
 
