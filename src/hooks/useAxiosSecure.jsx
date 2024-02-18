@@ -1,58 +1,39 @@
-import axios from "axios";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
 
+const axiosSecure = axios.create({
+    baseURL: 'https://chroma-craft-server.vercel.app',
+});
 
 const useAxiosSecure = () => {
-
-    const navigate = useNavigate();
     const { logout } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    // base url
-    const axiosSecure = axios.create({
-        baseURL: 'https://chroma-craft-server.vercel.app'
-    })
+    useEffect(() => {
+        axiosSecure.interceptors.request.use((config) => {
+            const token = localStorage.getItem('chromaCraft-user-token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        });
 
-    // request interceptor
-    axiosSecure.interceptors.request.use((config) => {
-
-        const token = localStorage.getItem('chromaCraft-access-token')
-
-        config.headers.authorization = `Bearer ${token}`;
-
-        return config;
-
-    }, (error) => {
-
-        return Promise.reject(error);
-    });
-
-
-    // response interceptor
-    axiosSecure.interceptors.response.use((response) => {
-
-        return response;
-
-    }, async (error) => {
-
-        const status = error.response.status;
-
-        if (status === 401 || status === 403) {
-            await logout()
-                .then(result => {
-                    console.log(result);
+        axiosSecure.interceptors.response.use(
+            (response) => response,
+            async (error) => {
+                if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                    await logout();
                     navigate('/login');
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        }
+                }
+                return Promise.reject(error);
+            }
+        );
 
-        return Promise.reject(error);
-    })
+    }, [logout, navigate]);
 
-    return axiosSecure;
+    return [axiosSecure];
 };
 
 export default useAxiosSecure;

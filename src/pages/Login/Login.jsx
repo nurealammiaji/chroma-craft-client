@@ -13,7 +13,6 @@ const Login = () => {
     const [eyeClose, setEyeClose] = useState(true);
 
     const location = useLocation();
-    console.log(location);
     const destination = location.state?.from?.pathname || "/";
     const navigate = useNavigate();
 
