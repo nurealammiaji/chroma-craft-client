@@ -1,5 +1,5 @@
-import { useContext, useEffect } from 'react';
 import axios from 'axios';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
 
@@ -8,12 +8,13 @@ const axiosSecure = axios.create({
 });
 
 const useAxiosSecure = () => {
+
     const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         axiosSecure.interceptors.request.use((config) => {
-            const token = localStorage.getItem('chromaCraft-user-token');
+            const token = localStorage.getItem('chromaCraft-access-token');
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }

@@ -6,7 +6,6 @@ import { TbCircleArrowLeftFilled } from "react-icons/tb";
 const Error = () => {
 
     const error = useRouteError();
-    console.log(error);
 
     return (
         <div>
@@ -36,7 +35,7 @@ const Error = () => {
             <br /><br />
             <div className="mt-3 text-center">
                 <Link to={"/"}>
-                    <button className="btn btn-secondary"><TbCircleArrowLeftFilled className="text-xl" /> Back to Home</button>
+                    <button className="btn btn-neutral"><TbCircleArrowLeftFilled className="text-xl" /> Back to Home</button>
                 </Link>
             </div>
         </div>

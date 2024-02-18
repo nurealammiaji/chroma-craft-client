@@ -3,13 +3,13 @@ import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } fro
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 const Register = () => {
 
-    const { emailRegister, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
+    const { user, emailRegister, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [eyeCloseOne, setEyeCloseOne] = useState(true);
     const [eyeCloseTwo, setEyeCloseTwo] = useState(true);
@@ -20,6 +20,20 @@ const Register = () => {
     const location = useLocation();
     const destination = location.state?.from?.pathname || "/";
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user && location?.pathname === "/register" ) {
+            Swal.fire({
+                position: "center",
+                icon: "info",
+                title: "Already Registered !!",
+                text: `Hey "${user?.displayName}", you already registered`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/", { replace: true });
+        }
+    }, [location, navigate, user]);
 
     const handleEmailRegister = (data) => {
         console.log(data);

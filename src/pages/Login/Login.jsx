@@ -2,13 +2,13 @@ import { Helmet } from "react-helmet-async";
 import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from "sweetalert2";
 
 const Login = () => {
 
-    const { emailLogin, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
+    const { user, emailLogin, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [eyeClose, setEyeClose] = useState(true);
 
@@ -16,8 +16,21 @@ const Login = () => {
     const destination = location.state?.from?.pathname || "/";
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (user && location?.pathname === "/login" ) {
+            Swal.fire({
+                position: "center",
+                icon: "info",
+                title: "Already Logged In !!",
+                text: `Hey ${user?.displayName}, you already logged in`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/", { replace: true });
+        }
+    }, [location, navigate, user]);
+
     const handleEmailLogin = (data) => {
-        console.log(data);
         const email = data.email;
         const password = data.password;
         emailLogin(email, password)
