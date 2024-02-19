@@ -4,7 +4,7 @@ import { TbArrowBigDownLines } from 'react-icons/tb';
 const PageHeader = ({ background, title, subTitle }) => {
     return (
         <div>
-            <div className="hero h-[400px] md:h-[650px]" style={{ background: `url(${background}) top right no-repeat fixed` }}>
+            <div className="hero h-[400px] md:h-[650px]" style={{ background: `url(${background}) right no-repeat fixed` }}>
                 <div className="hero-overlay bg-warning-content bg-opacity-60"></div>
                 <div className="text-center hero-content text-neutral-content">
                     <div>

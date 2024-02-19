@@ -22,7 +22,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && location?.pathname === "/register" ) {
+        if (user && location?.pathname === "/register") {
             Swal.fire({
                 position: "center",
                 icon: "info",
@@ -37,10 +37,22 @@ const Register = () => {
 
     const handleEmailRegister = (data) => {
         console.log(data);
-        const email = data.email;
-        const password = data.password;
         const name = data.name;
         const photo = data.photo;
+        const gender = data.gender;
+        const dob = data.dob;
+        const email = data.email;
+        const phone = data.phone;
+        const password = data.password;
+        const user = {
+            name: name,
+            email: email,
+            phone: phone,
+            image: photo,
+            gender: gender,
+            dob: dob,
+            role: "student",
+        }
         emailRegister(email, password)
             .then(result => {
                 console.log(result);
@@ -48,10 +60,18 @@ const Register = () => {
                 updateProfile(currentUser, {
                     displayName: name,
                     photoURL: photo,
-
                 })
                     .then(result => {
                         console.log(result);
+                        fetch('http://localhost:5000/users', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(user)
+                        })
+                            .then(res => res.json())
+                            .then(data => console.log(data))
                     })
                     .catch(error => {
                         console.log(error);
@@ -64,7 +84,6 @@ const Register = () => {
                     timer: 1500
                 });
                 navigate(destination, { replace: true });
-
             })
             .catch(error => {
                 console.log(error);
@@ -151,7 +170,6 @@ const Register = () => {
             })
     }
 
-
     return (
         <div>
             <br /><br />
@@ -193,6 +211,56 @@ const Register = () => {
                                 />
                                 {errors.photo?.type === 'required' && <label className="label">
                                     <span className="text-error">Photo URL is required !!</span>
+                                </label>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Date of Birth</span>
+                                </label>
+                                <input {...register("dob", { required: true })}
+                                    type="date"
+                                    placeholder="date of birth"
+                                    name="dob"
+                                    pattern="\d{4}-\d{2}-\d{2}"
+                                    className="input input-bordered"
+                                />
+                                {errors.dob?.type === 'required' && <label className="label">
+                                    <span className="text-error">Date of Birth is required !!</span>
+                                </label>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Gender</span>
+                                </label>
+                                <select {...register("gender", { required: true })}
+                                    type="text"
+                                    placeholder="gender"
+                                    name="gender"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="third">Third</option>
+                                </select>
+                                {errors.gender?.type === 'required' && <label className="label">
+                                    <span className="text-error">Gender is required !!</span>
+                                </label>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Phone</span>
+                                </label>
+                                <input {...register("phone", {
+                                    required: true
+                                })}
+                                    type="text"
+                                    placeholder="phone"
+                                    name="phone"
+                                    className="input input-bordered"
+                                />
+                                {errors.phone?.type === 'required' && <label className="label">
+                                    <span className="text-error">Phone is required !!</span>
                                 </label>}
                             </div>
                             <div className="form-control">
