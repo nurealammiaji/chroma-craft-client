@@ -54,7 +54,7 @@ const Class = ({ item }) => {
                     <p>Rating: {rating}</p>
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
-                        <button onClick={enrollHandler} disabled={(seat_capacity - enrolled) <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Enroll</button>
+                        <button onClick={enrollHandler} disabled={(seat_capacity - enrolled) <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
                     </div>
                 </div>
             </div>

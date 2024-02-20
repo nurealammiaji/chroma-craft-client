@@ -6,7 +6,7 @@ const Footer = () => {
         <div>
             <br /><br />
             <div className="bg-neutral">
-                <footer style={{ background: `url(${shape1}) no-repeat` }} className="p-10 footer text-neutral-content">
+                <footer style={{ background: `url(${shape1}) auto center no-repeat` }} className="p-10 footer text-neutral-content">
                     <aside>
                         <div className="text-left">
                             <h2 className="footer-title">Office Address</h2>
@@ -16,7 +16,7 @@ const Footer = () => {
                             <p>chromacraft@gmail.com</p>
                         </div>
                     </aside>
-                    <aside className="md:place-self-center md:justify-self-center mx-auto">
+                    <aside className="mx-auto md:place-self-center md:justify-self-center">
                         <h2 className="md:place-self-center footer-title">Follow Us</h2>
                         <div className="md:place-self-center md:justify-self-center divider divider-horizontal"> Social Platform</div>
                         <nav className="md:place-self-center md:justify-self-end">

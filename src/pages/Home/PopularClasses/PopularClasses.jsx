@@ -20,7 +20,7 @@ const PopularClasses = () => {
             <div>
                 {
                     (classes) ?
-                        <div className="grid gap-5 md:grid-cols-3">
+                        <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                             {
                                 (sortedClasses) &&
                                 sortedClasses.slice(0, 6).map(item => <ClassItem key={item._id} item={item}></ClassItem>)

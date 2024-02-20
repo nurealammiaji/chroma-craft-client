@@ -22,7 +22,7 @@ const Instructors = () => {
             <div className="w-11/12 mx-auto">
                 {
                     (instructors) ?
-                        <div className="grid gap-5 md:grid-cols-3">
+                        <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                             {
                                 (instructors) &&
                                 instructors.slice(0, 6).map(item => <Instructor key={item._id} item={item}></Instructor>)

@@ -26,7 +26,7 @@ const Classes = () => {
                 <div className="w-11/12 mx-auto">
                     {
                         (classes) ?
-                            <div className="grid gap-5 md:grid-cols-3">
+                            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                                 {
                                     (sortedClasses) &&
                                     sortedClasses.map(item => <Class key={item._id} item={item}></Class>)
