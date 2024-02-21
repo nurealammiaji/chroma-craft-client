@@ -5,19 +5,69 @@ import useUsers from '../../../hooks/useUsers';
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useSelected from "../../../hooks/useSelected";
 
 const ClassItem = ({ item }) => {
 
-    const { _id, title, image, description, instructor, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
+    const { _id, title, image, description, instructor, instructor_id, instructor_email, instructor_image, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
 
     const { user } = useContext(AuthContext);
     const [userData] = useUsers();
+    const [, refetch] = useSelected();
     const location = useLocation();
     const navigate = useNavigate();
 
     const enrollHandler = () => {
         if (user) {
-            console.log("Enrolled: ", _id);
+            const order = {
+                class_id: _id,
+                class_title: title,
+                class_price: price,
+                class_duration: duration,
+                class_image: image,
+                class_description: description,
+                category_id: category_id,
+                category_name: category_name,
+                instructor_id: instructor_id,
+                instructor_name: instructor,
+                instructor_email: instructor_email,
+                instructor_image: instructor_image,
+                student_name: userData?.name,
+                student_email: userData?.email,
+                student_phone: userData?.phone,
+                student_image: userData?.image,
+            };
+            console.log("Selected: ", order);
+            fetch("http://localhost:5000/selected", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(order)
+            })
+                .then(result => {
+                    console.log("result: ", result);
+                    refetch();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Selected Successfully !!",
+                        text: `${userData?.name}, you selected the class successfully`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                })
+                .catch(error => {
+                    console.log("error: ", error);
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `${error?.message}`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                })
         }
         else {
             Swal.fire({
@@ -27,7 +77,7 @@ const ClassItem = ({ item }) => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            navigate("/login", {state: {from: location}}, { replace: true });
+            navigate("/login", { state: { from: location } }, { replace: true });
         }
     }
 

@@ -6,12 +6,14 @@ import Swal from "sweetalert2";
 import logo from "/logo.png";
 import shape1 from "../../assets/shapes/art-protrait-01.png";
 import useUsers from "../../hooks/useUsers";
+import useSelected from '../../hooks/useSelected';
 
 
 const Navbar = () => {
 
     const { user, logout } = useContext(AuthContext);
     const [userData] = useUsers();
+    const [selected] = useSelected();
 
     const logoutHandler = () => {
         logout()
@@ -79,12 +81,12 @@ const Navbar = () => {
                     </div>
                     {
                         <div className="mr-3 drawer-content tooltip" data-tip="Cart">
-                            <Link to="/dashboard/my-cart">
+                            <Link to="/dashboard/selected">
                                 <TbShoppingBag className="text-xl md:text-2xl" />
                                 <span className="absolute p-1 left-3 top-3 badge badge-secondary badge-sm">
                                     {
-                                        (user) ?
-                                            0 : 0
+                                        (selected) ?
+                                            selected?.length : 0
                                     }
                                 </span>
                             </Link>

@@ -5,6 +5,7 @@ import useUsers from '../../hooks/useUsers';
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const Class = ({ item }) => {
 
@@ -14,10 +15,12 @@ const Class = ({ item }) => {
     const [userData] = useUsers();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
 
-    const enrollHandler = () => {
+    const selectHandler = async () => {
         if (user) {
-            console.log("Enrolled: ", _id);
+            console.log("Selected: ", _id);
+            await axiosPublic.post('/selected')
         }
         else {
             Swal.fire({
@@ -27,7 +30,7 @@ const Class = ({ item }) => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            navigate("/login", {state: {from: location}}, { replace: true });
+            navigate("/login", { state: { from: location } }, { replace: true });
         }
     }
 
@@ -54,7 +57,7 @@ const Class = ({ item }) => {
                     <p>Rating: {rating}</p>
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
-                        <button onClick={enrollHandler} disabled={(seat_capacity - enrolled) <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
+                        <button onClick={selectHandler} disabled={(seat_capacity - enrolled) <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
                     </div>
                 </div>
             </div>
