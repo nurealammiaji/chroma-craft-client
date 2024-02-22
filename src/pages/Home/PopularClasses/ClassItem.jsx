@@ -18,7 +18,7 @@ const ClassItem = ({ item }) => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const enrollHandler = () => {
+    const selectHandler = () => {
         if (user) {
             const order = {
                 class_id: _id,
@@ -46,20 +46,31 @@ const ClassItem = ({ item }) => {
                 },
                 body: JSON.stringify(order)
             })
-                .then(result => {
-                    console.log("result: ", result);
-                    refetch();
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Selected Successfully !!",
-                        text: `${userData?.name}, you selected the class successfully`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                .then(res => res.json())
+                .then(data => {
+                    if (data?.acknowledged === true) {
+                        refetch();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Selected Successfully !!",
+                            text: `${userData?.name}, you selected the class successfully`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: `${data?.message}`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
                 })
                 .catch(error => {
-                    console.log("error: ", error);
+                    console.log("error: ", error.message);
                     Swal.fire({
                         position: "center",
                         icon: "error",
@@ -102,7 +113,7 @@ const ClassItem = ({ item }) => {
                     <p>Enrolled: {enrolled}</p>
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
-                        <button onClick={enrollHandler} disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
+                        <button onClick={selectHandler} disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false || userData?.role === "instructor" ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
                     </div>
                 </div>
             </div>

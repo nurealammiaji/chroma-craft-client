@@ -95,7 +95,7 @@ const Navbar = () => {
                     {
                         (user) ?
                             <>
-                                <div className="mr-1 avatar tooltip" data-tip={`${user.displayName}`}>
+                                <div className="mr-1 avatar tooltip" data-tip={`${user?.displayName}`}>
                                     <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                         <Link to="/profile">
                                             <img src={user.photoURL} />

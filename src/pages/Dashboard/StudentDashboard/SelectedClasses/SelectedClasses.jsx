@@ -2,13 +2,15 @@ import { Helmet } from "react-helmet-async";
 import { DNA } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
-import useStudents from "../../../../hooks/useStudents";
 import shape from "../../../../assets/6.png"
 import ClassRow from './ClassRow';
+import useSelected from "../../../../hooks/useSelected";
 
 const SelectedClass = () => {
 
-    const [students] = useStudents();
+    const [selected] = useSelected();
+    let totalAmount = selected?.reduce((total, item) => total + item.class_price, 0);
+    console.log(totalAmount.toFixed(2));
 
     return (
         <div>
@@ -16,14 +18,14 @@ const SelectedClass = () => {
                 <title>Selected Classes || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
-            <div className="w-screen min-h-screen md:w-full">
+            <div className="w-screen min-h-screen mx-auto md:w-11/12">
                 <div className="mt-5">
-                    <SectionHeader title={"Manage Students"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Selected Classes"} background={shape}></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">
                     {
-                        (students) ?
+                        (selected) ?
                             <table className="table bg-white">
                                 {/* head */}
                                 <thead>
@@ -38,8 +40,8 @@ const SelectedClass = () => {
                                 <tbody>
                                     {/* row */}
                                     {
-                                        (students) &&
-                                        students.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item}></ClassRow>)
+                                        (selected) &&
+                                        selected.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item}></ClassRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -59,8 +61,9 @@ const SelectedClass = () => {
                 </div>
                 <br /><br />
                 <div className="flex-row items-center justify-between text-center md:flex">
-                    <h4 className="p-4 font-medium text-neutral badge badge-outline">Students: {students?.length}</h4>
-                    <Link to={"/dashboard/admin/add-student"} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Add Student</Link>
+                    <h4 className="p-4 font-medium text-neutral badge badge-outline">Selected Class: {selected?.length}</h4>
+                    <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount.toFixed(2)}</h4>
+                    <Link to={"/payment"} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Pay Now</Link>
                 </div>
             </div>
         </div>

@@ -24,6 +24,7 @@ import PrivateRoute from './PrivateRoute';
 import StudentRoute from './StudentRoute';
 import AdminRoute from './AdminRoute';
 import InstructorRoute from './InstructorRoute';
+import InstructorDetails from '../pages/InstructorDetails/InstructorDetails';
 
 const Routes = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const Routes = createBrowserRouter([
             {
                 path: "instructors",
                 element: <Instructors></Instructors>
+            },
+            {
+                path: "instructors/:id",
+                element: <InstructorDetails></InstructorDetails>
             },
             {
                 path: "contact",
