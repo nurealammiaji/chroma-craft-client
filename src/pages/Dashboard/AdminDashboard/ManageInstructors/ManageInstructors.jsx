@@ -11,12 +11,12 @@ const ManageInstructors = () => {
     const [instructors] = useInstructors();
 
     return (
-        <div>
+        <div className="min-h-screen">
             <Helmet>
                 <title>Manage Instructors || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
-            <div className="w-screen min-h-screen md:w-full">
+            <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
                     <SectionHeader title={"Manage Instructors"} background={shape}></SectionHeader>
                 </div>
