@@ -1,14 +1,15 @@
 import { Helmet } from "react-helmet-async";
-import { TbBrandFacebook, TbBrandGithub, TbBrandGoogle, TbEye, TbEyeClosed } from "react-icons/tb";
+import { TbEye, TbEyeClosed } from "react-icons/tb";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
 
-    const { user, emailLogin, googleLogin, githubLogin, facebookLogin } = useContext(AuthContext);
+    const { user, emailLogin } = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [eyeClose, setEyeClose] = useState(true);
 
@@ -17,7 +18,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && location?.pathname === "/login" ) {
+        if (user && location?.pathname === "/login") {
             Swal.fire({
                 position: "center",
                 icon: "info",
@@ -34,81 +35,6 @@ const Login = () => {
         const email = data.email;
         const password = data.password;
         emailLogin(email, password)
-            .then(result => {
-                console.log(result);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Logged In !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(destination, { replace: true });
-            })
-            .catch(error => {
-                console.log(error);
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: `${error.message.slice(9,)}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
-    }
-
-    const handleGoogleLogin = () => {
-        googleLogin()
-            .then(result => {
-                console.log(result);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Logged In !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(destination, { replace: true });
-            })
-            .catch(error => {
-                console.log(error);
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: `${error.message.slice(9,)}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
-    }
-
-    const handleGithubLogin = () => {
-        githubLogin()
-            .then(result => {
-                console.log(result);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Logged In !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                navigate(destination, { replace: true });
-            })
-            .catch(error => {
-                console.log(error);
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: `${error.message.slice(9,)}`,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            })
-    }
-
-    const handleFacebookLogin = () => {
-        facebookLogin()
             .then(result => {
                 console.log(result);
                 Swal.fire({
@@ -186,11 +112,7 @@ const Login = () => {
                                 <span className="font-medium label-text">Login with</span>
                             </label>
                         </div>
-                        <div className="flex items-center justify-center mt-3">
-                            <button onClick={handleGoogleLogin} className="btn btn-outline btn-circle btn-success btn-sm"><TbBrandGoogle className="text-2xl" /></button>
-                            <button onClick={handleGithubLogin} className="mx-5 text-black btn-sm btn btn-outline btn-circle hover:text-white hover:bg-black"><TbBrandGithub className="text-2xl" /></button>
-                            <button onClick={handleFacebookLogin} className="btn btn-outline btn-circle btn-info btn-sm"><TbBrandFacebook className="text-2xl" /></button>
-                        </div>
+                        <SocialLogin message={"Logged In !"}></SocialLogin>
                     </div>
                 </div>
             </div>
