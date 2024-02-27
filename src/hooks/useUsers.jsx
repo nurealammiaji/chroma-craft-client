@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import useAxiosPublic from "./useAxiosPublic";
 
 const useUsers = () => {
 
     const { user, loading } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
 
     const { data: userData, isLoading: userLoading } = useQuery({
         queryKey: ['users', user?.email],
         enabled: !loading,
         queryFn: async () => {
-            const res = await fetch(`https://chroma-craft-server.vercel.app/users/${user.email}`)
-            return res.json()
+            const res = await axiosPublic.get(`/users/${user.email}`)
+            return res.data
         }
     })
 
