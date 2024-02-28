@@ -3,7 +3,7 @@ import useSelected from "../../../../hooks/useSelected";
 import Swal from "sweetalert2";
 import useUsers from "../../../../hooks/useUsers";
 
-const ClassRow = ({ item, index }) => {
+const EnrolledRow = ({ item, index }) => {
 
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
@@ -81,4 +81,4 @@ const ClassRow = ({ item, index }) => {
     );
 };
 
-export default ClassRow;
+export default EnrolledRow;

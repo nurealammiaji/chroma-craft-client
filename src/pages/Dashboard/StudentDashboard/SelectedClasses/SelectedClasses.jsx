@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { DNA } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import shape from "../../../../assets/6.png"
-import ClassRow from './ClassRow';
+import SelectedRow from './SelectedRow';
 import useSelected from "../../../../hooks/useSelected";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 
@@ -44,7 +44,7 @@ const SelectedClass = () => {
                                     {/* row */}
                                     {
                                         (selected) &&
-                                        selected.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item}></ClassRow>)
+                                        selected.map((item, index) => <SelectedRow key={item._id} index={index + 1} item={item}></SelectedRow>)
                                     }
                                 </tbody>
                             </table> :
