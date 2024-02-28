@@ -53,7 +53,7 @@ const Register = () => {
             gender: gender,
             dob: dob,
             role: "student",
-        }
+        };
         emailRegister(email, password)
             .then(result => {
                 console.log(result);

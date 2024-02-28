@@ -16,6 +16,25 @@ const SocialLogin = ({ message }) => {
         googleLogin()
             .then(result => {
                 console.log(result);
+                const currentUser = result?.user;
+                const user = {
+                    name: currentUser?.displayName,
+                    email: currentUser?.email,
+                    phone: "",
+                    image: currentUser?.photoURL,
+                    gender: "",
+                    dob: "",
+                    role: "student",
+                };
+                fetch('http://localhost:5000/users', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -41,6 +60,25 @@ const SocialLogin = ({ message }) => {
         githubLogin()
             .then(result => {
                 console.log(result);
+                const currentUser = result?.user;
+                const user = {
+                    name: currentUser?.displayName,
+                    email: currentUser?.email,
+                    phone: "",
+                    image: currentUser?.photoURL,
+                    gender: "",
+                    dob: "",
+                    role: "student",
+                };
+                fetch('http://localhost:5000/users', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -66,6 +104,25 @@ const SocialLogin = ({ message }) => {
         facebookLogin()
             .then(result => {
                 console.log(result);
+                const currentUser = result?.user;
+                const user = {
+                    name: currentUser?.displayName,
+                    email: currentUser?.email,
+                    phone: "",
+                    image: currentUser?.photoURL,
+                    gender: "",
+                    dob: "",
+                    role: "student",
+                };
+                fetch('http://localhost:5000/users', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => console.log(data))
                 Swal.fire({
                     position: "center",
                     icon: "success",
