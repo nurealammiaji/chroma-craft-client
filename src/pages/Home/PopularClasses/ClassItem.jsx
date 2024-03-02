@@ -39,7 +39,7 @@ const ClassItem = ({ item }) => {
                 student_image: userData?.image,
             };
             console.log("Selected: ", order);
-            fetch("http://localhost:5000/selected", {
+            fetch("https://chroma-craft-server.vercel.app/selected", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

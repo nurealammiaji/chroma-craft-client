@@ -6,7 +6,7 @@ const Footer = () => {
         <div>
             <br /><br />
             <div className="bg-neutral">
-                <footer style={{ background: `url(${shape1}) no-repeat` }} className="p-10 footer text-neutral-content">
+                <footer style={{ background: `url(${shape1}) center no-repeat` }} className="p-10 footer text-neutral-content">
                     <aside>
                         <div className="text-left">
                             <h2 className="footer-title">Office Address</h2>

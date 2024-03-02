@@ -90,7 +90,7 @@ const CheckoutForm = () => {
             console.log(paymentIntent);
             if (paymentIntent?.status === "succeeded") {
                 setCardSuccess(`${paymentIntent?.status}! TrxID: ${paymentIntent?.id}`);
-                fetch(`http://localhost:5000/selected?email=${user?.email}`, {
+                fetch(`https://chroma-craft-server.vercel.app/selected?email=${user?.email}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -103,7 +103,7 @@ const CheckoutForm = () => {
                     .catch(error => {
                         console.log(error);
                     })
-                fetch('http://localhost:5000/enrolled', {
+                fetch('https://chroma-craft-server.vercel.app/enrolled', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -22,7 +22,7 @@ const EnrolledRow = ({ item, index }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/enrolled/${_id}`, {
+                fetch(`https://chroma-craft-server.vercel.app/enrolled/${_id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"

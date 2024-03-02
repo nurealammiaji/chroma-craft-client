@@ -26,7 +26,7 @@ const SocialLogin = ({ message }) => {
                     dob: "",
                     role: "student",
                 };
-                fetch('http://localhost:5000/users', {
+                fetch('https://chroma-craft-server.vercel.app/users', {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'
@@ -70,7 +70,7 @@ const SocialLogin = ({ message }) => {
                     dob: "",
                     role: "student",
                 };
-                fetch('http://localhost:5000/users', {
+                fetch('https://chroma-craft-server.vercel.app/users', {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'
@@ -114,7 +114,7 @@ const SocialLogin = ({ message }) => {
                     dob: "",
                     role: "student",
                 };
-                fetch('http://localhost:5000/users', {
+                fetch('https://chroma-craft-server.vercel.app/users', {
                     method: "POST",
                     headers: {
                         'content-type': 'application/json'

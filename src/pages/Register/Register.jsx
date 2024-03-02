@@ -64,7 +64,7 @@ const Register = () => {
                 })
                     .then(result => {
                         console.log(result);
-                        fetch('http://localhost:5000/users', {
+                        fetch('https://chroma-craft-server.vercel.app/users', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/json'
