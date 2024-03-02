@@ -71,7 +71,9 @@ const SelectedClass = () => {
                         <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount.toFixed(2)}</h4>
                     </div>
                     <div>
-                        <Link to={"/dashboard/payment"} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Pay Now</Link>
+                        <Link to={"/dashboard/payment"}>
+                            <button className="mt-5 md:mt-0 btn btn-sm btn-secondary" disabled={(selected?.length === 0) ? true : false}>Pay Now</button>
+                        </Link>
                     </div>
                 </div>
             </div>

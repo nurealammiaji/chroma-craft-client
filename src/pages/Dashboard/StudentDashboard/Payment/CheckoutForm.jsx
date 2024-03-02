@@ -4,21 +4,16 @@ import { useContext, useEffect, useState } from 'react';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import { AuthContext } from '../../../../providers/AuthProvider';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { TbCircleArrowRightFilled } from 'react-icons/tb';
+import useSelected from '../../../../hooks/useSelected';
 
-const CheckoutForm = ({ selected }) => {
-
-    console.log(selected);
-    let price = 0;
-    if (selected) {
-        const total = selected?.reduce((total, item) => total + item.class_price, 0);
-        price = parseFloat(total.toFixed(2));
-        console.log(total, price);
-    }
+const CheckoutForm = () => {
 
     const stripe = useStripe();
     const elements = useElements();
     const axiosPublic = useAxiosPublic();
+    const [selected, refetch] = useSelected();
     const [cardError, setCardError] = useState(null);
     const [cardSuccess, setCardSuccess] = useState(null);
     const [clientSecret, setClientSecret] = useState(null);
@@ -26,6 +21,13 @@ const CheckoutForm = ({ selected }) => {
     const [disabled, setDisabled] = useState(false);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    let price = 0;
+    if (selected) {
+        const total = selected?.reduce((total, item) => total + item.class_price, 0);
+        price = parseFloat(total.toFixed(2));
+        console.log(total, price);
+    }
 
     useEffect(() => {
         axiosPublic.post('/create-payment-intent', { price })
@@ -87,7 +89,31 @@ const CheckoutForm = ({ selected }) => {
         if (paymentIntent) {
             console.log(paymentIntent);
             if (paymentIntent?.status === "succeeded") {
-                setCardSuccess(`${paymentIntent?.status}!! TrxID: ${paymentIntent?.id}`);
+                setCardSuccess(`${paymentIntent?.status}! TrxID: ${paymentIntent?.id}`);
+                fetch(`http://localhost:5000/selected?email=${user?.email}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(result => {
+                        console.log(result);
+                        refetch();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                fetch('http://localhost:5000/enrolled', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(selected)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -103,6 +129,18 @@ const CheckoutForm = ({ selected }) => {
 
     return (
         <>
+            <br /><br />
+            {
+                (selected) &&
+                <div className="flex-row items-center justify-around text-center md:flex">
+                    <div>
+                        <h4 className="p-4 font-medium text-neutral badge badge-outline">Selected Class: {selected?.length}</h4>
+                    </div>
+                    <div className="my-5 md:my-0">
+                        <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total Price: $ {price}</h4>
+                    </div>
+                </div>
+            }
             <form onSubmit={handleSubmit}>
                 <CardElement options={{
                     style: {
@@ -118,17 +156,29 @@ const CheckoutForm = ({ selected }) => {
                         },
                     },
                 }} />
-                <button className='btn btn-sm btn-outline' type="submit" disabled={!stripe || !clientSecret || processing || disabled}>
+                <button className='btn btn-sm btn-outline' type="submit" disabled={!stripe || !clientSecret || processing || disabled || selected?.length === 0}>
                     Pay
                 </button>
             </form>
+            {
+                (selected?.length === 0) &&
+                <div className='text-center'>
+                    <p className='italic font-medium text-center text-warning'>You have not selected any classes yet !!</p>
+                    <br /><br />
+                    <Link to={'/classes'} className='btn-neutral btn'>Select Classes<TbCircleArrowRightFilled className="text-xl" /> </Link>
+                </div>
+            }
             {
                 (cardError) &&
                 <p className='font-medium text-center text-error'>{cardError}</p>
             }
             {
                 (cardSuccess) &&
-                <p className='font-medium text-center text-success'>{cardSuccess}</p>
+                <div className='text-center'>
+                    <p className='italic font-medium text-center text-success'>{cardSuccess}</p>
+                    <br /><br />
+                    <Link to={'/dashboard/enrolled'} className='btn-neutral btn'>Go to Classes<TbCircleArrowRightFilled className="text-xl" /> </Link>
+                </div>
             }
         </>
     );

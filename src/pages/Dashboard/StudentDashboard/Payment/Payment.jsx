@@ -6,12 +6,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./CheckoutForm";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PublishableKey}`);
-import useSelected from '../../../../hooks/useSelected';
 
 const Payment = () => {
-
-    const [selected] = useSelected();
-
 
     return (
         <div className="min-h-screen">
@@ -23,10 +19,9 @@ const Payment = () => {
                 <div className="mt-5">
                     <SectionHeader title={"Payment"} background={shape}></SectionHeader>
                 </div>
-                <br /><br />
                 <div>
                     <Elements stripe={stripePromise}>
-                        <CheckoutForm selected={selected}></CheckoutForm>
+                        <CheckoutForm></CheckoutForm>
                     </Elements>
                 </div>
             </div>

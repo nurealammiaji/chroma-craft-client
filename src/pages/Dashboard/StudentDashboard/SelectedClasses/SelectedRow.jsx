@@ -23,7 +23,10 @@ const SelectedRow = ({ item, index }) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch(`http://localhost:5000/selected/${_id}`, {
-                    method: "DELETE"
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 })
                     .then(result => {
                         console.log(result);

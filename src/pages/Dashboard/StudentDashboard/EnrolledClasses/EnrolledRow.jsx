@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
-import useSelected from "../../../../hooks/useSelected";
 import Swal from "sweetalert2";
+import useEnrolled from '../../../../hooks/useEnrolled';
 import useUsers from "../../../../hooks/useUsers";
 
 const EnrolledRow = ({ item, index }) => {
 
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
-    const [, refetch] = useSelected();
+    const [, refetch] = useEnrolled();
     const [userData] = useUsers();
 
-    const handleDelete = (_id) => {
+    const handleDeleteOrder = (_id) => {
         console.log("Delete: ", _id);
         Swal.fire({
             title: "Are you sure?",
@@ -22,8 +22,11 @@ const EnrolledRow = ({ item, index }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/selected/${_id}`, {
-                    method: "DELETE"
+                fetch(`http://localhost:5000/enrolled/${_id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 })
                     .then(result => {
                         console.log(result);
@@ -75,7 +78,7 @@ const EnrolledRow = ({ item, index }) => {
                 <Link to={`/classes/${class_id}`} className="btn btn-xs btn-neutral">Details</Link>
             </td>
             <th>
-                <button onClick={() => handleDelete(_id)} className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => handleDeleteOrder(_id)} className="btn btn-error btn-xs">Delete</button>
             </th>
         </tr>
     );

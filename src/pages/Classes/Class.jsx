@@ -37,7 +37,6 @@ const Class = ({ item }) => {
                 student_phone: userData?.phone,
                 student_image: userData?.image,
             };
-            console.log("Selected: ", order);
             fetch("http://localhost:5000/selected", {
                 method: "POST",
                 headers: {
