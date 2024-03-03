@@ -8,7 +8,7 @@ const useSelected = () => {
     const axiosPublic = useAxiosPublic();
     const { user } = useContext(AuthContext);
 
-    const { refetch, data: selected, isLoading } = useQuery({
+    const { refetch: refetchSelected, data: selected, isLoading: isLoadingSelected } = useQuery({
         queryKey: ['selected', user?.email],
         queryFn: async () => {
             const res = await axiosPublic.get(`/selected?email=${user?.email}`)
@@ -16,7 +16,7 @@ const useSelected = () => {
         }
     })
 
-    return [selected, refetch, isLoading];
+    return [selected, refetchSelected, isLoadingSelected];
 };
 
 export default useSelected;

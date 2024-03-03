@@ -7,7 +7,7 @@ const SelectedRow = ({ item, index }) => {
 
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
-    const [, refetch] = useSelected();
+    const [, refetchSelected] = useSelected();
     const [userData] = useUsers();
 
     const handleDelete = (_id) => {
@@ -30,7 +30,7 @@ const SelectedRow = ({ item, index }) => {
                 })
                     .then(result => {
                         console.log(result);
-                        refetch();
+                        refetchSelected();
                         Swal.fire({
                             position: "center",
                             icon: "success",

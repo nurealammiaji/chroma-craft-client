@@ -8,7 +8,7 @@ const useEnrolled = () => {
     const axiosPublic = useAxiosPublic();
     const { user } = useContext(AuthContext);
 
-    const { refetch, data: enrolled, isLoading } = useQuery({
+    const { refetch: refetchEnrolled, data: enrolled, isLoading: isLoadingEnrolled } = useQuery({
         queryKey: ['enrolled', user?.email],
         queryFn: async () => {
             const res = await axiosPublic.get(`/enrolled?email=${user?.email}`)
@@ -16,7 +16,7 @@ const useEnrolled = () => {
         }
     })
 
-    return [enrolled, refetch, isLoading];
+    return [enrolled, refetchEnrolled, isLoadingEnrolled];
 };
 
 export default useEnrolled;

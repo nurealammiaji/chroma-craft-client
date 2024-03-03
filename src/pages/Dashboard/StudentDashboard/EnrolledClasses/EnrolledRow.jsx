@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useEnrolled from '../../../../hooks/useEnrolled';
 import useUsers from "../../../../hooks/useUsers";
+import useEnrolled from '../../../../hooks/useEnrolled';
 
 const EnrolledRow = ({ item, index }) => {
 
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
-    const [, refetch] = useEnrolled();
+    const [, refetchEnrolled] = useEnrolled();
     const [userData] = useUsers();
 
     const handleDeleteOrder = (_id) => {
@@ -28,9 +28,10 @@ const EnrolledRow = ({ item, index }) => {
                         "Content-Type": "application/json"
                     }
                 })
-                    .then(result => {
-                        console.log(result);
-                        refetch();
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        refetchEnrolled();
                         Swal.fire({
                             position: "center",
                             icon: "success",

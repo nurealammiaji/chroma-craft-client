@@ -7,13 +7,15 @@ import Swal from 'sweetalert2';
 import { Link, useNavigate } from 'react-router-dom';
 import { TbCircleArrowRightFilled } from 'react-icons/tb';
 import useSelected from '../../../../hooks/useSelected';
+import useEnrolled from '../../../../hooks/useEnrolled';
 
 const CheckoutForm = () => {
 
     const stripe = useStripe();
     const elements = useElements();
     const axiosPublic = useAxiosPublic();
-    const [selected, refetch] = useSelected();
+    const [, refetchEnrolled] = useEnrolled();
+    const [selected, refetchSelected] = useSelected();
     const [cardError, setCardError] = useState(null);
     const [cardSuccess, setCardSuccess] = useState(null);
     const [clientSecret, setClientSecret] = useState(null);
@@ -98,7 +100,8 @@ const CheckoutForm = () => {
                 })
                     .then(result => {
                         console.log(result);
-                        refetch();
+                        refetchSelected();
+                        refetchEnrolled();
                     })
                     .catch(error => {
                         console.log(error);
@@ -122,7 +125,7 @@ const CheckoutForm = () => {
                     showConfirmButton: true,
                 });
                 setDisabled(true);
-                // navigate("/dashboard/enrolled", { replace: true });
+                navigate("/dashboard/enrolled", { replace: true });
             }
         }
     };
@@ -160,14 +163,6 @@ const CheckoutForm = () => {
                     Pay
                 </button>
             </form>
-            {
-                (selected?.length === 0) &&
-                <div className='text-center'>
-                    <p className='italic font-medium text-center text-warning'>You have not selected any classes yet !!</p>
-                    <br /><br />
-                    <Link to={'/classes'} className='btn-neutral btn'>Select Classes<TbCircleArrowRightFilled className="text-xl" /> </Link>
-                </div>
-            }
             {
                 (cardError) &&
                 <p className='font-medium text-center text-error'>{cardError}</p>

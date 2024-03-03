@@ -12,7 +12,7 @@ const SelectedClass = () => {
     let totalAmount = 0;
 
     if (selected) {
-        totalAmount = selected?.reduce((total, item) => total + item.class_price, 0);
+        totalAmount = parseFloat(selected?.reduce((total, item) => total + item.class_price, 0).toFixed(2));
     }
 
     return (
@@ -68,12 +68,18 @@ const SelectedClass = () => {
                         <h4 className="p-4 font-medium text-neutral badge badge-outline">Selected Class: {selected?.length}</h4>
                     </div>
                     <div className="my-5 md:my-0">
-                        <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount.toFixed(2)}</h4>
+                        <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount}</h4>
                     </div>
                     <div>
-                        <Link to={"/dashboard/payment"}>
-                            <button className="mt-5 md:mt-0 btn btn-sm btn-secondary" disabled={(selected?.length === 0) ? true : false}>Pay Now</button>
-                        </Link>
+                        {
+                            (selected?.length === 0) ?
+                                <Link to={"/classes"}>
+                                    <button className="mt-5 md:mt-0 btn btn-sm btn-secondary">Select Class</button>
+                                </Link> :
+                                <Link to={"/dashboard/payment"}>
+                                    <button className="mt-5 md:mt-0 btn btn-sm btn-secondary" disabled={(selected?.length === 0) ? true : false}>Pay Now</button>
+                                </Link>
+                        }
                     </div>
                 </div>
             </div>

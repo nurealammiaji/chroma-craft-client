@@ -9,6 +9,11 @@ import useEnrolled from '../../../../hooks/useEnrolled';
 const EnrolledClass = () => {
 
     const [enrolled] = useEnrolled();
+    let totalAmount = 0;
+
+    if (enrolled) {
+        totalAmount = parseFloat(enrolled?.reduce((total, item) => total + item.class_price, 0).toFixed(2));
+    }
 
     return (
         <div className="min-h-screen">
@@ -63,10 +68,18 @@ const EnrolledClass = () => {
                         <h4 className="p-4 font-medium text-neutral badge badge-outline">Enrolled Class: {enrolled?.length}</h4>
                     </div>
                     <div className="my-5 md:my-0">
-                        <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Sample</h4>
+                        <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount}</h4>
                     </div>
                     <div>
-                        <Link to={"/dashboard/"} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Start Now</Link>
+                        {
+                            (enrolled?.length === 0) ?
+                                <Link to={"/dashboard/selected"}>
+                                    <button className="mt-5 md:mt-0 btn btn-sm btn-secondary">Enroll Class</button>
+                                </Link> :
+                                <Link to={"/dashboard"}>
+                                    <button className="mt-5 md:mt-0 btn btn-sm btn-secondary" disabled={(enrolled?.length === 0) ? true : false}>Start Now</button>
+                                </Link>
+                        }
                     </div>
                 </div>
             </div>

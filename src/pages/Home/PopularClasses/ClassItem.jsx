@@ -5,7 +5,6 @@ import useUsers from '../../../hooks/useUsers';
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useSelected from "../../../hooks/useSelected";
 
 const ClassItem = ({ item }) => {
@@ -14,7 +13,7 @@ const ClassItem = ({ item }) => {
 
     const { user } = useContext(AuthContext);
     const [userData] = useUsers();
-    const [, refetch] = useSelected();
+    const [, refetchSelected] = useSelected();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -49,7 +48,7 @@ const ClassItem = ({ item }) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data?.acknowledged === true) {
-                        refetch();
+                        refetchSelected();
                         Swal.fire({
                             position: "center",
                             icon: "success",

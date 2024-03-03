@@ -13,7 +13,7 @@ const Class = ({ item }) => {
 
     const { user } = useContext(AuthContext);
     const [userData] = useUsers();
-    const [, refetch] = useSelected();
+    const [, refetchSelected] = useSelected();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ const Class = ({ item }) => {
                 .then(res => res.json())
                 .then(data => {
                     if (data?.acknowledged === true) {
-                        refetch();
+                        refetchSelected();
                         Swal.fire({
                             position: "center",
                             icon: "success",
