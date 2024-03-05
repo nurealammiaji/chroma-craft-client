@@ -27,6 +27,7 @@ import InstructorRoute from './InstructorRoute';
 import InstructorDetails from '../pages/InstructorDetails/InstructorDetails';
 import Payment from '../pages/Dashboard/StudentDashboard/Payment/Payment';
 import CategoryDetails from '../pages/CategoryDetails/CategoryDetails';
+import ClassDetails from '../pages/ClassDetails/ClassDetails';
 
 const Routes = createBrowserRouter([
     {
@@ -45,11 +46,16 @@ const Routes = createBrowserRouter([
             {
                 path: "categories/:id",
                 element: <CategoryDetails></CategoryDetails>,
-                loader: ({params}) => fetch(`https://chroma-craft-server.vercel.app/categories/classes/${params.id}`)
+                loader: ({ params }) => fetch(`https://chroma-craft-server.vercel.app/categories/classes/${params.id}`)
             },
             {
                 path: "classes",
                 element: <Classes></Classes>
+            },
+            {
+                path: "classes/:id",
+                element: <ClassDetails></ClassDetails>,
+                loader: ({ params }) => fetch(`https://chroma-craft-server.vercel.app/classes/${params.id}`)
             },
             {
                 path: "instructors",
@@ -58,7 +64,7 @@ const Routes = createBrowserRouter([
             {
                 path: "instructors/:id",
                 element: <InstructorDetails></InstructorDetails>,
-                loader: ({params}) => fetch(`https://chroma-craft-server.vercel.app/instructors/classes/${params.id}`)
+                loader: ({ params }) => fetch(`https://chroma-craft-server.vercel.app/instructors/classes/${params.id}`)
             },
             {
                 path: "contact",
