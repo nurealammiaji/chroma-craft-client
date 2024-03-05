@@ -1,17 +1,17 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import ClassCard from "./ClassCard";
 import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import bg from "../../assets/6.png"
-import { TbCategory, TbList, TbMail, TbUsersGroup } from "react-icons/tb";
+import { TbList, TbUsersGroup } from "react-icons/tb";
 
-const InstructorDetails = () => {
+const CategoryDetails = () => {
 
     const params = useParams();
     const classes = useLoaderData();
-    const [instructor, setInstructor] = useState(null);
+    const [category, setCategory] = useState(null);
 
     let enrolledStudents = 0;
 
@@ -19,47 +19,43 @@ const InstructorDetails = () => {
         console.log(classes);
         const total = classes.reduce((total, item) => total + item.enrolled, 0);
         enrolledStudents = parseInt(total);
+        console.log(total);
     }
 
     useEffect(() => {
-        fetch(`https://chroma-craft-server.vercel.app/instructors/${params?.id}`)
+        fetch(`https://chroma-craft-server.vercel.app/categories/${params?.id}`)
             .then(res => res.json())
-            .then(data => setInstructor(data))
+            .then(data => setCategory(data))
             .catch(error => console.log(error))
     }, [params])
 
     return (
         <div className="min-h-screen">
             <Helmet>
-                <title>Instructor Details || Chroma Craft</title>
+                <title>Category Details || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
             <div>
                 <div className="w-11/12 mx-auto">
                     {
-                        (instructor) ?
+                        (category) ?
                             <div className="md:h-[350px] grid-cols-2 shadow-xl md:grid card lg:card-side bg-base-100">
                                 <figure>
-                                    <img className="w-full h-full" src={instructor?.instructor_image} alt="Instructor Image" />
+                                    <img className="w-full h-full" src={category?.image} alt="Instructor Image" />
                                 </figure>
                                 <div className="card-body">
-                                    <h2 className="text-3xl card-title">{instructor?.instructor}</h2>
+                                    <h2 className="text-4xl card-title">{category?.name}</h2>
                                     <br />
-                                    <div className="flex items-center mt-8">
-                                        <TbMail className="mr-2 text-xl" />
-                                        <p>{instructor?.instructor_email}</p>
-                                    </div>
-                                    <div className="flex items-center mt-2">
-                                        <TbCategory className="mr-2 text-xl" />
-                                        <p><span className="font-medium">Category:</span> <Link to={`/categories/${instructor?.category_id}`}><span className="text-base badge badge-accent badge-outline">{instructor?.category_name}</span></Link></p>
-                                    </div>
                                     <div className="flex items-center mt-2">
                                         <TbList className="mr-2 text-xl" />
-                                        <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{instructor?.total_classes}</span></p>
+                                        <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{classes?.length}</span></p>
                                     </div>
                                     <div className="flex items-center mt-2">
                                         <TbUsersGroup className="mr-2 text-xl" />
                                         <p><span className="font-medium">Enrolled Students:</span> <span className="text-base badge">{enrolledStudents}</span></p>
+                                    </div>
+                                    <div className="mt-5">
+                                        <p className="text-base-content">{category?.description}</p>
                                     </div>
                                 </div>
                             </div> : <>
@@ -78,7 +74,7 @@ const InstructorDetails = () => {
                 </div>
                 <br /><br />
                 <div>
-                    <SectionHeader title={"Instructor's Classes"} background={bg} ></SectionHeader>
+                    <SectionHeader title={"Category's Classes"} background={bg} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="w-11/12 mx-auto">
@@ -108,4 +104,4 @@ const InstructorDetails = () => {
     );
 };
 
-export default InstructorDetails;
+export default CategoryDetails;

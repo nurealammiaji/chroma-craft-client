@@ -26,6 +26,7 @@ import AdminRoute from './AdminRoute';
 import InstructorRoute from './InstructorRoute';
 import InstructorDetails from '../pages/InstructorDetails/InstructorDetails';
 import Payment from '../pages/Dashboard/StudentDashboard/Payment/Payment';
+import CategoryDetails from '../pages/CategoryDetails/CategoryDetails';
 
 const Routes = createBrowserRouter([
     {
@@ -40,6 +41,11 @@ const Routes = createBrowserRouter([
             {
                 path: "about",
                 element: <About></About>
+            },
+            {
+                path: "categories/:id",
+                element: <CategoryDetails></CategoryDetails>,
+                loader: ({params}) => fetch(`https://chroma-craft-server.vercel.app/categories/classes/${params.id}`)
             },
             {
                 path: "classes",
