@@ -5,14 +5,22 @@ import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import bg from "../../assets/6.png"
-import { TbCategory, TbList, TbMail } from "react-icons/tb";
+import { TbCategory, TbList, TbMail, TbUsersGroup } from "react-icons/tb";
 
 const InstructorDetails = () => {
 
     const params = useParams();
     const classes = useLoaderData();
     const [instructor, setInstructor] = useState(null);
-    console.log(instructor);
+
+    let enrolledStudents = 0;
+
+    if (classes) {
+        console.log(classes);
+        const total = classes.reduce((total, item) => total + item.enrolled, 0);
+        enrolledStudents = parseInt(total);
+        console.log(total);
+    }
 
     useEffect(() => {
         fetch(`http://localhost:5000/instructors/${params?.id}`)
@@ -38,7 +46,7 @@ const InstructorDetails = () => {
                                 <div className="card-body">
                                     <h2 className="text-3xl card-title">{instructor?.instructor}</h2>
                                     <br />
-                                    <div className="flex items-center mt-5">
+                                    <div className="flex items-center mt-8">
                                         <TbMail className="mr-2 text-xl" />
                                         <p>{instructor?.instructor_email}</p>
                                     </div>
@@ -49,6 +57,10 @@ const InstructorDetails = () => {
                                     <div className="flex items-center mt-2">
                                         <TbList className="mr-2 text-xl" />
                                         <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{instructor?.total_classes}</span></p>
+                                    </div>
+                                    <div className="flex items-center mt-2">
+                                        <TbUsersGroup className="mr-2 text-xl" />
+                                        <p><span className="font-medium">Enrolled Students:</span> <span className="text-base badge">{enrolledStudents}</span></p>
                                     </div>
                                 </div>
                             </div> : <>

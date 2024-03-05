@@ -52,7 +52,7 @@ const Routes = createBrowserRouter([
             {
                 path: "instructors/:id",
                 element: <InstructorDetails></InstructorDetails>,
-                loader: ({params}) => fetch(`http://localhost:5000/instructors/classes/${params.id}`)
+                loader: ({params}) => fetch(`https://chroma-craft-server.vercel.app/instructors/classes/${params.id}`)
             },
             {
                 path: "contact",
