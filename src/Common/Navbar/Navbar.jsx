@@ -11,7 +11,7 @@ import useSelected from '../../hooks/useSelected';
 
 const Navbar = () => {
 
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout, setIsEnrolled } = useContext(AuthContext);
     const [userData] = useUsers();
     const [selected] = useSelected();
 
@@ -19,6 +19,7 @@ const Navbar = () => {
         logout()
             .then(result => {
                 console.log(result);
+                setIsEnrolled(false);
                 Swal.fire({
                     position: "center",
                     icon: "success",

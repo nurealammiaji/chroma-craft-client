@@ -5,7 +5,7 @@ const useClasses = () => {
 
     const axiosPublic = useAxiosPublic();
 
-    const { data: classes, isLoading } = useQuery({
+    const { data: classes, refetch: refetchClasses, isLoading: classesLoading } = useQuery({
         queryKey: ['classes'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/classes`)
@@ -14,7 +14,7 @@ const useClasses = () => {
     })
 
 
-    return [classes, isLoading];
+    return [classes, refetchClasses, classesLoading];
 
 };
 

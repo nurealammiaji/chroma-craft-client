@@ -59,7 +59,7 @@ const EnrolledRow = ({ item, index }) => {
                 <div className="flex items-center gap-3">
                     <div className="avatar">
                         <div className="w-12 h-12 mask mask-squircle">
-                            <img src={class_image} alt={`Instructor Image`} />
+                            <img src={class_image} alt={`Class Image`} />
                         </div>
                     </div>
                     <div>

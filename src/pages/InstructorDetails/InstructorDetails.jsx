@@ -5,7 +5,7 @@ import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import bg from "../../assets/6.png"
-import { TbCategory, TbList, TbMail, TbUsersGroup } from "react-icons/tb";
+import { TbCategory, TbListDetails, TbMail, TbUsersGroup } from "react-icons/tb";
 
 const InstructorDetails = () => {
 
@@ -54,7 +54,7 @@ const InstructorDetails = () => {
                                         <p><span className="font-medium">Category:</span> <Link to={`/categories/${instructor?.category_id}`}><span className="text-base badge badge-accent badge-outline">{instructor?.category_name}</span></Link></p>
                                     </div>
                                     <div className="flex items-center mt-2">
-                                        <TbList className="mr-2 text-xl" />
+                                        <TbListDetails className="mr-2 text-xl" />
                                         <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{instructor?.total_classes}</span></p>
                                     </div>
                                     <div className="flex items-center mt-2">

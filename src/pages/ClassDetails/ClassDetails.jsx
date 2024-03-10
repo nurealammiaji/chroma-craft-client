@@ -31,7 +31,7 @@ const ClassDetails = () => {
     return (
         <div className="min-h-screen">
             <Helmet>
-                <title>Instructor Details || Chroma Craft</title>
+                <title>Class Details || Chroma Craft</title>
                 <link rel="canonical" href="https://chromacraftbd.web.app/" />
             </Helmet>
             <div>
@@ -100,13 +100,14 @@ const ClassDetails = () => {
                                 className="mySwiper"
                             >
                                 {
+                                    (reviews) &&
                                     reviews.map((item) => <SwiperSlide key={item._id}>
-                                        <div className="md:h-[350px] w-full md:grid grid-cols-2 shadow-xl card lg:card-side bg-base-100 rounded-lg">
-                                            <figure>
-                                                <img className="rounded-lg w-full max-h-[300px] min-h-[300px] md:h-full" src={item.user_image} alt="User Image" />
+                                        <div className="w-full grid-cols-2 border md:grid card lg:card-side">
+                                            <figure className="h-[400px]">
+                                                <img className="w-full h-full" src={item.user_image} alt="User Image" />
                                             </figure>
-                                            <div className="card-body text-left md:mt-8">
-                                                <h2 className="text-3xl card-title justify-center">{item.user}</h2>
+                                            <div className="text-left card-body md:mt-8">
+                                                <h2 className="justify-center text-3xl md:justify-start card-title">{item.user}</h2>
                                                 <br />
                                                 <div className="flex items-center mt-8">
                                                     <TbStar className="mr-2 text-xl" />
@@ -117,7 +118,7 @@ const ClassDetails = () => {
                                                         <TbMessage className="mr-2 text-xl" />
                                                         <p><span className="font-medium">User Comment:</span></p>
                                                     </div>
-                                                    <p className="mt-5 italic">{`" ${item.comment} "`}</p>
+                                                    <p className="mt-5 italic">{`"${item.comment}"`}</p>
                                                 </div>
                                             </div>
                                         </div>

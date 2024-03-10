@@ -8,7 +8,7 @@ const useUsers = () => {
     const { user, loading } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
 
-    const { data: userData, isLoading: userLoading } = useQuery({
+    const { data: userData, refetch: refetchUser, isLoading: userLoading } = useQuery({
         queryKey: ['users', user?.email],
         enabled: !loading,
         queryFn: async () => {
@@ -18,7 +18,7 @@ const useUsers = () => {
     })
 
     // console.log(data);
-    return [userData, userLoading];
+    return [userData, userLoading, refetchUser];
 };
 
 export default useUsers;

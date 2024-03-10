@@ -3,9 +3,11 @@ import useSelected from "../../../../hooks/useSelected";
 import Swal from "sweetalert2";
 import useUsers from "../../../../hooks/useUsers";
 
-const SelectedRow = ({ item, index }) => {
+const ClassRow = ({ item, index }) => {
 
-    const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
+    console.log(item);
+
+    const { _id, title, price, image, duration, category_name, category_id, instructor, instructor_id, instructor_email } = item;
 
     const [, refetchSelected] = useSelected();
     const [userData] = useUsers();
@@ -58,24 +60,24 @@ const SelectedRow = ({ item, index }) => {
                 <div className="flex items-center gap-3">
                     <div className="avatar">
                         <div className="w-12 h-12 mask mask-squircle">
-                            <img src={class_image} alt={`Class Image`} />
+                            <img src={image} alt={`Class Image`} />
                         </div>
                     </div>
                     <div>
-                        <div className="font-bold">{class_title}</div>
-                        <div className="text-sm opacity-50">Price: $ {class_price}</div>
+                        <Link to={`/classes/${_id}`} className="font-bold">{title}</Link>
+                        <div className="text-sm opacity-50">Price: $ {price}</div>
                     </div>
                 </div>
             </td>
             <td>
                 <span className="text-xs">Category:</span>
-                <span className="ml-1 badge badge-ghost badge-sm">{category_name}</span>
+                <Link to={`/categories/${category_id}`} className="ml-1 badge badge-ghost badge-sm">{category_name}</Link>
                 <br />
                 <span className="text-xs">Instructor:</span>
-                <span className="ml-1 text-xs text-neutral">{instructor_name}</span>
+                <Link to={`/instructors/${instructor_id}`} className="ml-1 text-xs text-neutral">{instructor}</Link>
             </td>
             <td>
-                <Link to={`/classes/${class_id}`} className="btn btn-xs btn-neutral">Details</Link>
+                <Link to={`/classes/${_id}`} className="btn btn-xs btn-neutral">Edit</Link>
             </td>
             <th>
                 <button onClick={() => handleDelete(_id)} className="btn btn-error btn-xs">Delete</button>
@@ -84,4 +86,4 @@ const SelectedRow = ({ item, index }) => {
     );
 };
 
-export default SelectedRow;
+export default ClassRow;

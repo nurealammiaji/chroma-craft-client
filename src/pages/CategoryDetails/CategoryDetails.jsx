@@ -5,7 +5,7 @@ import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import bg from "../../assets/6.png"
-import { TbList, TbUsersGroup } from "react-icons/tb";
+import { TbListDetails, TbUsersGroup } from "react-icons/tb";
 
 const CategoryDetails = () => {
 
@@ -47,7 +47,7 @@ const CategoryDetails = () => {
                                     <h2 className="text-4xl card-title">{category?.name}</h2>
                                     <br />
                                     <div className="flex items-center mt-2">
-                                        <TbList className="mr-2 text-xl" />
+                                        <TbListDetails className="mr-2 text-xl" />
                                         <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{classes?.length}</span></p>
                                     </div>
                                     <div className="flex items-center mt-2">
