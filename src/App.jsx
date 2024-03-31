@@ -15,7 +15,7 @@ function App() {
       <Footer></Footer>
       <ScrollToTop
         smooth
-        className='tooltip tooltip-bottom'
+        className='tooltip tooltip-bottom animate-bounce'
         data-tip='Back to Top'
         component={<TbCircleArrowUp className='mx-auto my-auto text-3xl' />}
       />

@@ -11,7 +11,7 @@ const ClassItem = ({ item }) => {
 
     const { _id, title, image, description, instructor, instructor_id, instructor_email, instructor_image, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
 
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const [userData] = useUsers();
     const [, refetchSelected] = useSelected();
     const [isEnrolled, setIsEnrolled] = useState(false);
@@ -30,6 +30,10 @@ const ClassItem = ({ item }) => {
                 .then(data => {
                     setIsEnrolled(data)
                 })
+                .catch
+        }
+        else {
+            user === null && setIsEnrolled(false)
         }
     }, [_id, userData, user]);
 
@@ -108,7 +112,7 @@ const ClassItem = ({ item }) => {
     }
 
     return (
-        <div style={{ background: `${(seat_capacity - enrolled) <= 0 ? 'rgb(252, 165, 165)' : null || (isEnrolled) ? 'rgb(144, 207, 148)' : null}` }} className="relative hover:motion-safe:animate-pulse border border-transparent hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
+        <div style={{ background: `${(seat_capacity - enrolled) <= 0 ? 'rgb(252, 165, 165)' : '' || (isEnrolled) ? 'rgb(144, 207, 148)' : '' }` }} className="relative hover:motion-safe:animate-pulse border border-transparent hover:border-neutral rounded-tl-[150px] rounded-br-[150px] shadow-xl">
             <div style={{ background: `url(${shape1}) no-repeat bottom right` }} className="w-full h-full rounded-tl-[150px] rounded-br-[150px]">
                 <figure>
                     <img className="h-[250px] w-11/12 rounded-tl-[150px] rounded-br-[150px] shadow-xl" src={image} alt={`Image of ${title}`} />
@@ -126,6 +130,8 @@ const ClassItem = ({ item }) => {
                     <p>Price: $ {price}</p>
                     <p>Seats: {seat_capacity}</p>
                     <p>Enrolled: {enrolled}</p>
+                    <p>User: {user?.email}</p>
+                    {console.log(user)}
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
                         <button onClick={selectHandler} disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false || userData?.role === "instructor" ? true : false || isEnrolled ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>
