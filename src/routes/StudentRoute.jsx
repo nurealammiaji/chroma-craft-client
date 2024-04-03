@@ -1,11 +1,11 @@
 import { DNA } from 'react-loader-spinner';
-import useUsers from '../hooks/useUsers';
+import useUser from '../hooks/useUser';
 import Swal from "sweetalert2";
 import { Navigate } from 'react-router-dom';
 
 const Student = ({ children }) => {
 
-    const [userData, userLoading] = useUsers();
+    const [userData, userLoading] = useUser();
 
     if (userLoading) {
         return <>

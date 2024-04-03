@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useUsers from "../../../../hooks/useUsers";
+import useUser from "../../../../hooks/useUser";
 import useEnrolled from '../../../../hooks/useEnrolled';
 
 const EnrolledRow = ({ item, index }) => {
@@ -8,7 +8,7 @@ const EnrolledRow = ({ item, index }) => {
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
     const [, refetchEnrolled] = useEnrolled();
-    const [userData] = useUsers();
+    const [userData] = useUser();
 
     const handleDeleteOrder = (_id) => {
         console.log("Delete: ", _id);

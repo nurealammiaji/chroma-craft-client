@@ -5,14 +5,14 @@ import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons
 import Swal from "sweetalert2";
 import logo from "/logo.png";
 import shape1 from "../../assets/shapes/art-protrait-01.png";
-import useUsers from "../../hooks/useUsers";
+import useUser from "../../hooks/useUser";
 import useSelected from '../../hooks/useSelected';
 
 
 const Navbar = () => {
 
     const { user, logout} = useContext(AuthContext);
-    const [userData] = useUsers();
+    const [userData] = useUser();
     const [selected] = useSelected();
 
     const logoutHandler = () => {

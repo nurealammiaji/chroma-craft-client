@@ -17,7 +17,7 @@ const ManageClasses = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Selected Classes"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Manage Classes"} background={shape}></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">
@@ -28,7 +28,7 @@ const ManageClasses = () => {
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Student</th>
+                                        <th>Class</th>
                                         <th>Information</th>
                                         <th>Action</th>
                                         <th>Action</th>

@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import shape1 from "../../assets/shapes/shape-10-2.png"
 import shape2 from "../../assets/shapes/shape-12-2.png"
-import useUsers from '../../hooks/useUsers';
+import useUser from '../../hooks/useUser';
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
@@ -12,7 +12,7 @@ const ClassCard = ({ item }) => {
     const { _id, title, image, description, instructor, instructor_id, instructor_email, instructor_image, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
 
     const { user } = useContext(AuthContext);
-    const [userData] = useUsers();
+    const [userData] = useUser();
     const [, refetchSelected] = useSelected();
     const location = useLocation();
     const navigate = useNavigate();

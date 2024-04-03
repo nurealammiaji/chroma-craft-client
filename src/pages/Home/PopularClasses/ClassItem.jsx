@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import shape1 from "../../../assets/shapes/shape-10-2.png"
 import shape2 from "../../../assets/shapes/shape-12-2.png"
-import useUsers from '../../../hooks/useUsers';
+import useUser from '../../../hooks/useUser';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import Swal from "sweetalert2";
@@ -11,8 +11,8 @@ const ClassItem = ({ item }) => {
 
     const { _id, title, image, description, instructor, instructor_id, instructor_email, instructor_image, duration, price, reviews, seat_capacity, enrolled, category_name, category_id, level, rating } = item;
 
-    const { user, logout } = useContext(AuthContext);
-    const [userData] = useUsers();
+    const { user } = useContext(AuthContext);
+    const [userData] = useUser();
     const [, refetchSelected] = useSelected();
     const [isEnrolled, setIsEnrolled] = useState(false);
     const location = useLocation();
@@ -130,7 +130,6 @@ const ClassItem = ({ item }) => {
                     <p>Price: $ {price}</p>
                     <p>Seats: {seat_capacity}</p>
                     <p>Enrolled: {enrolled}</p>
-                    <p>User: {user?.email}</p>
                     {console.log(user)}
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>

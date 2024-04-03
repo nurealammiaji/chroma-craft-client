@@ -28,6 +28,9 @@ import InstructorDetails from '../pages/InstructorDetails/InstructorDetails';
 import Payment from '../pages/Dashboard/StudentDashboard/Payment/Payment';
 import CategoryDetails from '../pages/CategoryDetails/CategoryDetails';
 import ClassDetails from '../pages/ClassDetails/ClassDetails';
+import AddClass from '../pages/Dashboard/InstructorDashboard/AddClass/AddClass';
+import AddedClasses from '../pages/Dashboard/InstructorDashboard/AddedClasses/AddedClasses';
+import ManageUsers from '../pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers';
 
 const Routes = createBrowserRouter([
     {
@@ -89,6 +92,14 @@ const Routes = createBrowserRouter([
                 element: <AdminRoute><AdminDashboard></AdminDashboard></AdminRoute>
             },
             {
+                path: "users",
+                element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
+            },
+            {
+                path: "classes",
+                element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
+            },
+            {
                 path: "instructors",
                 element: <AdminRoute><ManageInstructors></ManageInstructors></AdminRoute>
             },
@@ -97,16 +108,20 @@ const Routes = createBrowserRouter([
                 element: <AdminRoute><ManageStudents></ManageStudents></AdminRoute>
             },
             {
-                path: "classes",
-                element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>
-            },
-            {
                 path: "payments",
                 element: <AdminRoute><ManagePayments></ManagePayments></AdminRoute>
             },
             {
                 path: "instructor",
                 element: <InstructorRoute><InstructorDashboard></InstructorDashboard></InstructorRoute>
+            },
+            {
+                path: "add",
+                element: <InstructorRoute><AddClass></AddClass></InstructorRoute>
+            },
+            {
+                path: "added",
+                element: <InstructorRoute><AddedClasses></AddedClasses></InstructorRoute>
             },
             {
                 path: "student",

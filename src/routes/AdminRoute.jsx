@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import useUsers from "../hooks/useUsers";
+import useUser from "../hooks/useUser";
 import { DNA } from "react-loader-spinner";
 
 const AdminRoute = ({ children }) => {
 
-    const [userData, userLoading] = useUsers();
+    const [userData, userLoading] = useUser();
 
     if (userLoading) {
         return <>
