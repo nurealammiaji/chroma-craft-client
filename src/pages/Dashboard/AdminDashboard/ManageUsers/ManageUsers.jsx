@@ -5,24 +5,49 @@ import { DNA } from "react-loader-spinner";
 import UserRow from "./UserRow";
 import useUsers from "../../../../hooks/useUsers";
 import { useState } from "react";
+import { TbUser } from 'react-icons/tb';
 
 const ManageUsers = () => {
 
     const [users, refetchUsers] = useUsers();
     const [userInfo, setUserInfo] = useState({});
 
-    const handleUserEditModal = async (email) => {
+    const handleEditUserModal = async (email) => {
+        const clickedUser = users.find(item => item.email === email);
+        setUserInfo(clickedUser);
         document.getElementById('edit_user').showModal()
-        await fetch(`https://chroma-craft-server.vercel.app/users/${email}`)
-            .then(res => res.json())
-            .then(data => setUserInfo(data))
     }
 
     const handleUpdateUser = async (event) => {
         event.preventDefault();
         const form = event.target;
-        console.log(form);
+        const currentUser = {
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            image: form.image.value,
+            gender: form.gender.value,
+            dob: form.dob.value,
+            role: form.role.value
+        }
+        console.log(currentUser);
     }
+
+    const handleAddUser = async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const currentUser = {
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            image: form.image.value,
+            gender: form.gender.value,
+            dob: form.dob.value,
+            role: form.role.value
+        }
+        console.log(currentUser);
+    }
+
 
     return (
         <div className="min-h-screen">
@@ -54,7 +79,7 @@ const ManageUsers = () => {
                                     {/* row */}
                                     {
                                         (users) &&
-                                        users.map((item, index) => <UserRow key={item._id} index={index + 1} item={item} handleUserEdit={handleUserEditModal} ></UserRow>)
+                                        users.map((item, index) => <UserRow key={item._id} index={index + 1} item={item} handleUserEdit={handleEditUserModal} ></UserRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -79,9 +104,11 @@ const ManageUsers = () => {
                 </div>
                 <dialog id="edit_user" className="modal">
                     <div className="modal-box">
-                        <h3 className="text-lg font-bold">Edit User !</h3>
+                        <div className="flex items-center">
+                            <span><TbUser className="text-2xl font-bold" /></span>
+                            <h3 className="ml-3 text-xl font-bold"> Edit User</h3>
+                        </div>
                         <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
                             <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
                         </form>
                         <form onSubmit={handleUpdateUser}>
@@ -96,8 +123,22 @@ const ManageUsers = () => {
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Photo :</span>
+                                <span className="font-semibold">Phone :</span>
+                                <input type="text" name="phone" className="grow bg-base-100" placeholder={userInfo.phone} defaultValue={userInfo.phone} />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Image :</span>
                                 <input type="url" name="image" className="grow bg-base-100" placeholder={userInfo.image} defaultValue={userInfo.image} />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Gender :</span>
+                                <select name="gender" value={userInfo.gender ? userInfo.gender : false} className="grow bg-base-100">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="third">Third</option>
+                                </select>
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
@@ -107,7 +148,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Role :</span>
-                                <select name="role" value={userInfo.role} className="grow bg-base-100" id="">
+                                <select name="role" value={userInfo.role} className="grow bg-base-100">
                                     <option value="admin">Admin</option>
                                     <option value="instructor">Instructor</option>
                                     <option value="student">Student</option>
@@ -122,12 +163,63 @@ const ManageUsers = () => {
                 </dialog>
                 <dialog id="add_user" className="modal">
                     <div className="modal-box">
+                        <div className="flex items-center">
+                            <span><TbUser className="text-2xl font-bold" /></span>
+                            <h3 className="ml-3 text-xl font-bold"> Add User</h3>
+                        </div>
                         <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="absolute btn btn-sm btn-circle btn-ghost right-2 top-2">✕</button>
+                            <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
                         </form>
-                        <h3 className="text-lg font-bold">Add User!</h3>
-                        <p className="py-4">Press ESC key or click on ✕ button to close</p>
+                        <form onSubmit={handleAddUser}>
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Name :</span>
+                                <input type="text" name="name" className="grow bg-base-100" placeholder="type name here" />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Email :</span>
+                                <input type="email" name="email" className="grow bg-base-100" placeholder="type email here" />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Phone :</span>
+                                <input type="text" name="phone" className="grow bg-base-100" placeholder="type phone here" />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Image :</span>
+                                <input type="url" name="image" className="grow bg-base-100" placeholder="type image url here" />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Gender :</span>
+                                <select name="gender" className="grow bg-base-100">
+                                    <option disabled selected>Please Select</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="third">Third</option>
+                                </select>
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">DOB :</span>
+                                <input type="date" name="dob" className="grow bg-base-100" value={userInfo.dob ? userInfo.dob : false} />
+                            </label>
+                            <br />
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <span className="font-semibold">Role :</span>
+                                <select name="role" className="grow bg-base-100">
+                                    <option disabled selected>Please Select</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="instructor">Instructor</option>
+                                    <option value="student">Student</option>
+                                </select>
+                            </label>
+                            <br /><br />
+                            <div className="text-center">
+                                <button type="submit" className="btn btn-success">Update</button>
+                            </div>
+                        </form>
                     </div>
                 </dialog>
             </div>
