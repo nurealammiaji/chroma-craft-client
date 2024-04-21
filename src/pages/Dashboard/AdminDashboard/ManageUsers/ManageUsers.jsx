@@ -30,7 +30,7 @@ const ManageUsers = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/users/${email}`, {
+                fetch(`https://chroma-craft-server.vercel.app/users/${email}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -65,7 +65,7 @@ const ManageUsers = () => {
             role: data.role1
         }
         console.log("update", user);
-        fetch(`http://localhost:5000/users/${data.email1}`, {
+        fetch(`https://chroma-craft-server.vercel.app/users/${data.email1}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -99,7 +99,7 @@ const ManageUsers = () => {
             dob: data.dob2,
             role: data.role2
         }
-        fetch('http://localhost:5000/users', {
+        fetch('https://chroma-craft-server.vercel.app/users', {
             method: "POST",
             headers: {
                 "content-type": "application/json"

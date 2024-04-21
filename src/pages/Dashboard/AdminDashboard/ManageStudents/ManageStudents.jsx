@@ -29,7 +29,7 @@ const ManageStudents = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/students/${email}`, {
+                fetch(`https://chroma-craft-server.vercel.app/students/${email}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -64,7 +64,7 @@ const ManageStudents = () => {
             role: data.role1
         }
         console.log("update", student);
-        // fetch(`http://localhost:5000/students/${studentInfo.email}`, {
+        // fetch(`https://chroma-craft-server.vercel.app/students/${studentInfo.email}`, {
         //     method: "PATCH",
         //     headers: {
         //         "Content-Type": "application/json"
@@ -99,7 +99,7 @@ const ManageStudents = () => {
             role: data.role2
         }
         console.log(student);
-        // fetch('http://localhost:5000/students', {
+        // fetch('https://chroma-craft-server.vercel.app/students', {
         //     method: "POST",
         //     headers: {
         //         "content-type": "application/json"

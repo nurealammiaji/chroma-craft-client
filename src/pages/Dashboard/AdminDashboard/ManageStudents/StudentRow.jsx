@@ -9,7 +9,7 @@ const StudentRow = ({ item, index, deleteStudent, handleEditStudentModal }) => {
 
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:5000/enrolled?email=${email}`)
+            fetch(`https://chroma-craft-server.vercel.app/enrolled?email=${email}`)
                 .then(res => res.json())
                 .then(data => setEnrolledClasses(data))
         }
@@ -42,7 +42,7 @@ const StudentRow = ({ item, index, deleteStudent, handleEditStudentModal }) => {
                 <span className="text-xs text-neutral">{email}</span>
             </td>
             <td>
-                <Link to={`/dashboard/student-classes/${email}`} className="btn btn-xs btn-info btn-outline">{(enrolledClasses?.length) ? enrolledClasses?.length : 0} {enrolledClasses?.length === 0 || enrolledClasses?.length === 1 ? "Class" : "Classes"}</Link>
+                <Link to={`/dashboard/student-classes/${email}`} className="btn btn-xs btn-info btn-outline">{(enrolledClasses?.length) ? enrolledClasses?.length : 0} {(enrolledClasses?.length) > 1 ? "Classes" : "Class"}</Link>
             </td>
             <td>
                 <button onClick={() => handleEditStudentModal(email)} className="btn btn-xs btn-neutral">Edit</button>
