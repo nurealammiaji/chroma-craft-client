@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const StudentRow = ({ item, index }) => {
+const StudentRow = ({ item, index, deleteStudent, handleEditStudentModal }) => {
 
     const { name, email, image, gender, dob } = item;
+
+    const [enrolledClasses, setEnrolledClasses] = useState();
+
+    useEffect(() => {
+        if (email) {
+            fetch(`http://localhost:5000/enrolled?email=${email}`)
+                .then(res => res.json())
+                .then(data => setEnrolledClasses(data))
+        }
+    }, [email])
 
     return (
         <tr>
@@ -31,10 +42,13 @@ const StudentRow = ({ item, index }) => {
                 <span className="text-xs text-neutral">{email}</span>
             </td>
             <td>
-                <Link to={"/dashboard/admin/instructor-details"} className="btn btn-xs btn-neutral">Edit</Link>
+                <Link to={`/dashboard/student-classes/${email}`} className="btn btn-xs btn-info btn-outline">{(enrolledClasses?.length) ? enrolledClasses?.length : 0} {enrolledClasses?.length === 0 || enrolledClasses?.length === 1 ? "Class" : "Classes"}</Link>
+            </td>
+            <td>
+                <button onClick={() => handleEditStudentModal(email)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <th>
-                <button className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => deleteStudent(email)} className="btn btn-error btn-xs">Delete</button>
             </th>
         </tr>
     );

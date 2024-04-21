@@ -5,7 +5,7 @@ const useStudents = () => {
 
     const axiosPublic = useAxiosPublic();
 
-    const { data: students, isLoading } = useQuery({
+    const { data: students, isLoading: studentsLoading, refetch: refetchStudents } = useQuery({
         queryKey: ['students'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/students`)
@@ -13,7 +13,7 @@ const useStudents = () => {
         }
     })
 
-    return [students, isLoading];
+    return [students, studentsLoading, refetchStudents];
 
 };
 

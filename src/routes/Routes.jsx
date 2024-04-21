@@ -31,6 +31,7 @@ import ClassDetails from '../pages/ClassDetails/ClassDetails';
 import AddClass from '../pages/Dashboard/InstructorDashboard/AddClass/AddClass';
 import AddedClasses from '../pages/Dashboard/InstructorDashboard/AddedClasses/AddedClasses';
 import ManageUsers from '../pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers';
+import StudentClasses from '../pages/Dashboard/AdminDashboard/ManageStudents/StudentClasses/StudentClasses';
 
 const Routes = createBrowserRouter([
     {
@@ -106,6 +107,11 @@ const Routes = createBrowserRouter([
             {
                 path: "students",
                 element: <AdminRoute><ManageStudents></ManageStudents></AdminRoute>
+            },
+            {
+                path: "student-classes/:email",
+                element: <AdminRoute><StudentClasses></StudentClasses></AdminRoute>,
+                loader: ({params}) => fetch(`https://chroma-craft-server.vercel.app/enrolled?email=${params.email}`)
             },
             {
                 path: "payments",

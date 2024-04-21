@@ -6,48 +6,119 @@ import UserRow from "./UserRow";
 import useUsers from "../../../../hooks/useUsers";
 import { useState } from "react";
 import { TbUser } from 'react-icons/tb';
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
+
+    const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
+
+    const { register: register2, handleSubmit: handleSubmit2, watch: watch2, reset: reset2, formState: { errors: errors2 } } = useForm();
 
     const [users, refetchUsers] = useUsers();
     const [userInfo, setUserInfo] = useState({});
 
-    const handleEditUserModal = async (email) => {
+    const deleteUser = (email) => {
+        console.log("delete", email);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to delete this user",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff0000",
+            cancelButtonColor: "#008000",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/users/${email}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(result => {
+                        console.log(result);
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Deleted Successfully !!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        refetchUsers();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        });
+    }
+
+    const updateStudent = (data) => {
+        const user = {
+            name: data.name1,
+            email: data.email1,
+            phone: data.phone1,
+            image: data.image1,
+            gender: data.gender1,
+            dob: data.dob1,
+            role: data.role1
+        }
+        console.log("update", user);
+        fetch(`http://localhost:5000/users/${data.email1}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(result => {
+                console.log(result);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Updated Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                reset1();
+                refetchUsers();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    };
+
+    const addStudent = (data) => {
+        const user = {
+            name: data.name2,
+            email: data.email2,
+            phone: data.phone2,
+            image: data.image2,
+            gender: data.gender2,
+            dob: data.dob2,
+            role: data.role2
+        }
+        fetch('http://localhost:5000/users', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+            })
+        reset2();
+        refetchUsers();
+    };
+
+    const handleEditUserModal = (email) => {
         const clickedUser = users.find(item => item.email === email);
         setUserInfo(clickedUser);
         document.getElementById('edit_user').showModal()
     }
-
-    const handleUpdateUser = async (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const currentUser = {
-            name: form.name.value,
-            email: form.email.value,
-            phone: form.phone.value,
-            image: form.image.value,
-            gender: form.gender.value,
-            dob: form.dob.value,
-            role: form.role.value
-        }
-        console.log(currentUser);
-    }
-
-    const handleAddUser = async (event) => {
-        event.preventDefault();
-        const form = event.target;
-        const currentUser = {
-            name: form.name.value,
-            email: form.email.value,
-            phone: form.phone.value,
-            image: form.image.value,
-            gender: form.gender.value,
-            dob: form.dob.value,
-            role: form.role.value
-        }
-        console.log(currentUser);
-    }
-
 
     return (
         <div className="min-h-screen">
@@ -79,7 +150,7 @@ const ManageUsers = () => {
                                     {/* row */}
                                     {
                                         (users) &&
-                                        users.map((item, index) => <UserRow key={item._id} index={index + 1} item={item} handleUserEdit={handleEditUserModal} ></UserRow>)
+                                        users.map((item, index) => <UserRow key={item._id} index={index + 1} item={item} handleEditUser={handleEditUserModal} deleteUser={deleteUser} ></UserRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -111,30 +182,30 @@ const ManageUsers = () => {
                         <form method="dialog">
                             <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
                         </form>
-                        <form onSubmit={handleUpdateUser}>
+                        <form onSubmit={handleSubmit1(updateStudent)}>
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Name :</span>
-                                <input type="text" name="name" className="grow bg-base-100" placeholder={userInfo.name} defaultValue={userInfo.name} />
+                                <input defaultValue={userInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="grow bg-base-100" placeholder={userInfo.name} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Email :</span>
-                                <input type="email" name="email" className="grow bg-base-100" placeholder={userInfo.email} defaultValue={userInfo.email} />
+                                <input type="email" name="email1" className="grow bg-base-100" placeholder={userInfo.email} defaultValue={userInfo.email} {...register1("email1", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Phone :</span>
-                                <input type="text" name="phone" className="grow bg-base-100" placeholder={userInfo.phone} defaultValue={userInfo.phone} />
+                                <input type="text" name="phone1" className="grow bg-base-100" placeholder={userInfo.phone} defaultValue={userInfo.phone} {...register1("phone1", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Image :</span>
-                                <input type="url" name="image" className="grow bg-base-100" placeholder={userInfo.image} defaultValue={userInfo.image} />
+                                <input type="url" name="image1" className="grow bg-base-100" placeholder={userInfo.image} defaultValue={userInfo.image} {...register1("image1", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Gender :</span>
-                                <select name="gender" value={userInfo.gender ? userInfo.gender : false} className="grow bg-base-100">
+                                <select name="gender1" value={userInfo.gender ? userInfo.gender : false} className="grow bg-base-100" {...register1("gender1", { required: true })}>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="third">Third</option>
@@ -143,12 +214,12 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">DOB :</span>
-                                <input type="date" name="dob" className="grow bg-base-100" value={userInfo.dob ? userInfo.dob : false} />
+                                <input type="date" name="dob1" className="grow bg-base-100" value={userInfo.dob ? userInfo.dob : false} {...register1("dob1", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Role :</span>
-                                <select name="role" value={userInfo.role} className="grow bg-base-100">
+                                <select name="role1" value={userInfo.role} className="grow bg-base-100" {...register1("role1", { required: true })}>
                                     <option value="admin">Admin</option>
                                     <option value="instructor">Instructor</option>
                                     <option value="student">Student</option>
@@ -165,36 +236,35 @@ const ManageUsers = () => {
                     <div className="modal-box">
                         <div className="flex items-center">
                             <span><TbUser className="text-2xl font-bold" /></span>
-                            <h3 className="ml-3 text-xl font-bold"> Add User</h3>
+                            <h3 className="ml-3 text-xl font-bold">Add User</h3>
                         </div>
                         <form method="dialog">
                             <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
                         </form>
-                        <form onSubmit={handleAddUser}>
+                        <form onSubmit={handleSubmit2(addStudent)}>
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Name :</span>
-                                <input type="text" name="name" className="grow bg-base-100" placeholder="type name here" />
+                                <input {...register2("name2", { required: true })} type="text" name="name2" className="grow bg-base-100" placeholder="type name here" />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Email :</span>
-                                <input type="email" name="email" className="grow bg-base-100" placeholder="type email here" />
+                                <input type="email" name="email2" className="grow bg-base-100" placeholder="type email here" {...register2("email2", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Phone :</span>
-                                <input type="text" name="phone" className="grow bg-base-100" placeholder="type phone here" />
+                                <input type="text" name="phone2" className="grow bg-base-100" placeholder="type phone here" {...register2("phone2", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Image :</span>
-                                <input type="url" name="image" className="grow bg-base-100" placeholder="type image url here" />
+                                <input type="url" name="image2" className="grow bg-base-100" placeholder="type image url here" {...register2("image2", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Gender :</span>
-                                <select name="gender" className="grow bg-base-100">
-                                    <option disabled selected>Please Select</option>
+                                <select name="gender2" className="grow bg-base-100" {...register2("gender2", { required: true })}>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                     <option value="third">Third</option>
@@ -203,13 +273,12 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">DOB :</span>
-                                <input type="date" name="dob" className="grow bg-base-100" value={userInfo.dob ? userInfo.dob : false} />
+                                <input type="date" name="dob2" className="grow bg-base-100" defaultValue={userInfo.dob ? userInfo.dob : false} {...register2("dob2", { required: true })} />
                             </label>
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Role :</span>
-                                <select name="role" className="grow bg-base-100">
-                                    <option disabled selected>Please Select</option>
+                                <select name="role2" className="grow bg-base-100" {...register2("role2", { required: true })} >
                                     <option value="admin">Admin</option>
                                     <option value="instructor">Instructor</option>
                                     <option value="student">Student</option>
@@ -217,7 +286,7 @@ const ManageUsers = () => {
                             </label>
                             <br /><br />
                             <div className="text-center">
-                                <button type="submit" className="btn btn-success">Update</button>
+                                <button type="submit" className="btn btn-success">Add</button>
                             </div>
                         </form>
                     </div>

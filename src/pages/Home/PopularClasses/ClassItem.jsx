@@ -130,7 +130,6 @@ const ClassItem = ({ item }) => {
                     <p>Price: $ {price}</p>
                     <p>Seats: {seat_capacity}</p>
                     <p>Enrolled: {enrolled}</p>
-                    {console.log(user)}
                     <div className="justify-start card-actions">
                         <Link to={`/classes/${_id}`} className="mt-5 btn btn-neutral btn-sm">Details</Link>
                         <button onClick={selectHandler} disabled={seat_capacity - enrolled <= 0 || userData?.role === "admin" ? true : false || userData?.role === "instructor" ? true : false || isEnrolled ? true : false} className="mt-5 btn btn-secondary btn-sm">Select</button>

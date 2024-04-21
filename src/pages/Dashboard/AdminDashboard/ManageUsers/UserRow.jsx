@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
-
-const UserRow = ({ item, index, handleUserEdit }) => {
+const UserRow = ({ item, index, handleEditUser, deleteUser }) => {
 
     const { _id, name, email, image, gender, dob, role } = item;
 
@@ -34,10 +32,10 @@ const UserRow = ({ item, index, handleUserEdit }) => {
                 <p className="badge badge-accent">{role}</p>
             </td>
             <td>
-                <button onClick={() => handleUserEdit(email)} className="btn btn-xs btn-neutral">Edit</button>
+                <button onClick={() => handleEditUser(email)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <td>
-                <button className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => deleteUser(email)} className="btn btn-error btn-xs">Delete</button>
             </td>
         </tr>
     );

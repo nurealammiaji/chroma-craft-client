@@ -5,15 +5,12 @@ import useUser from "../../../../hooks/useUser";
 
 const ClassRow = ({ item, index }) => {
 
-    console.log(item);
-
     const { _id, title, price, image, duration, category_name, category_id, instructor, instructor_id, instructor_email } = item;
 
     const [, refetchSelected] = useSelected();
     const [userData] = useUser();
 
     const handleDelete = (_id) => {
-        console.log("Delete: ", _id);
         Swal.fire({
             title: "Are you sure?",
             text: "Do you want to delete this class",
