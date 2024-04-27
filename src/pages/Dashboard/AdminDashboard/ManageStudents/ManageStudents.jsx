@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import useStudents from '../../../../hooks/useStudents';
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
-import shape from "../../../../assets/6.png"
+import shape from "../../../../assets/6.png";
 import { DNA } from "react-loader-spinner";
 import StudentRow from './StudentRow';
 import { TbUser } from "react-icons/tb";
@@ -150,7 +150,7 @@ const ManageStudents = () => {
                                     {/* row */}
                                     {
                                         (students) &&
-                                        students.map((item, index) => <StudentRow key={item._id} index={index + 1} item={item} deleteStudent={deleteStudent} handleEditStudentModal={handleEditStudentModal}></StudentRow>)
+                                        students.map((item, index) => <StudentRow key={item._id} index={index + 1} item={item} deleteStudent={deleteStudent} handleEditStudentModal={handleEditStudentModal} ></StudentRow>)
                                     }
                                 </tbody>
                             </table> :
