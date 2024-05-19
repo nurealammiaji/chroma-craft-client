@@ -73,7 +73,6 @@ const ClassItem = ({ item }) => {
                             position: "center",
                             icon: "success",
                             title: "Selected Successfully !!",
-                            text: `${userData?.name}, you selected the class successfully`,
                             showConfirmButton: false,
                             timer: 1500
                         });
