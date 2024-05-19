@@ -2,7 +2,7 @@ import { TbCircleArrowRight } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import shape from "../../../assets/shapes/art-protrait-03.png"
 
-const InstructorItem = ({ item }) => {
+const PopularInstructor = ({ item }) => {
 
     const { _id, instructor_id, instructor, instructor_email, instructor_image, total_classes, classes_name, category_name, category_id } = item;
 
@@ -27,4 +27,4 @@ const InstructorItem = ({ item }) => {
     );
 };
 
-export default InstructorItem;
+export default PopularInstructor;

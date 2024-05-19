@@ -1,11 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useLoaderData, useParams } from "react-router-dom";
-import ClassCard from "./ClassCard";
 import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import bg from "../../assets/6.png"
 import { TbListDetails, TbUsersGroup } from "react-icons/tb";
+import ClassCard from '../../components/ClassCard/ClassCard';
 
 const CategoryDetails = () => {
 

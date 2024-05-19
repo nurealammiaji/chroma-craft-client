@@ -2,8 +2,8 @@ import { Helmet } from "react-helmet-async";
 import useClasses from '../../hooks/useClasses';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import bg from "../../assets/headers/classes.jpg";
-import Class from './Class';
 import { DNA } from "react-loader-spinner";
+import ClassCard from "../../components/ClassCard/ClassCard";
 
 const Classes = () => {
 
@@ -29,7 +29,7 @@ const Classes = () => {
                             <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                                 {
                                     (sortedClasses) &&
-                                    sortedClasses.map(item => <Class key={item._id} item={item}></Class>)
+                                    sortedClasses.map(item => <ClassCard key={item._id} item={item}></ClassCard>)
                                 }
                             </div> : <>
                                 <div className="flex items-center justify-center">
