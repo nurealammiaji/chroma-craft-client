@@ -1,4 +1,3 @@
-import shape from "../../../assets/6.png";
 import { DNA } from "react-loader-spinner";
 import useInstructors from "../../../hooks/useInstructors";
 import SectionHeader from '../../../components/SectionHeader/SectionHeader';
@@ -12,7 +11,7 @@ const PopularInstructors = () => {
     return (
         <div>
             <div>
-                <SectionHeader title={"Popular Instructors"} background={shape}></SectionHeader>
+                <SectionHeader title={"Popular Instructors"} ></SectionHeader>
                 <br /><br />
                 <div>
                     {

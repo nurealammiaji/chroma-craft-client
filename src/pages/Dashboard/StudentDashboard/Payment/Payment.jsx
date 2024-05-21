@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-import shape from "../../../../assets/6.png"
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -17,7 +16,7 @@ const Payment = () => {
             </Helmet>
             <div className="w-screen p-5 mx-auto md:max-w-screen-sm">
                 <div className="mt-5">
-                    <SectionHeader title={"Payment"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Payment"}></SectionHeader>
                 </div>
                 <div>
                     <Elements stripe={stripePromise}>

@@ -17,8 +17,8 @@ const SelectedRow = ({ item, index }) => {
             text: "Do you want to delete this class",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#ff0000",
-            cancelButtonColor: "#008000",
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {

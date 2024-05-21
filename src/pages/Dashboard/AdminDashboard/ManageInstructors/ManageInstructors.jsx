@@ -3,7 +3,6 @@ import useInstructors from '../../../../hooks/useInstructors';
 import InstructorRow from "./InstructorRow";
 import { DNA } from "react-loader-spinner";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
-import shape from "../../../../assets/6.png"
 import { Link } from "react-router-dom";
 
 const ManageInstructors = () => {
@@ -18,7 +17,7 @@ const ManageInstructors = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Manage Instructors"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Manage Instructors"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">

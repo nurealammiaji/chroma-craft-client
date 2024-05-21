@@ -17,8 +17,8 @@ const EnrolledRow = ({ item, index }) => {
             text: "Do you want to delete this class",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#ff0000",
-            cancelButtonColor: "#008000",
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
@@ -76,7 +76,10 @@ const EnrolledRow = ({ item, index }) => {
                 <span className="ml-1 text-xs text-neutral">{instructor_name}</span>
             </td>
             <td>
-                <Link to={`/classes/${class_id}`} className="btn btn-xs btn-neutral">Details</Link>
+                <Link to={`/classes/${class_id}`} className="w-auto btn btn-xs btn-info">Start</Link>
+            </td>
+            <td>
+                <button className="w-auto btn btn-xs btn-neutral">Review</button>
             </td>
             <th>
                 <button onClick={() => handleDeleteOrder(_id)} className="btn btn-error btn-xs">Delete</button>

@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import { Link, useLoaderData } from "react-router-dom";
 import { DNA } from "react-loader-spinner";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
-import bg from "../../assets/6.png"
 import { TbCategory, TbClock, TbMessage, TbStar, TbUser, TbUsersGroup } from "react-icons/tb";
 
 import { useRef } from 'react';
@@ -78,7 +77,7 @@ const ClassDetails = () => {
                 </div>
                 <br /><br />
                 <div>
-                    <SectionHeader title={"Class Reviews"} background={bg} ></SectionHeader>
+                    <SectionHeader title={"Class Reviews"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="w-11/12 mx-auto">

@@ -1,5 +1,6 @@
+import background from '../../assets/6.png';
 
-const SectionHeader = ({ title, background }) => {
+const SectionHeader = ({ title }) => {
     return (
         <div>
             <div className="text-center" style={{ background: `url(${background}) center no-repeat` }}>

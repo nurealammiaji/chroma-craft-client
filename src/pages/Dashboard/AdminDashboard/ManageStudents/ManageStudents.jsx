@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import useStudents from '../../../../hooks/useStudents';
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
-import shape from "../../../../assets/6.png";
 import { DNA } from "react-loader-spinner";
 import StudentRow from './StudentRow';
 import { TbUser } from "react-icons/tb";
@@ -24,8 +23,8 @@ const ManageStudents = () => {
             text: "Do you want to delete this user",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#ff0000",
-            cancelButtonColor: "#008000",
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
@@ -128,7 +127,7 @@ const ManageStudents = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Manage Students"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Manage Students"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">

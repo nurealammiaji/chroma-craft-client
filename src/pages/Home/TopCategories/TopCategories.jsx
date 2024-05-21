@@ -1,6 +1,5 @@
 import Category from "./Category";
 import { DNA } from "react-loader-spinner";
-import shape from "../../../assets/6.png";
 import SectionHeader from '../../../components/SectionHeader/SectionHeader';
 import useCategories from '../../../hooks/useCategories';
 
@@ -11,7 +10,7 @@ const TopCategories = () => {
 
     return (
         <div>
-            <SectionHeader title={"Top Categories"} background={shape}></SectionHeader>
+            <SectionHeader title={"Top Categories"} ></SectionHeader>
             <br /><br />
             <div>
                 {

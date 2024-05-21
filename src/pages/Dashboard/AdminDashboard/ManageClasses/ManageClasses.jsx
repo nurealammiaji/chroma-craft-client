@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { DNA } from "react-loader-spinner";
-import shape from "../../../../assets/6.png"
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import useClasses from '../../../../hooks/useClasses';
 import ClassRow from './ClassRow';
@@ -17,7 +16,7 @@ const ManageClasses = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Manage Classes"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Manage Classes"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">

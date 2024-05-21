@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { DNA } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import shape from "../../../../assets/6.png"
 import SelectedRow from './SelectedRow';
 import useSelected from "../../../../hooks/useSelected";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
@@ -23,7 +22,7 @@ const SelectedClass = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Selected Classes"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Selected Classes"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">

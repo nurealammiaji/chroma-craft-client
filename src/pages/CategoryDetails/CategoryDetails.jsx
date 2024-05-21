@@ -3,7 +3,6 @@ import { useLoaderData, useParams } from "react-router-dom";
 import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
-import bg from "../../assets/6.png"
 import { TbListDetails, TbUsersGroup } from "react-icons/tb";
 import ClassCard from '../../components/ClassCard/ClassCard';
 
@@ -74,7 +73,7 @@ const CategoryDetails = () => {
                 </div>
                 <br /><br />
                 <div>
-                    <SectionHeader title={"Category's Classes"} background={bg} ></SectionHeader>
+                    <SectionHeader title={"Category's Classes"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="w-11/12 mx-auto">

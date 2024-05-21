@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { DNA } from "react-loader-spinner";
 import { Link } from "react-router-dom";
-import shape from "../../../../assets/6.png"
 import EnrolledRow from './EnrolledRow';
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import useEnrolled from '../../../../hooks/useEnrolled';
@@ -23,7 +22,7 @@ const EnrolledClass = () => {
             </Helmet>
             <div className="w-screen p-5 md:w-full">
                 <div className="mt-5">
-                    <SectionHeader title={"Enrolled Classes"} background={shape}></SectionHeader>
+                    <SectionHeader title={"Enrolled Classes"} ></SectionHeader>
                 </div>
                 <br /><br />
                 <div className="overflow-x-auto">
@@ -36,6 +35,7 @@ const EnrolledClass = () => {
                                         <th>SN</th>
                                         <th>Student</th>
                                         <th>Information</th>
+                                        <th>Action</th>
                                         <th>Action</th>
                                         <th>Action</th>
                                     </tr>
@@ -70,17 +70,14 @@ const EnrolledClass = () => {
                     <div className="my-5 md:my-0">
                         <h4 className="p-4 font-medium text-neutral badge badge-success badge-outline">Total: $ {totalAmount}</h4>
                     </div>
-                    <div>
-                        {
-                            (enrolled?.length === 0) ?
+                    {
+                        (enrolled?.length === 0) ?
+                            <div>
                                 <Link to={"/dashboard/selected"}>
                                     <button className="mt-5 md:mt-0 btn btn-sm btn-secondary">Enroll Class</button>
-                                </Link> :
-                                <Link to={"/dashboard"}>
-                                    <button className="mt-5 md:mt-0 btn btn-sm btn-secondary" disabled={(enrolled?.length === 0) ? true : false}>Start Now</button>
                                 </Link>
-                        }
-                    </div>
+                            </div> : null
+                    }
                 </div>
             </div>
         </div>
