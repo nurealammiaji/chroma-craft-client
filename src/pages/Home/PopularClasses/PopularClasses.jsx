@@ -5,11 +5,11 @@ import PopularClass from "./PopularClass";
 
 const PopularClasses = () => {
 
-    const [classes] = useClasses();
-    let sortedClasses;
+    const [approvedClasses] = useClasses();
 
-    if (classes) {
-        sortedClasses = classes.slice().sort((a, b) => b.enrolled - a.enrolled);
+    let sortedClasses;
+    if (approvedClasses) {
+        sortedClasses = approvedClasses.slice().sort((a, b) => b.enrolled - a.enrolled);
     }
 
     return (
@@ -18,7 +18,7 @@ const PopularClasses = () => {
             <br /><br />
             <div>
                 {
-                    (classes) ?
+                    (approvedClasses) ?
                         <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                             {
                                 (sortedClasses) &&

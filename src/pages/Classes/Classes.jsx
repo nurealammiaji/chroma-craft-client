@@ -7,11 +7,11 @@ import ClassCard from "../../components/ClassCard/ClassCard";
 
 const Classes = () => {
 
-    const [classes] = useClasses();
-    let sortedClasses;
+    const [approvedClasses] = useClasses();
 
-    if (classes) {
-        sortedClasses = classes.slice().sort((a, b) => b.enrolled - a.enrolled);
+    let sortedClasses;
+    if (approvedClasses) {
+        sortedClasses = approvedClasses.slice().sort((a, b) => b.enrolled - a.enrolled);
     }
 
     return (
@@ -25,11 +25,11 @@ const Classes = () => {
                 <br /><br />
                 <div className="w-11/12 mx-auto">
                     {
-                        (classes) ?
+                        (approvedClasses) ?
                             <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                                 {
                                     (sortedClasses) &&
-                                    sortedClasses.map(item => <ClassCard key={item._id} item={item}></ClassCard>)
+                                    sortedClasses.map(item => <ClassCard key={item._id} item={item} ></ClassCard>)
                                 }
                             </div> : <>
                                 <div className="flex items-center justify-center">

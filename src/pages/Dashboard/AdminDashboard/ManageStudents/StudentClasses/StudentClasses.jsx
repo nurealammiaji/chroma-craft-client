@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import useClasses from '../../../../../hooks/useClasses';
 import { useState } from "react";
 import useStudents from "../../../../../hooks/useStudents";
+import SectionHeader from "../../../../../components/SectionHeader/SectionHeader";
 
 const StudentClasses = () => {
 
@@ -58,10 +59,12 @@ const StudentClasses = () => {
             </Helmet>
             <div className="w-11/12 min-h-screen mx-auto">
                 <br /><br />
+                <SectionHeader title={"Student's Enrolled Classes"}></SectionHeader>
+                <br /><br />
                 <div>
                     {
                         (enrolledClasses) ?
-                            <div className="grid gap-5 md:grid-cols-2">
+                            <div className="grid gap-10 md:grid-cols-2">
                                 {
                                     (enrolledClasses) &&
                                     enrolledClasses.map(item => <Class key={item._id} item={item}></Class>)

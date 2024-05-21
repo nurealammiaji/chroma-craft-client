@@ -13,11 +13,14 @@ const InstructorDetails = () => {
     const [instructor, setInstructor] = useState(null);
 
     let enrolledStudents = 0;
-
     if (classes) {
-        console.log(classes);
         const total = classes.reduce((total, item) => total + item.enrolled, 0);
         enrolledStudents = parseInt(total);
+    }
+
+    let approvedClasses;
+    if (classes) {
+        approvedClasses = classes.filter(item => item.status === "approved");
     }
 
     useEffect(() => {
@@ -85,8 +88,8 @@ const InstructorDetails = () => {
                         (classes) ?
                             <div className="grid gap-5 md:grid-cols-3">
                                 {
-                                    (classes) &&
-                                    classes.map(item => <ClassCard key={item._id} item={item}></ClassCard>)
+                                    (approvedClasses) &&
+                                    approvedClasses.map(item => <ClassCard key={item._id} item={item}></ClassCard>)
                                 }
                             </div> : <>
                                 <div className="flex items-center justify-center">
