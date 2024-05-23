@@ -1,29 +1,39 @@
 import { Helmet } from "react-helmet-async";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import { useForm } from "react-hook-form";
+import useUser from '../../../../hooks/useUser';
+import useClasses from '../../../../hooks/useClasses';
 
 const AddClass = () => {
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [userData] = useUser();
+    const [classes] = useClasses();
 
-    const handleEmailRegister = (data) => {
-        console.log(data);
-        const name = data.name;
-        const photo = data.photo;
-        const gender = data.gender;
-        const dob = data.dob;
-        const email = data.email;
-        const phone = data.phone;
-        const password = data.password;
-        const user = {
-            name: name,
-            email: email,
-            phone: phone,
-            image: photo,
-            gender: gender,
-            dob: dob,
-            role: "student",
+    const category = watch("category");
+
+    const handleAddClass = (data) => {
+        const newClass = {
+            course_id: parseInt(classes?.length + 1),
+            title: data?.title,
+            description: data?.description,
+            instructor: userData?.name,
+            instructor_id: userData?._id,
+            instructor_email: userData?.email,
+            instructor_image: userData?.image,
+            duration: parseInt(data?.duration),
+            price: parseFloat(data?.price),
+            seat_capacity: parseInt(data?.seat),
+            enrolled: 0,
+            level: data?.level,
+            rating: parseFloat(0.0),
+            image: data?.image,
+            category_id: parseInt(`${category === 'Painting' && 1 || category === 'Drawing' && 2 || category === 'Sculpture' && 3 || category === 'Digital Art' && 4 || category === 'Handmade Crafts' && 5}`),
+            category_name: data?.category,
+            reviews: [],
+            status: "pending"
         };
+        console.log(newClass);
     }
 
     return (
@@ -38,118 +48,138 @@ const AddClass = () => {
                 </div>
                 <br /><br />
                 <div className="w-11/12 min-h-screen mx-auto">
-                    <form onSubmit={handleSubmit(handleEmailRegister)} className="w-full md:w-96 lg:w-[30rem]">
-                        <div className="min-w-full form-control">
+                    <form onSubmit={handleSubmit(handleAddClass)} className="w-full md:w-96 lg:w-[30rem]">
+                        <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Name</span>
+                                <span className="label-text">Class Title</span>
                             </label>
-                            <input {...register("name", { required: true })}
+                            <input {...register("title", { required: true })}
                                 type="text"
-                                placeholder="name"
-                                name="name"
+                                placeholder="type class title"
+                                name="title"
                                 className="input input-bordered"
                             />
-                            {errors.name?.type === 'required' && <label className="label">
-                                <span className="text-error">Name is required !!</span>
+                            {errors.title?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Title is required !!</span>
                             </label>}
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Photo URL</span>
+                                <span className="label-text">Class Image URL</span>
                             </label>
-                            <input {...register("photo", { required: true })}
+                            <input {...register("image", { required: true })}
                                 type="url"
                                 placeholder="https://"
-                                name="photo"
+                                name="image"
                                 className="input input-bordered"
                             />
-                            {errors.photo?.type === 'required' && <label className="label">
-                                <span className="text-error">Photo URL is required !!</span>
+                            {errors.image?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Image URL is required !!</span>
                             </label>}
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Date of Birth</span>
+                                <span className="label-text">Class Description</span>
                             </label>
-                            <input {...register("dob", { required: true })}
-                                type="date"
-                                placeholder="date of birth"
-                                name="dob"
-                                pattern="\d{4}-\d{2}-\d{2}"
-                                className="input input-bordered"
-                            />
-                            {errors.dob?.type === 'required' && <label className="label">
-                                <span className="text-error">Date of Birth is required !!</span>
-                            </label>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Gender</span>
-                            </label>
-                            <select {...register("gender", { required: true })}
+                            <textarea {...register("description", { required: true })}
                                 type="text"
-                                placeholder="gender"
-                                name="gender"
+                                placeholder="type class description"
+                                name="description"
+                                rows="4"
+                                className="textarea textarea-bordered"
+                            />
+                            {errors.title?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Description is required !!</span>
+                            </label>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Class Price</span>
+                            </label>
+                            <input {...register("price", { required: true })}
+                                type="number"
+                                placeholder="type class price"
+                                name="price"
+                                className="input input-bordered"
+                                min="0"
+                            />
+                            {errors.price?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Price is required !!</span>
+                            </label>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Class Duration (Weeks)</span>
+                            </label>
+                            <input {...register("duration", { required: true })}
+                                type="number"
+                                placeholder="type class duration"
+                                name="duration"
+                                className="input input-bordered"
+                                min="0"
+                            />
+                            {errors.duration?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Duration is required !!</span>
+                            </label>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Seat Capacity</span>
+                            </label>
+                            <input {...register("seat", { required: true })}
+                                type="number"
+                                placeholder="Type Seat capacity"
+                                name="seat"
+                                min="0"
+                                className="input input-bordered"
+                            />
+                            {errors.seat?.type === 'required' && <label className="label">
+                                <span className="text-error">Seat Capacity is required !!</span>
+                            </label>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Class Level</span>
+                            </label>
+                            <select {...register("level", { required: true })}
+                                type="text"
+                                placeholder="select class level"
+                                name="level"
                                 className="select select-bordered"
                             >
-                                <option value="">select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="third">Third</option>
+                                <option value="">select level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="All Levels">All Levels</option>
                             </select>
-                            {errors.gender?.type === 'required' && <label className="label">
-                                <span className="text-error">Gender is required !!</span>
+                            {errors.level?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Level is required !!</span>
                             </label>}
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Phone</span>
+                                <span className="label-text">Class Category</span>
                             </label>
-                            <input {...register("phone", {
-                                required: true
-                            })}
+                            <select {...register("category", { required: true })}
                                 type="text"
-                                placeholder="phone"
-                                name="phone"
-                                className="input input-bordered"
-                            />
-                            {errors.phone?.type === 'required' && <label className="label">
-                                <span className="text-error">Phone is required !!</span>
+                                placeholder="select class level"
+                                name="category"
+                                className="select select-bordered"
+                            >
+                                <option value="">select category</option>
+                                <option value="Painting">Painting</option>
+                                <option value="Drawing">Drawing</option>
+                                <option value="Sculpture">Sculpture</option>
+                                <option value="Digital Art">Digital Art</option>
+                                <option value="Handmade Crafts">Handmade Crafts</option>
+                            </select>
+                            {errors.category?.type === 'required' && <label className="label">
+                                <span className="text-error">Class Category is required !!</span>
                             </label>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <input {...register("email", {
-                                required: true
-                            })}
-                                type="email"
-                                placeholder="email"
-                                name="email"
-                                className="input input-bordered"
-                            />
-                            {errors.email?.type === 'required' && <label className="label">
-                                <span className="text-error">Email is required !!</span>
-                            </label>}
-                        </div>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Password</span>
-                            </label>
-                            <div className="relative flex items-center">
-                                <input {...register("password", { required: true, minLength: 6, pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{6,}$/ })}
-                                    placeholder="password"
-                                    name="password"
-                                    className="w-full input input-bordered"
-                                />
-                            </div>
-                            {errors.password?.type === 'required' && <span className="text-error">Password is required !!</span>}
-                            {errors.password?.type === 'minLength' && <span className="text-error">Password must be 6 character !!</span>}
-                            {errors.password?.type === 'pattern' && <span className="text-error">At least one upper case, one lower case, one number and one special character is required !!</span>}
                         </div>
                         <div className="mt-6 form-control">
-                            <button className="btn btn-neutral" type="submit">Register</button>
+                            <button className="btn btn-neutral" type="submit">Add Class</button>
                         </div>
                     </form>
                 </div>
