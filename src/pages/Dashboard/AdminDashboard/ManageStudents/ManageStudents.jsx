@@ -63,28 +63,28 @@ const ManageStudents = () => {
             role: data.role1
         }
         console.log("update", student);
-        // fetch(`https://chroma-craft-server.vercel.app/students/${studentInfo.email}`, {
-        //     method: "PATCH",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(student)
-        // })
-        //     .then(result => {
-        //         console.log(result);
-        //         Swal.fire({
-        //             position: "center",
-        //             icon: "success",
-        //             title: "Updated Successfully !!",
-        //             showConfirmButton: false,
-        //             timer: 1500
-        //         });
-        //         reset1();
-        //         refetchStudents();
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
+        fetch(`https://chroma-craft-server.vercel.app/students/${studentInfo.email}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(student)
+        })
+            .then(result => {
+                console.log(result);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Updated Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                reset1();
+                refetchStudents();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     };
 
     const addStudent = (data) => {
@@ -98,19 +98,29 @@ const ManageStudents = () => {
             role: data.role2
         }
         console.log(student);
-        // fetch('https://chroma-craft-server.vercel.app/students', {
-        //     method: "POST",
-        //     headers: {
-        //         "content-type": "application/json"
-        //     },
-        //     body: JSON.stringify(student)
-        // })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log(data);
-        //     })
-        // reset2();
-        // refetchStudents();
+        fetch('https://chroma-craft-server.vercel.app/students', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(student)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Added Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                reset2();
+                refetchStudents();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     };
 
     const handleEditStudentModal = (email) => {

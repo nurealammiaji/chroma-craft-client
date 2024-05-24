@@ -3,12 +3,13 @@ import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import { useForm } from "react-hook-form";
 import useUser from '../../../../hooks/useUser';
 import useClasses from '../../../../hooks/useClasses';
+import Swal from "sweetalert2";
 
 const AddClass = () => {
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
     const [userData] = useUser();
-    const [classes] = useClasses();
+    const [classes, refetchClasses] = useClasses();
 
     const category = watch("category");
 
@@ -34,6 +35,29 @@ const AddClass = () => {
             status: "pending"
         };
         console.log(newClass);
+        fetch('https://chroma-craft-server.vercel.app/classes', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newClass)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Added Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                reset();
+                refetchClasses();
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -63,6 +87,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Title is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Image URL</span>
@@ -77,6 +102,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Image URL is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Description</span>
@@ -92,6 +118,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Description is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Price</span>
@@ -102,11 +129,13 @@ const AddClass = () => {
                                 name="price"
                                 className="input input-bordered"
                                 min="0"
+                                step="0.01"
                             />
                             {errors.price?.type === 'required' && <label className="label">
                                 <span className="text-error">Class Price is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Duration (Weeks)</span>
@@ -122,6 +151,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Duration is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Seat Capacity</span>
@@ -137,6 +167,7 @@ const AddClass = () => {
                                 <span className="text-error">Seat Capacity is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Level</span>
@@ -157,6 +188,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Level is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Category</span>
@@ -178,6 +210,7 @@ const AddClass = () => {
                                 <span className="text-error">Class Category is required !!</span>
                             </label>}
                         </div>
+                        <br />
                         <div className="mt-6 form-control">
                             <button className="btn btn-neutral" type="submit">Add Class</button>
                         </div>
