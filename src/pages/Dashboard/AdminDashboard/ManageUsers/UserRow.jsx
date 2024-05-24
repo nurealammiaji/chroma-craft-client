@@ -35,7 +35,7 @@ const UserRow = ({ item, index, handleEditUser, deleteUser }) => {
                 <button onClick={() => handleEditUser(email)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <td>
-                <button onClick={() => deleteUser(email)} className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => deleteUser(_id)} className="btn btn-error btn-xs">Delete</button>
             </td>
         </tr>
     );

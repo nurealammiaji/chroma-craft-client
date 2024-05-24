@@ -5,19 +5,19 @@ import useAxiosPublic from "./useAxiosPublic";
 
 const useUsers = () => {
 
-    const { loading } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
+    const { loading } = useContext(AuthContext);
 
-    const { data: users, refetch: refetchUsers, isLoading: usersLoading } = useQuery({
+    const { refetch: refetchUsers, data: users, isLoading: usersLoading } = useQuery({
         queryKey: ['users'],
         enabled: !loading,
         queryFn: async () => {
-            const res = await axiosPublic.get(`/users/`)
+            const res = await axiosPublic.get('/users')
             return res.data
         }
     })
 
-    return [users, usersLoading, refetchUsers];
+    return [users, refetchUsers, usersLoading];
 };
 
 export default useUsers;

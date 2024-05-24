@@ -2,11 +2,11 @@ import { Helmet } from "react-helmet-async";
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
 import { DNA } from "react-loader-spinner";
 import UserRow from "./UserRow";
-import useUsers from "../../../../hooks/useUsers";
 import { useState } from "react";
 import { TbUser } from 'react-icons/tb';
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import useUsers from '../../../../hooks/useUsers';
 
 const ManageUsers = () => {
 
@@ -17,8 +17,8 @@ const ManageUsers = () => {
     const [users, refetchUsers] = useUsers();
     const [userInfo, setUserInfo] = useState({});
 
-    const deleteUser = (email) => {
-        console.log("delete", email);
+    const deleteUser = (_id) => {
+        console.log("delete", _id);
         Swal.fire({
             title: "Are you sure?",
             text: "Do you want to delete this user",
@@ -29,7 +29,7 @@ const ManageUsers = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://chroma-craft-server.vercel.app/users/${email}`, {
+                fetch(`http://localhost:5000/users/${_id}`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json"
@@ -64,7 +64,7 @@ const ManageUsers = () => {
             role: data.role1
         }
         console.log("update", user);
-        fetch(`https://chroma-craft-server.vercel.app/users/${data.email1}`, {
+        fetch(`http://localhost:5000/users/${userInfo._id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
@@ -80,8 +80,8 @@ const ManageUsers = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                reset1();
                 refetchUsers();
+                reset1();
             })
             .catch(error => {
                 console.log(error);
@@ -108,9 +108,12 @@ const ManageUsers = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                refetchUsers();
+                reset2();
             })
-        reset2();
-        refetchUsers();
+            .catch(error => {
+                console.log(error);
+            })
     };
 
     const handleEditUserModal = (email) => {
@@ -216,7 +219,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Gender :</span>
-                                <select name="gender1" defaultValue={userInfo.gender}  className="grow bg-base-100" {...register1("gender1", { required: true })}>
+                                <select name="gender1" defaultValue={userInfo.gender} className="grow bg-base-100" {...register1("gender1", { required: true })}>
                                     <option value="">select gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
