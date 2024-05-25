@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import useSelected from "../../../../hooks/useSelected";
 import Swal from "sweetalert2";
-import useUser from "../../../../hooks/useUser";
+import useClasses from "../../../../hooks/useClasses";
 
-const ClassRow = ({ item, index }) => {
+const ClassRow = ({ item, index, handleEditClassModal }) => {
 
-    const { _id, title, price, image, duration, category_name, category_id, instructor, instructor_id, instructor_email } = item;
+    const { _id, title, price, image, duration, category_name, category_id, instructor, instructor_id, instructor_email, status } = item;
 
-    const [, refetchSelected] = useSelected();
-    const [userData] = useUser();
+    const [, refetchClasses] = useClasses();
 
     const handleDelete = (_id) => {
         Swal.fire({
@@ -21,20 +19,16 @@ const ClassRow = ({ item, index }) => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`https://chroma-craft-server.vercel.app/selected/${_id}`, {
+                fetch(`https://chroma-craft-server.vercel.app/classes/${_id}`, {
                     method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
                 })
                     .then(result => {
                         console.log(result);
-                        refetchSelected();
+                        refetchClasses();
                         Swal.fire({
                             position: "center",
                             icon: "success",
                             title: "Deleted Successfully !!",
-                            text: `${userData?.name}, you deleted the class successfully`,
                             showConfirmButton: false,
                             timer: 1500
                         });
@@ -74,7 +68,10 @@ const ClassRow = ({ item, index }) => {
                 <Link to={`/instructors/${instructor_id}`} className="ml-1 text-xs text-neutral">{instructor}</Link>
             </td>
             <td>
-                <Link to={`/classes/${_id}`} className="btn btn-xs btn-neutral">Edit</Link>
+                <button className="btn btn-xs btn-info">{status}</button>
+            </td>
+            <td>
+                <button onClick={() => handleEditClassModal(_id)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <th>
                 <button onClick={() => handleDelete(_id)} className="btn btn-error btn-xs">Delete</button>

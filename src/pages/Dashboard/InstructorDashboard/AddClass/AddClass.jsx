@@ -71,8 +71,8 @@ const AddClass = () => {
                     <SectionHeader title={"Add New Class"}></SectionHeader>
                 </div>
                 <br /><br />
-                <div className="w-11/12 min-h-screen mx-auto">
-                    <form onSubmit={handleSubmit(handleAddClass)} className="w-full md:w-96 lg:w-[30rem]">
+                <div className="min-h-screen">
+                    <form onSubmit={handleSubmit(handleAddClass)} className="w-full md:w-screen">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Class Title</span>

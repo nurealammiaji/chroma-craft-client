@@ -66,4 +66,53 @@ const ManageInstructors = () => {
     );
 };
 
+{/* <div className="form-control">
+<label className="label">
+    <span className="label-text">Instructor Name</span>
+</label>
+<input {...register1("instructor1", { required: true })}
+    type="text"
+    placeholder="type instructor name"
+    name="instructor1"
+    className="input input-bordered"
+    defaultValue={classInfo?.instructor}
+/>
+{errors1.instructor1?.type === 'required' && <label className="label">
+    <span className="text-error">Instructor Name is required !!</span>
+</label>}
+</div>
+<br />
+<div className="form-control">
+<label className="label">
+    <span className="label-text">Instructor Email</span>
+</label>
+<input {...register1("instructorEmail1", { required: true })}
+    type="email"
+    placeholder="type instructor email"
+    name="instructorEmail1"
+    className="input input-bordered"
+    defaultValue={classInfo?.instructor_email}
+/>
+{errors1.instructorEmail1?.type === 'required' && <label className="label">
+    <span className="text-error">Instructor Email is required !!</span>
+</label>}
+</div>
+<br />
+<div className="form-control">
+<label className="label">
+    <span className="label-text">Instructor Image URL</span>
+</label>
+<input {...register1("instructorImage1", { required: true })}
+    type="url"
+    placeholder="https://"
+    name="instructorImage1"
+    className="input input-bordered"
+    defaultValue={classInfo?.instructor_image}
+/>
+{errors1.instructorImage1?.type === 'required' && <label className="label">
+    <span className="text-error">Instructor Image URL is required !!</span>
+</label>}
+</div>
+<br /> */}
+
 export default ManageInstructors;
