@@ -38,7 +38,7 @@ const ManageClasses = () => {
             instructor_id: classInfo?.instructor_id,
             instructor_email: classInfo?.instructor_email,
             instructor_image: classInfo?.instructor_image,
-            duration: parseInt(data?.duration1),
+            duration: data?.duration1,
             price: parseFloat(data?.price1),
             seat_capacity: parseInt(data?.seat1),
             enrolled: classInfo?.enrolled,
@@ -85,7 +85,7 @@ const ManageClasses = () => {
             instructor_id: instructorInfo?._id,
             instructor_email: instructorInfo?.email,
             instructor_image: instructorInfo?.image,
-            duration: parseInt(data?.duration2),
+            duration: data?.duration2,
             price: parseFloat(data?.price2),
             seat_capacity: parseInt(data?.seat2),
             enrolled: 0,
@@ -259,11 +259,11 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Class Duration (Weeks)</span>
+                                    <span className="label-text">Class Duration (weeks)</span>
                                 </label>
                                 <input {...register1("duration1", { required: true })}
                                     type="text"
-                                    placeholder="type class duration"
+                                    placeholder="0 weeks"
                                     name="duration1"
                                     className="input input-bordered"
                                     defaultValue={classInfo.duration}

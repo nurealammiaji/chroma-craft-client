@@ -22,7 +22,6 @@ const CheckoutForm = () => {
     const [cardSuccess, setCardSuccess] = useState(null);
     const [clientSecret, setClientSecret] = useState(null);
     const [processing, setProcessing] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState(null);
     const [disabled, setDisabled] = useState(false);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -65,7 +64,6 @@ const CheckoutForm = () => {
         else {
             setCardError(null);
             console.log("Payment Method :", paymentMethod);
-            setPaymentMethod(paymentMethod);
         }
 
         setProcessing(true);
@@ -115,7 +113,7 @@ const CheckoutForm = () => {
                     payment_trxID: paymentIntent?.id,
                     payment_amount: price,
                     payment_currency: paymentIntent?.currency,
-                    payment_info: paymentMethod.card,
+                    payment_info: paymentMethod?.card,
                     payment_method_id: paymentIntent?.method,
                     payment_method_type: paymentIntent?.payment_method_types[0],
                     client_secret: paymentIntent?.client_secret,
