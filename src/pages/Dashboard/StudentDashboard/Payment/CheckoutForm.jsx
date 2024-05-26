@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { TbCircleArrowRightFilled } from 'react-icons/tb';
 import useSelected from '../../../../hooks/useSelected';
 import useEnrolled from '../../../../hooks/useEnrolled';
+import usePayments from '../../../../hooks/usePayments';
 
 const CheckoutForm = () => {
 
@@ -15,11 +16,13 @@ const CheckoutForm = () => {
     const elements = useElements();
     const axiosPublic = useAxiosPublic();
     const [, refetchEnrolled] = useEnrolled();
+    const [, refetchPayments] = usePayments();
     const [selected, refetchSelected] = useSelected();
     const [cardError, setCardError] = useState(null);
     const [cardSuccess, setCardSuccess] = useState(null);
     const [clientSecret, setClientSecret] = useState(null);
     const [processing, setProcessing] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState(null);
     const [disabled, setDisabled] = useState(false);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -28,13 +31,11 @@ const CheckoutForm = () => {
     if (selected) {
         const total = selected?.reduce((total, item) => total + item.class_price, 0);
         price = parseFloat(total.toFixed(2));
-        console.log(total, price);
     }
 
     useEffect(() => {
         axiosPublic.post('/create-payment-intent', { price })
             .then(res => {
-                console.log(res.data.clientSecret);
                 setClientSecret(res.data.clientSecret);
             })
     }, [axiosPublic, price]);
@@ -64,6 +65,7 @@ const CheckoutForm = () => {
         else {
             setCardError(null);
             console.log("Payment Method :", paymentMethod);
+            setPaymentMethod(paymentMethod);
         }
 
         setProcessing(true);
@@ -92,6 +94,49 @@ const CheckoutForm = () => {
             console.log(paymentIntent);
             if (paymentIntent?.status === "succeeded") {
                 setCardSuccess(`${paymentIntent?.status}! TrxID: ${paymentIntent?.id}`);
+                const paidClasses = selected.map(item => (
+                    {
+                        class_id: item.class_id,
+                        class_title: item.class_title,
+                        class_image: item.class_image,
+                        class_price: item.class_price,
+                        category_id: item.category_id,
+                        category_name: item.category_name,
+                        instructor_id: item.instructor_id,
+                        instructor_name: item.instructor_name,
+                        instructor_email: item.instructor_email,
+                        student_name: user?.displayName,
+                        student_email: user?.email,
+                        payment_status: paymentIntent?.status,
+                        payment_trxID: paymentIntent?.id
+                    }));
+                const payment = {
+                    payment_status: paymentIntent?.status,
+                    payment_trxID: paymentIntent?.id,
+                    payment_amount: price,
+                    payment_currency: paymentIntent?.currency,
+                    payment_info: paymentMethod.card,
+                    payment_method_id: paymentIntent?.method,
+                    payment_method_type: paymentIntent?.payment_method_types[0],
+                    client_secret: paymentIntent?.client_secret,
+                    student_name: user?.displayName,
+                    student_email: user?.email,
+                    paid_classes: [...paidClasses]
+                };
+                fetch('https://chroma-craft-server.vercel.app/payments', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payment)
+                })
+                    .then(result => {
+                        console.log(result);
+                        refetchPayments();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
                 fetch(`https://chroma-craft-server.vercel.app/selected?email=${user?.email}`, {
                     method: "DELETE",
                     headers: {
@@ -111,7 +156,8 @@ const CheckoutForm = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(selected)
+                    // body: JSON.stringify(selected)
+                    body: JSON.stringify(paidClasses)
                 })
                     .then(res => res.json())
                     .then(data => {

@@ -186,32 +186,32 @@ const ManageUsers = () => {
                         </form>
                         <form onSubmit={handleSubmit1(updateStudent)}>
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Name :</span>
-                                <input defaultValue={userInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="grow bg-base-100" placeholder={userInfo.name} />
+                                <span className="font-semibold w-full md:w-fit">Name :</span>
+                                <input defaultValue={userInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="grow bg-base-100 w-full md:w-fit" placeholder={userInfo.name} />
                             </label>
                             {errors1.name1?.type === 'required' && <label className="label">
                                 <span className="text-error">Name is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Email :</span>
-                                <input type="email" name="email1" className="grow bg-base-100" placeholder={userInfo.email} defaultValue={userInfo.email} {...register1("email1", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Email :</span>
+                                <input type="email" name="email1" className="grow bg-base-100 w-full md:w-fit" placeholder={userInfo.email} defaultValue={userInfo.email} {...register1("email1", { required: true })} />
                             </label>
                             {errors1.email1?.type === 'required' && <label className="label">
                                 <span className="text-error">Email is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Phone :</span>
-                                <input type="text" name="phone1" className="grow bg-base-100" placeholder={userInfo.phone} defaultValue={userInfo.phone} {...register1("phone1", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Phone :</span>
+                                <input type="text" name="phone1" className="grow bg-base-100 w-full md:w-fit" placeholder={userInfo.phone} defaultValue={userInfo.phone} {...register1("phone1", { required: true })} />
                             </label>
                             {errors1.phone1?.type === 'required' && <label className="label">
                                 <span className="text-error">Phone is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Image :</span>
-                                <input type="url" name="image1" className="grow bg-base-100" placeholder={userInfo.image} defaultValue={userInfo.image} {...register1("image1", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Image :</span>
+                                <input type="url" name="image1" className="grow bg-base-100 w-full md:w-fit" placeholder={userInfo.image} defaultValue={userInfo.image} {...register1("image1", { required: true })} />
                             </label>
                             {errors1.image1?.type === 'required' && <label className="label">
                                 <span className="text-error">Image is required !!</span>
@@ -219,6 +219,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Gender :</span>
+                                [<span className="text-warning">{userInfo?.gender}</span>]
                                 <select name="gender1" defaultValue={userInfo.gender} className="grow bg-base-100" {...register1("gender1", { required: true })}>
                                     <option value="">select gender</option>
                                     <option value="male">Male</option>
@@ -240,6 +241,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">Role :</span>
+                                [<span className="text-warning">{userInfo?.role}</span>]
                                 <select name="role1" defaultValue={userInfo.role} className="grow bg-base-100" {...register1("role1", { required: true })}>
                                     <option value="">select role</option>
                                     <option value="admin">Admin</option>
@@ -268,32 +270,32 @@ const ManageUsers = () => {
                         </form>
                         <form onSubmit={handleSubmit2(addStudent)}>
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Name :</span>
-                                <input {...register2("name2", { required: true })} type="text" name="name2" className="grow bg-base-100" placeholder="type name here" />
+                                <span className="font-semibold w-full md:w-fit">Name :</span>
+                                <input {...register2("name2", { required: true })} type="text" name="name2" className="grow bg-base-100 w-full md:w-fit" placeholder="type name here" />
                             </label>
                             {errors2.name2?.type === 'required' && <label className="label">
                                 <span className="text-error">Name is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Email :</span>
-                                <input type="email" name="email2" className="grow bg-base-100" placeholder="type email here" {...register2("email2", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Email :</span>
+                                <input type="email" name="email2" className="grow bg-base-100 w-full md:w-fit" placeholder="type email here" {...register2("email2", { required: true })} />
                             </label>
                             {errors2.email2?.type === 'required' && <label className="label">
                                 <span className="text-error">Email is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Phone :</span>
-                                <input type="text" name="phone2" className="grow bg-base-100" placeholder="type phone here" {...register2("phone2", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Phone :</span>
+                                <input type="text" name="phone2" className="grow bg-base-100 w-full md:w-fit" placeholder="type phone here" {...register2("phone2", { required: true })} />
                             </label>
                             {errors2.phone2?.type === 'required' && <label className="label">
                                 <span className="text-error">Phone is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="font-semibold">Image :</span>
-                                <input type="url" name="image2" className="grow bg-base-100" placeholder="type image url here" {...register2("image2", { required: true })} />
+                                <span className="font-semibold w-full md:w-fit">Image :</span>
+                                <input type="url" name="image2" className="grow bg-base-100 w-full md:w-fit" placeholder="type image url here" {...register2("image2", { required: true })} />
                             </label>
                             {errors2.image2?.type === 'required' && <label className="label">
                                 <span className="text-error">Image is required !!</span>
@@ -314,7 +316,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="font-semibold">DOB :</span>
-                                <input type="date" name="dob2" className="grow bg-base-100" defaultValue={userInfo.dob ? userInfo.dob : false} {...register2("dob2", { required: true })} />
+                                <input type="date" name="dob2" className="grow bg-base-100  w-full md:w-fit" defaultValue={userInfo.dob ? userInfo.dob : false} {...register2("dob2", { required: true })} />
                             </label>
                             {errors2.dob2?.type === 'required' && <label className="label">
                                 <span className="text-error">DOB is required !!</span>

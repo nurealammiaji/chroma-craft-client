@@ -25,14 +25,12 @@ const ManageClasses = () => {
 
     const handleEditClassModal = (id) => {
         const clickedClass = classes.find(item => item._id === id);
-        console.log(clickedClass);
         setClassInfo(clickedClass);
         document.getElementById('edit_class').showModal()
     }
 
     const handleEditClass = (data) => {
         const editClass = {
-            _id: classInfo?._id,
             course_id: classInfo?.course_id,
             title: data?.title1,
             description: data?.description1,

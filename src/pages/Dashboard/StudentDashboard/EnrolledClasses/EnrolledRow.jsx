@@ -36,7 +36,6 @@ const EnrolledRow = ({ item, index }) => {
                             position: "center",
                             icon: "success",
                             title: "Deleted Successfully !!",
-                            text: `${userData?.name}, you deleted the class successfully`,
                             showConfirmButton: false,
                             timer: 1500
                         });
