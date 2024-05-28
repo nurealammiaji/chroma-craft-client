@@ -7,7 +7,12 @@ import ClassCard from "../../components/ClassCard/ClassCard";
 
 const Classes = () => {
 
-    const [approvedClasses] = useClasses();
+    const [classes] = useClasses();
+
+    let approvedClasses;
+    if (classes) {
+        approvedClasses = classes.filter(item => item.status === "approved");
+    }
 
     let sortedClasses;
     if (approvedClasses) {
@@ -25,7 +30,7 @@ const Classes = () => {
                 <br /><br />
                 <div className="w-11/12 mx-auto">
                     {
-                        (approvedClasses) ?
+                        (classes && approvedClasses) ?
                             <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                                 {
                                     (sortedClasses) &&

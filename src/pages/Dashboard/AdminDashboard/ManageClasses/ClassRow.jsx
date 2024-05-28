@@ -1,44 +1,8 @@
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import useClasses from "../../../../hooks/useClasses";
 
-const ClassRow = ({ item, index, handleEditClassModal }) => {
+const ClassRow = ({ item, index, handleEditClassModal, handleDeleteClass }) => {
 
     const { _id, title, price, image, duration, category_name, category_id, instructor, instructor_id, instructor_email, status } = item;
-
-    const [, refetchClasses] = useClasses();
-
-    const handleDelete = (_id) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "Do you want to delete this class",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#ff675b",
-            cancelButtonColor: "#16a34a",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`https://chroma-craft-server.vercel.app/classes/${_id}`, {
-                    method: "DELETE",
-                })
-                    .then(result => {
-                        console.log(result);
-                        refetchClasses();
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Deleted Successfully !!",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
-        });
-    }
 
     return (
         <tr>
@@ -74,7 +38,7 @@ const ClassRow = ({ item, index, handleEditClassModal }) => {
                 <button onClick={() => handleEditClassModal(_id)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <th>
-                <button onClick={() => handleDelete(_id)} className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => handleDeleteClass(_id)} className="btn btn-error btn-xs">Delete</button>
             </th>
         </tr>
     );

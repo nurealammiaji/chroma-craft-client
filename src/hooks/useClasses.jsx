@@ -13,12 +13,7 @@ const useClasses = () => {
         }
     })
 
-    let approvedClasses;
-    if (classes) {
-        approvedClasses = classes.filter(item => item.status === "approved");
-    }
-
-    return [classes, approvedClasses, refetchClasses, classesLoading];
+    return [classes, refetchClasses, classesLoading];
 
 };
 

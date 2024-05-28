@@ -6,8 +6,9 @@ import ClassRow from './ClassRow';
 import Swal from "sweetalert2";
 import { TbList, TbListCheck } from "react-icons/tb";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useInstructors from '../../../../hooks/useInstructors';
+import useCategories from '../../../../hooks/useCategories';
 
 const ManageClasses = () => {
 
@@ -15,18 +16,73 @@ const ManageClasses = () => {
 
     const { register: register2, handleSubmit: handleSubmit2, watch: watch2, reset: reset2, formState: { errors: errors2 } } = useForm();
 
-    const [instructors, refetchInstructors] = useInstructors();
+    const [instructors] = useInstructors();
+    const [categories] = useCategories();
     const [classes, refetchClasses] = useClasses();
     const [instructorInfo, setInstructorInfo] = useState({});
+    const [categoryInfo, setCategoryInfo] = useState({});
     const [classInfo, setClassInfo] = useState({});
 
     const category1 = watch1("category1");
     const category2 = watch2("category2");
+    const instructor2 = watch2("instructor2");
+
+    useEffect(() => {
+        if (category1) {
+            const categoryDetails = JSON.parse(category1);
+            console.log(categoryDetails);
+            setCategoryInfo(categoryDetails);
+        }
+
+        else if (category2) {
+            const categoryDetails = JSON.parse(category2);
+            console.log(categoryDetails);
+            setCategoryInfo(categoryDetails);
+        }
+
+        else if (instructor2) {
+            const instructorDetails = JSON.parse(instructor2);
+            console.log(instructorDetails);
+            setInstructorInfo(instructorDetails);
+        }
+    }, [category1, category2, instructor2])
 
     const handleEditClassModal = (id) => {
         const clickedClass = classes.find(item => item._id === id);
         setClassInfo(clickedClass);
         document.getElementById('edit_class').showModal()
+    }
+
+    const handleDeleteClass = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to delete this class",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`https://chroma-craft-server.vercel.app/classes/${id}`, {
+                    method: "DELETE",
+                })
+                    .then(result => {
+                        console.log(result);
+                        refetchClasses();
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Deleted Successfully !!",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+        });
     }
 
     const handleEditClass = (data) => {
@@ -45,10 +101,10 @@ const ManageClasses = () => {
             level: data?.level1,
             rating: parseFloat(classInfo?.rating),
             image: data?.image1,
-            category_id: parseInt(`${category1 === 'Painting' && 1 || category1 === 'Drawing' && 2 || category1 === 'Sculpture' && 3 || category1 === 'Digital Art' && 4 || category1 === 'Handmade Crafts' && 5}`),
-            category_name: data?.category1,
+            category_id: categoryInfo?.category_id,
+            category_name: categoryInfo?.name,
             reviews: classInfo?.reviews,
-            status: data?.status
+            status: data?.status1
         };
         console.log(editClass);
         fetch(`https://chroma-craft-server.vercel.app/classes/${classInfo?._id}`, {
@@ -62,14 +118,15 @@ const ManageClasses = () => {
             .then(data => {
                 console.log(data);
                 Swal.fire({
+                    target: document.getElementById('edit_class'),
                     position: "center",
                     icon: "success",
                     title: "Updated Successfully !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
-                reset1();
                 refetchClasses();
+                reset1();
             })
             .catch(error => {
                 console.log(error);
@@ -81,46 +138,47 @@ const ManageClasses = () => {
             course_id: parseInt(classes?.length + 1),
             title: data?.title2,
             description: data?.description2,
-            instructor: instructorInfo?.name,
-            instructor_id: instructorInfo?._id,
-            instructor_email: instructorInfo?.email,
-            instructor_image: instructorInfo?.image,
-            duration: data?.duration2,
+            instructor: instructorInfo?.instructor,
+            instructor_id: instructorInfo?.instructor_id,
+            instructor_email: instructorInfo?.instructor_email,
+            instructor_image: instructorInfo?.instructor_image,
+            duration: data?.duration2 + " weeks",
             price: parseFloat(data?.price2),
             seat_capacity: parseInt(data?.seat2),
             enrolled: 0,
             level: data?.level2,
             rating: parseFloat(0.0),
             image: data?.image2,
-            category_id: parseInt(`${category2 === 'Painting' && 1 || category2 === 'Drawing' && 2 || category2 === 'Sculpture' && 3 || category2 === 'Digital Art' && 4 || category2 === 'Handmade Crafts' && 5}`),
-            category_name: data?.category2,
+            category_id: categoryInfo?.category_id,
+            category_name: categoryInfo?.name,
             reviews: [],
-            status: "pending"
+            status: data?.status2
         };
         console.log(newClass);
-        fetch('https://chroma-craft-server.vercel.app/classes', {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(newClass)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Added Successfully !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                reset2();
-                refetchClasses();
+            fetch('http://localhost:5000/classes', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(newClass)
             })
-            .catch(error => {
-                console.log(error);
-            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    Swal.fire({
+                        target: document.getElementById('add_class'),
+                        position: "center",
+                        icon: "success",
+                        title: "Added Successfully !!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetchClasses();
+                    reset2();
+                })
+                .catch(error => {
+                    console.log(error);
+                })
     }
 
     return (
@@ -153,7 +211,7 @@ const ManageClasses = () => {
                                     {/* row */}
                                     {
                                         (classes) &&
-                                        classes.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item} handleEditClassModal={handleEditClassModal}></ClassRow>)
+                                        classes.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item} handleEditClassModal={handleEditClassModal} handleDeleteClass={handleDeleteClass} ></ClassRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -241,9 +299,30 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
+                                    <span className="label-text">Class Category (<span className="label-text text-warning">{classInfo?.category_name}</span>)</span>
+                                </label>
+                                <select {...register1("category1", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="category1"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select category</option>
+                                    {
+                                        (categories) &&
+                                        categories.map((category) => <option value={JSON.stringify(category)} key={category._id}>{category.name}</option>)
+                                    }
+                                </select>
+                                {errors1.category1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Category is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
                                     <span className="label-text">Class Price</span>
                                 </label>
-                                <input {...register1("price21", { required: true })}
+                                <input {...register1("price1", { required: true })}
                                     type="number"
                                     placeholder="type class price"
                                     name="price1"
@@ -279,7 +358,7 @@ const ManageClasses = () => {
                                 </label>
                                 <input {...register1("seat1", { required: true })}
                                     type="number"
-                                    placeholder="Type Seat capacity"
+                                    placeholder="type Seat capacity"
                                     name="seat1"
                                     min="0"
                                     defaultValue={classInfo.seat_capacity}
@@ -314,29 +393,6 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Class Category (<span className="text-warning">{classInfo.category_name}</span>)</span>
-                                </label>
-                                <select {...register1("category1", { required: true })}
-                                    type="text"
-                                    placeholder="select class level"
-                                    name="category1"
-                                    defaultValue={classInfo.category_name}
-                                    className="select select-bordered"
-                                >
-                                    <option value="">select category</option>
-                                    <option value="Painting">Painting</option>
-                                    <option value="Drawing">Drawing</option>
-                                    <option value="Sculpture">Sculpture</option>
-                                    <option value="Digital Art">Digital Art</option>
-                                    <option value="Handmade Crafts">Handmade Crafts</option>
-                                </select>
-                                {errors1.category1?.type === 'required' && <label className="label">
-                                    <span className="text-error">Class Category is required !!</span>
-                                </label>}
-                            </div>
-                            <br />
-                            <div className="form-control">
-                                <label className="label">
                                     <span className="label-text">Class Status (<span className="text-warning">{classInfo.status}</span>)</span>
                                 </label>
                                 <select {...register1("status1", { required: true })}
@@ -357,7 +413,7 @@ const ManageClasses = () => {
                             </div>
                             <br />
                             <div className="mt-6 form-control">
-                                <button className="btn btn-neutral" type="submit">Add Class</button>
+                                <button className="btn btn-neutral" type="submit">Update Class</button>
                             </div>
                         </form>
                     </div>
@@ -420,6 +476,48 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
+                                    <span className="label-text">Class Instructor</span>
+                                </label>
+                                <select {...register2("instructor2", { required: true })}
+                                    type="text"
+                                    placeholder="select instructor"
+                                    name="instructor2"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select Instructor</option>
+                                    {
+                                        (instructors) &&
+                                        instructors.map((instructor) => <option value={JSON.stringify(instructor)} key={instructor._id}>{instructor.instructor}</option>)
+                                    }
+                                </select>
+                                {errors2.instructor2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Level is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Category</span>
+                                </label>
+                                <select {...register2("category2", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="category2"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select category</option>
+                                    {
+                                        (categories) &&
+                                        categories.map((category) => <option value={JSON.stringify(category)} key={category._id}>{category.name}</option>)
+                                    }
+                                </select>
+                                {errors2.category2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Category is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
                                     <span className="label-text">Class Price</span>
                                 </label>
                                 <input {...register2("price2", { required: true })}
@@ -437,11 +535,11 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Class Duration (Weeks)</span>
+                                    <span className="label-text">Class Duration (weeks)</span>
                                 </label>
                                 <input {...register2("duration2", { required: true })}
                                     type="number"
-                                    placeholder="type class duration"
+                                    placeholder="0 weeks"
                                     name="duration2"
                                     className="input input-bordered"
                                     min="0"
@@ -490,23 +588,22 @@ const ManageClasses = () => {
                             <br />
                             <div className="form-control">
                                 <label className="label">
-                                    <span className="label-text">Class Category</span>
+                                    <span className="label-text">Class Status</span>
                                 </label>
-                                <select {...register2("category2", { required: true })}
+                                <select {...register2("status2", { required: true })}
                                     type="text"
                                     placeholder="select class level"
-                                    name="category2"
+                                    name="status2"
+                                    defaultValue={classInfo.level}
                                     className="select select-bordered"
                                 >
-                                    <option value="">select category</option>
-                                    <option value="Painting">Painting</option>
-                                    <option value="Drawing">Drawing</option>
-                                    <option value="Sculpture">Sculpture</option>
-                                    <option value="Digital Art">Digital Art</option>
-                                    <option value="Handmade Crafts">Handmade Crafts</option>
+                                    <option value="">select status</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="rejected">Rejected</option>
                                 </select>
-                                {errors2.category2?.type === 'required' && <label className="label">
-                                    <span className="text-error">Class Category is required !!</span>
+                                {errors2.status2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Status is required !!</span>
                                 </label>}
                             </div>
                             <br />

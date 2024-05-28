@@ -12,15 +12,15 @@ const CategoryDetails = () => {
     const classes = useLoaderData();
     const [category, setCategory] = useState(null);
 
-    let enrolledStudents = 0;
-    if (classes) {
-        const total = classes.reduce((total, item) => total + item.enrolled, 0);
-        enrolledStudents = parseInt(total);
-    }
-
     let approvedClasses;
     if (classes) {
         approvedClasses = classes.filter(item => item.status === "approved");
+    }
+
+    let enrolledStudents = 0;
+    if (approvedClasses) {
+        const total = approvedClasses.reduce((total, item) => total + item.enrolled, 0);
+        enrolledStudents = parseInt(total);
     }
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const CategoryDetails = () => {
                                     <br />
                                     <div className="flex items-center mt-2">
                                         <TbListDetails className="mr-2 text-xl" />
-                                        <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{classes?.length}</span></p>
+                                        <p><span className="font-medium">Total Classes:</span> <span className="text-base badge">{approvedClasses?.length}</span></p>
                                     </div>
                                     <div className="flex items-center mt-2">
                                         <TbUsersGroup className="mr-2 text-xl" />
