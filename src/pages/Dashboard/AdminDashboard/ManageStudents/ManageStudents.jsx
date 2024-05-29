@@ -3,15 +3,18 @@ import useStudents from '../../../../hooks/useStudents';
 import SectionHeader from "../../../../components/SectionHeader/SectionHeader";
 import { DNA } from "react-loader-spinner";
 import StudentRow from './StudentRow';
-import { TbUser } from "react-icons/tb";
+import { TbUser, TbUserEdit } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ManageStudents = () => {
 
     const [students, refetchStudents] = useStudents();
     const [studentInfo, setStudentInfo] = useState({});
+
+    const axiosSecure = useAxiosSecure();
 
     const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
 
@@ -52,7 +55,7 @@ const ManageStudents = () => {
         });
     }
 
-    const updateStudent = (data) => {
+    const updateStudent = async (data) => {
         const student = {
             name: data.name1,
             email: data.email1,
@@ -63,28 +66,21 @@ const ManageStudents = () => {
             role: data.role1
         }
         console.log("update", student);
-        fetch(`https://chroma-craft-server.vercel.app/students/${studentInfo.email}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(student)
-        })
-            .then(result => {
-                console.log(result);
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Updated Successfully !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                reset1();
-                refetchStudents();
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        const res = await axiosSecure.patch(`/students/${studentInfo._id}`, student)
+        console.log(res.data);
+
+        if (res.data) {
+            Swal.fire({
+                target: document.getElementById("edit_student"),
+                position: "center",
+                icon: "success",
+                title: "Updated Successfully !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            reset1();
+            refetchStudents();
+        }
     };
 
     const addStudent = (data) => {
@@ -109,6 +105,7 @@ const ManageStudents = () => {
             .then(data => {
                 console.log(data);
                 Swal.fire({
+                    target: document.getElementById("add_student"),
                     position: "center",
                     icon: "success",
                     title: "Added Successfully !!",
@@ -182,7 +179,7 @@ const ManageStudents = () => {
                     <dialog id="edit_student" className="modal">
                         <div className="modal-box">
                             <div className="flex items-center">
-                                <span><TbUser className="text-2xl font-bold" /></span>
+                                <span><TbUserEdit className="text-2xl font-bold" /></span>
                                 <h3 className="ml-3 text-xl font-bold"> Edit Student</h3>
                             </div>
                             <form method="dialog">
@@ -190,28 +187,28 @@ const ManageStudents = () => {
                             </form>
                             <form onSubmit={handleSubmit1(updateStudent)}>
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Name :</span>
-                                    <input defaultValue={studentInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="grow bg-base-100" placeholder={studentInfo.name} />
+                                    <span className="font-semibold w-full md:w-fit">Name :</span>
+                                    <input defaultValue={studentInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="grow bg-base-100 w-full md:w-fit" placeholder={studentInfo.name} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Email :</span>
-                                    <input type="email" name="email1" className="grow bg-base-100" placeholder={studentInfo.email} defaultValue={studentInfo.email} {...register1("email1", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Email :</span>
+                                    <input type="email" name="email1" className="grow bg-base-100 w-full md:w-fit" placeholder={studentInfo.email} defaultValue={studentInfo.email} {...register1("email1", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Phone :</span>
-                                    <input type="text" name="phone1" className="grow bg-base-100" placeholder={studentInfo.phone} defaultValue={studentInfo.phone} {...register1("phone1", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Phone :</span>
+                                    <input type="text" name="phone1" className="grow bg-base-100 w-full md:w-fit" placeholder={studentInfo.phone} defaultValue={studentInfo.phone} {...register1("phone1", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Image :</span>
-                                    <input type="url" name="image1" className="grow bg-base-100" placeholder={studentInfo.image} defaultValue={studentInfo.image} {...register1("image1", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Image :</span>
+                                    <input type="url" name="image1" className="grow bg-base-100 w-full md:w-fit" placeholder={studentInfo.image} defaultValue={studentInfo.image} {...register1("image1", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Gender :</span>
-                                    <select name="gender1" defaultValue={studentInfo.gender ? studentInfo.gender : false} className="grow bg-base-100" {...register1("gender1", { required: true })}>
+                                    <span className="font-semibold w-full md:w-fit">Gender :</span>
+                                    <select name="gender1" defaultValue={studentInfo.gender ? studentInfo.gender : false} className="grow bg-base-100 w-full md:w-fit" {...register1("gender1", { required: true })}>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="third">Third</option>
@@ -219,13 +216,13 @@ const ManageStudents = () => {
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">DOB :</span>
-                                    <input type="date" name="dob1" className="grow bg-base-100" value={studentInfo.dob ? studentInfo.dob : false} {...register1("dob1", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">DOB :</span>
+                                    <input type="date" name="dob1" className="grow bg-base-100 w-full md:w-fit" value={studentInfo.dob ? studentInfo.dob : false} {...register1("dob1", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Role :</span>
-                                    <select name="role1" defaultValue={studentInfo.role} className="grow bg-base-100" {...register1("role1", { required: true })}>
+                                    <span className="font-semibold w-full md:w-fit">Role :</span>
+                                    <select name="role1" defaultValue={studentInfo.role} className="grow bg-base-100 w-full md:w-fit" {...register1("role1", { required: true })}>
                                         <option value="student">Student</option>
                                     </select>
                                 </label>
@@ -247,28 +244,28 @@ const ManageStudents = () => {
                             </form>
                             <form onSubmit={handleSubmit2(addStudent)}>
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Name :</span>
-                                    <input {...register2("name2", { required: true })} type="text" name="name2" className="grow bg-base-100" placeholder="type name here" />
+                                    <span className="font-semibold w-full md:w-fit">Name :</span>
+                                    <input {...register2("name2", { required: true })} type="text" name="name2" className="grow bg-base-100 w-full md:w-fit" placeholder="type name here" />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Email :</span>
-                                    <input type="email" name="email2" className="grow bg-base-100" placeholder="type email here" {...register2("email2", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Email :</span>
+                                    <input type="email" name="email2" className="grow bg-base-100 w-full md:w-fit" placeholder="type email here" {...register2("email2", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Phone :</span>
-                                    <input type="text" name="phone2" className="grow bg-base-100" placeholder="type phone here" {...register2("phone2", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Phone :</span>
+                                    <input type="text" name="phone2" className="grow bg-base-100 w-full md:w-fit" placeholder="type phone here" {...register2("phone2", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Image :</span>
-                                    <input type="url" name="image2" className="grow bg-base-100" placeholder="type image url here" {...register2("image2", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">Image :</span>
+                                    <input type="url" name="image2" className="grow bg-base-100 w-full md:w-fit" placeholder="type image url here" {...register2("image2", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Gender :</span>
-                                    <select name="gender2" className="grow bg-base-100" {...register2("gender2", { required: true })}>
+                                    <span className="font-semibold w-full md:w-fit">Gender :</span>
+                                    <select name="gender2" className="grow bg-base-100 w-full md:w-fit" {...register2("gender2", { required: true })}>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="third">Third</option>
@@ -276,13 +273,13 @@ const ManageStudents = () => {
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">DOB :</span>
-                                    <input type="date" name="dob2" className="grow bg-base-100" defaultValue={studentInfo.dob ? studentInfo.dob : false} {...register2("dob2", { required: true })} />
+                                    <span className="font-semibold w-full md:w-fit">DOB :</span>
+                                    <input type="date" name="dob2" className="grow bg-base-100 w-full md:w-fit" defaultValue={studentInfo.dob ? studentInfo.dob : false} {...register2("dob2", { required: true })} />
                                 </label>
                                 <br />
                                 <label className="flex items-center gap-2 input input-bordered">
-                                    <span className="font-semibold">Role :</span>
-                                    <select name="role2" className="grow bg-base-100" {...register2("role2", { required: true })} >
+                                    <span className="font-semibold w-full md:w-fit">Role :</span>
+                                    <select name="role2" className="grow bg-base-100 w-full md:w-fit" {...register2("role2", { required: true })} >
                                         <option value="student">Student</option>
                                     </select>
                                 </label>

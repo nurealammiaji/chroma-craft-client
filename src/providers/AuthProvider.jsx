@@ -48,6 +48,23 @@ const AuthProvider = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setLoading(true);
             setUser(currentUser);
+            if (currentUser) {
+                const user = currentUser?.email;
+                fetch('http://localhost:5000/jwt', {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({ user })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data.token);
+                        localStorage.setItem('chromaCraft-userToken', data?.token);
+                        setLoading(false);
+                    })
+                    .catch(error => console.error(error))
+            }
             setLoading(false);
         })
         return () => {

@@ -19,6 +19,7 @@ const Navbar = () => {
         logout()
             .then(result => {
                 console.log(result);
+                localStorage.removeItem('chromaCraft-userToken');
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -93,12 +94,12 @@ const Navbar = () => {
                         </div>
                     }
                     {
-                        (user) ?
+                        (user && userData) ?
                             <>
-                                <div className="mr-1 avatar tooltip" data-tip={`${user?.displayName}`}>
+                                <div className="mr-1 avatar tooltip" data-tip={`${userData?.name}`}>
                                     <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                         <Link to="/profile">
-                                            <img src={user.photoURL} />
+                                            <img src={userData?.image} />
                                         </Link>
                                     </div>
                                 </div>
