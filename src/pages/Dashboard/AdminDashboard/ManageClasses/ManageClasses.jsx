@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useInstructors from '../../../../hooks/useInstructors';
 import useCategories from '../../../../hooks/useCategories';
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ManageClasses = () => {
 
@@ -22,6 +23,7 @@ const ManageClasses = () => {
     const [instructorInfo, setInstructorInfo] = useState({});
     const [categoryInfo, setCategoryInfo] = useState({});
     const [classInfo, setClassInfo] = useState({});
+    const axiosSecure = useAxiosSecure();
 
     const category1 = watch1("category1");
     const category2 = watch2("category2");
@@ -62,30 +64,25 @@ const ManageClasses = () => {
             confirmButtonColor: "#ff675b",
             cancelButtonColor: "#16a34a",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                fetch(`https://chroma-craft-server.vercel.app/classes/${id}`, {
-                    method: "DELETE",
-                })
-                    .then(result => {
-                        console.log(result);
-                        refetchClasses();
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Deleted Successfully !!",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
+                const res = await axiosSecure.delete(`/classes/${id}`)
+                console.log(res.data);
+                if (res.data) {
+                    refetchClasses();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Deleted Successfully !!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             }
         });
     }
 
-    const handleEditClass = (data) => {
+    const handleEditClass = async (data) => {
         const editClass = {
             course_id: classInfo?.course_id,
             title: data?.title1,
@@ -107,33 +104,23 @@ const ManageClasses = () => {
             status: data?.status1
         };
         console.log(editClass);
-        fetch(`https://chroma-craft-server.vercel.app/classes/${classInfo?._id}`, {
-            method: "PATCH",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(editClass)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                Swal.fire({
-                    target: document.getElementById('edit_class'),
-                    position: "center",
-                    icon: "success",
-                    title: "Updated Successfully !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                refetchClasses();
-                reset1();
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        const res = await axiosSecure.patch(`/classes/${classInfo?._id}`, editClass)
+        console.log(res.data);
+        if (res.data) {
+            Swal.fire({
+                target: document.getElementById('edit_class'),
+                position: "center",
+                icon: "success",
+                title: "Updated Successfully !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            refetchClasses();
+            reset1();
+        }
     }
 
-    const handleAddClass = (data) => {
+    const handleAddClass = async (data) => {
         const newClass = {
             course_id: parseInt(classes?.length + 1),
             title: data?.title2,
@@ -155,30 +142,19 @@ const ManageClasses = () => {
             status: data?.status2
         };
         console.log(newClass);
-            fetch('http://localhost:5000/classes', {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify(newClass)
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    Swal.fire({
-                        target: document.getElementById('add_class'),
-                        position: "center",
-                        icon: "success",
-                        title: "Added Successfully !!",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    refetchClasses();
-                    reset2();
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+        const res = await axiosSecure.post('/classes', newClass);
+        console.log(res.data);
+        if (res.data) {
+            Swal.fire({
+                target: document.getElementById('add_class'),
+                position: "center",
+                icon: "success",
+                title: "Added Successfully !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            refetchClasses();
+        }
     }
 
     return (
@@ -491,7 +467,7 @@ const ManageClasses = () => {
                                     }
                                 </select>
                                 {errors2.instructor2?.type === 'required' && <label className="label">
-                                    <span className="text-error">Class Level is required !!</span>
+                                    <span className="text-error">Instructor is required !!</span>
                                 </label>}
                             </div>
                             <br />

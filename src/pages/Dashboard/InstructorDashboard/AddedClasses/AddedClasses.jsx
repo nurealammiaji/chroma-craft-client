@@ -4,32 +4,39 @@ import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useUser from '../../../../hooks/useUser';
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import ClassRow from "./ClassRow";
+import { TbList, TbListCheck } from "react-icons/tb";
+import useCategories from "../../../../hooks/useCategories";
+import { useForm } from "react-hook-form";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
+import useClasses from '../../../../hooks/useClasses';
 
 const AddedClasses = () => {
 
+    const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
+
+    const { register: register2, handleSubmit: handleSubmit2, watch: watch2, reset: reset2, formState: { errors: errors2 } } = useForm();
+
+    const [categories] = useCategories();
+    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const [userData] = useUser();
     const [instructorClasses, setInstructorClasses] = useState();
+    const [classes, setClasses] = useState();
     const [classInfo, setClassInfo] = useState({});
     const [categoryInfo, setCategoryInfo] = useState({});
 
     useEffect(() => {
-        if (userData && userData.role === 'instructor') {
-            fetch(`https://chroma-craft-server.vercel.app/classes/${userData?.email}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
+
+        axiosPublic.get(`/instructors/classes?email=alex.turner@chromacraft.com`)
+            .then(res => {
+                console.log(res.data);
+                setClasses(res.data);
             })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    setClassInfo(data);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        }
-    }, [userData])
+            .catch(err => console.log(err));
+
+    }, [axiosPublic, userData.email])
 
     const handleEditClass = (data) => {
         const editClass = {
@@ -77,6 +84,77 @@ const AddedClasses = () => {
             .catch(error => {
                 console.log(error);
             })
+    }
+
+    const handleDeleteClass = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to delete this class",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await axiosSecure.delete(`/classes/${id}`)
+                console.log(res.data);
+                if (res.data) {
+                    refetchClasses();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Deleted Successfully !!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
+    }
+
+
+    const handleEditClassModal = (id) => {
+        const clickedClass = classes.find(item => item._id === id);
+        setClassInfo(clickedClass);
+        document.getElementById('edit_class').showModal()
+    }
+
+    const handleAddClass = async (data) => {
+        const newClass = {
+            course_id: parseInt(classes?.length + 1),
+            title: data?.title2,
+            description: data?.description2,
+            instructor: instructorInfo?.instructor,
+            instructor_id: instructorInfo?.instructor_id,
+            instructor_email: instructorInfo?.instructor_email,
+            instructor_image: instructorInfo?.instructor_image,
+            duration: data?.duration2 + " weeks",
+            price: parseFloat(data?.price2),
+            seat_capacity: parseInt(data?.seat2),
+            enrolled: 0,
+            level: data?.level2,
+            rating: parseFloat(0.0),
+            image: data?.image2,
+            category_id: categoryInfo?.category_id,
+            category_name: categoryInfo?.name,
+            reviews: [],
+            status: data?.status2
+        };
+        console.log(newClass);
+        const res = await axiosSecure.post('/classes', newClass);
+        console.log(res.data);
+        if (res.data) {
+            Swal.fire({
+                target: document.getElementById('add_class'),
+                position: "center",
+                icon: "success",
+                title: "Added Successfully !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            refetchClasses();
+        }
     }
 
     return (
@@ -127,6 +205,369 @@ const AddedClasses = () => {
                             </>
                     }
                 </div>
+                <br /><br />
+                <div className="flex-row items-center justify-between text-center md:flex">
+                    <div>
+                        <h4 className="p-4 font-medium text-neutral badge badge-outline">Classes: {classes?.length}</h4>
+                    </div>
+                    <div className="my-5 md:my-0">
+                        <button onClick={() => document.getElementById('add_class').showModal()} className="p-4 font-medium badge badge-secondary">Add Class</button>
+                    </div>
+                </div>
+                <dialog id="edit_class" className="modal">
+                    <div className="modal-box">
+                        <div className="flex items-center">
+                            <span><TbListCheck className="text-2xl font-bold" /></span>
+                            <h3 className="ml-3 text-xl font-bold"> Edit Class</h3>
+                        </div>
+                        <form method="dialog">
+                            <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
+                        </form>
+                        <form onSubmit={handleSubmit1(handleEditClass)} className="w-full">
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Title</span>
+                                </label>
+                                <input {...register1("title1", { required: true })}
+                                    type="text"
+                                    placeholder="type class title"
+                                    name="title1"
+                                    className="input input-bordered"
+                                    defaultValue={classInfo?.title}
+                                />
+                                {errors1.title1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Title is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Image URL</span>
+                                </label>
+                                <input {...register1("image1", { required: true })}
+                                    type="url"
+                                    placeholder="https://"
+                                    name="image1"
+                                    className="input input-bordered"
+                                    defaultValue={classInfo.image}
+                                />
+                                {errors1.image1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Image URL is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Description</span>
+                                </label>
+                                <textarea {...register1("description1", { required: true })}
+                                    type="text"
+                                    placeholder="type class description"
+                                    name="description1"
+                                    rows="4"
+                                    defaultValue={classInfo.description}
+                                    className="textarea textarea-bordered"
+                                />
+                                {errors1.description1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Description is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Category (<span className="label-text text-warning">{classInfo?.category_name}</span>)</span>
+                                </label>
+                                <select {...register1("category1", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="category1"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select category</option>
+                                    {
+                                        (categories) &&
+                                        categories.map((category) => <option value={JSON.stringify(category)} key={category._id}>{category.name}</option>)
+                                    }
+                                </select>
+                                {errors1.category1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Category is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Price</span>
+                                </label>
+                                <input {...register1("price1", { required: true })}
+                                    type="number"
+                                    placeholder="type class price"
+                                    name="price1"
+                                    className="input input-bordered"
+                                    min="0"
+                                    step="0.01"
+                                    defaultValue={classInfo.price}
+                                />
+                                {errors1.price1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Price is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Duration (weeks)</span>
+                                </label>
+                                <input {...register1("duration1", { required: true })}
+                                    type="text"
+                                    placeholder="0 weeks"
+                                    name="duration1"
+                                    className="input input-bordered"
+                                    defaultValue={classInfo.duration}
+                                />
+                                {errors1.duration1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Duration is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Seat Capacity</span>
+                                </label>
+                                <input {...register1("seat1", { required: true })}
+                                    type="number"
+                                    placeholder="type Seat capacity"
+                                    name="seat1"
+                                    min="0"
+                                    defaultValue={classInfo.seat_capacity}
+                                    className="input input-bordered"
+                                />
+                                {errors1.seat1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Seat Capacity is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Level (<span className="text-warning">{classInfo.level}</span>)</span>
+                                </label>
+                                <select {...register1("level1", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="level1"
+                                    defaultValue={classInfo.level}
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select level</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="All Levels">All Levels</option>
+                                </select>
+                                {errors1.level1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Level is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Status (<span className="text-warning">{classInfo.status}</span>)</span>
+                                </label>
+                                <select {...register1("status1", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="status1"
+                                    defaultValue={classInfo.level}
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select status</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                {errors1.status1?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Status is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="mt-6 form-control">
+                                <button className="btn btn-neutral" type="submit">Update Class</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+                <dialog id="add_class" className="modal">
+                    <div className="modal-box">
+                        <div className="flex items-center">
+                            <span><TbList className="text-2xl font-bold" /></span>
+                            <h3 className="ml-3 text-xl font-bold"> Add Class</h3>
+                        </div>
+                        <form method="dialog">
+                            <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
+                        </form>
+                        <form onSubmit={handleSubmit2(handleAddClass)} className="w-full">
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Title</span>
+                                </label>
+                                <input {...register2("title2", { required: true })}
+                                    type="text"
+                                    placeholder="type class title"
+                                    name="title2"
+                                    className="input input-bordered"
+                                />
+                                {errors2.title2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Title is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Image URL</span>
+                                </label>
+                                <input {...register2("image2", { required: true })}
+                                    type="url"
+                                    placeholder="https://"
+                                    name="image2"
+                                    className="input input-bordered"
+                                />
+                                {errors2.image2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Image URL is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Description</span>
+                                </label>
+                                <textarea {...register2("description2", { required: true })}
+                                    type="text"
+                                    placeholder="type class description"
+                                    name="description2"
+                                    rows="4"
+                                    className="textarea textarea-bordered"
+                                />
+                                {errors2.description2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Description is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Category</span>
+                                </label>
+                                <select {...register2("category2", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="category2"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select category</option>
+                                    {
+                                        (categories) &&
+                                        categories.map((category) => <option value={JSON.stringify(category)} key={category._id}>{category.name}</option>)
+                                    }
+                                </select>
+                                {errors2.category2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Category is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Price</span>
+                                </label>
+                                <input {...register2("price2", { required: true })}
+                                    type="number"
+                                    placeholder="type class price"
+                                    name="price2"
+                                    className="input input-bordered"
+                                    min="0"
+                                    step="0.01"
+                                />
+                                {errors2.price2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Price is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Duration (weeks)</span>
+                                </label>
+                                <input {...register2("duration2", { required: true })}
+                                    type="number"
+                                    placeholder="0 weeks"
+                                    name="duration2"
+                                    className="input input-bordered"
+                                    min="0"
+                                />
+                                {errors2.duration2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Duration is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Seat Capacity</span>
+                                </label>
+                                <input {...register2("seat2", { required: true })}
+                                    type="number"
+                                    placeholder="Type Seat capacity"
+                                    name="seat2"
+                                    min="0"
+                                    className="input input-bordered"
+                                />
+                                {errors2.seat2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Seat Capacity is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Level</span>
+                                </label>
+                                <select {...register2("level2", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="level2"
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select level</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="All Levels">All Levels</option>
+                                </select>
+                                {errors2.level2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Level is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Class Status</span>
+                                </label>
+                                <select {...register2("status2", { required: true })}
+                                    type="text"
+                                    placeholder="select class level"
+                                    name="status2"
+                                    defaultValue={classInfo.level}
+                                    className="select select-bordered"
+                                >
+                                    <option value="">select status</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                {errors2.status2?.type === 'required' && <label className="label">
+                                    <span className="text-error">Class Status is required !!</span>
+                                </label>}
+                            </div>
+                            <br />
+                            <div className="mt-6 form-control">
+                                <button className="btn btn-neutral" type="submit">Add Class</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
             </div>
         </div>
     );

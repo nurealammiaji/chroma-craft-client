@@ -72,6 +72,7 @@ const ClassCard = ({ item }) => {
                 instructor_name: instructor,
                 instructor_email: instructor_email,
                 instructor_image: instructor_image,
+                enrolled: enrolled,
                 student_name: userData?.name,
                 student_email: userData?.email,
                 student_phone: userData?.phone,

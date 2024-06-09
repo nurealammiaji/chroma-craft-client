@@ -29,28 +29,20 @@ const ManageStudents = () => {
             confirmButtonColor: "#ff675b",
             cancelButtonColor: "#16a34a",
             confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                fetch(`https://chroma-craft-server.vercel.app/students/${email}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                    .then(result => {
-                        console.log(result);
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Deleted Successfully !!",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        refetchStudents();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
+                const res = await axiosSecure.delete(`/students/${email}`)
+                console.log(res.data);
+                if (res.data) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Deleted Successfully !!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    refetchStudents();
+                }
             }
         });
     }
@@ -68,7 +60,6 @@ const ManageStudents = () => {
         console.log("update", student);
         const res = await axiosSecure.patch(`/students/${studentInfo._id}`, student)
         console.log(res.data);
-
         if (res.data) {
             Swal.fire({
                 target: document.getElementById("edit_student"),
@@ -83,7 +74,7 @@ const ManageStudents = () => {
         }
     };
 
-    const addStudent = (data) => {
+    const addStudent = async (data) => {
         const student = {
             name: data.name2,
             email: data.email2,
@@ -94,30 +85,20 @@ const ManageStudents = () => {
             role: data.role2
         }
         console.log(student);
-        fetch('https://chroma-craft-server.vercel.app/students', {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(student)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                Swal.fire({
-                    target: document.getElementById("add_student"),
-                    position: "center",
-                    icon: "success",
-                    title: "Added Successfully !!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                reset2();
-                refetchStudents();
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        const res = await axiosSecure.post('/students', student)
+        console.log(res.data);
+        if (res.data) {
+            Swal.fire({
+                target: document.getElementById("add_student"),
+                position: "center",
+                icon: "success",
+                title: "Added Successfully !!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            reset2();
+            refetchStudents();
+        }
     };
 
     const handleEditStudentModal = (email) => {

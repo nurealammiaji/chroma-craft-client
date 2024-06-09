@@ -9,15 +9,19 @@ import { TbCircleArrowRightFilled } from 'react-icons/tb';
 import useSelected from '../../../../hooks/useSelected';
 import useEnrolled from '../../../../hooks/useEnrolled';
 import usePayments from '../../../../hooks/usePayments';
+import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import useClasses from '../../../../hooks/useClasses';
 
 const CheckoutForm = () => {
 
     const stripe = useStripe();
     const elements = useElements();
     const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
     const [, refetchEnrolled] = useEnrolled();
     const [, refetchPayments] = usePayments();
     const [selected, refetchSelected] = useSelected();
+    const [, refetchClasses] = useClasses();
     const [cardError, setCardError] = useState(null);
     const [cardSuccess, setCardSuccess] = useState(null);
     const [clientSecret, setClientSecret] = useState(null);
@@ -26,6 +30,8 @@ const CheckoutForm = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    console.log(selected);
+
     let price = 0;
     if (selected) {
         const total = selected?.reduce((total, item) => total + item.class_price, 0);
@@ -33,11 +39,11 @@ const CheckoutForm = () => {
     }
 
     useEffect(() => {
-        axiosPublic.post('/create-payment-intent', { price })
+        axiosSecure.post('/create-payment-intent', { price })
             .then(res => {
                 setClientSecret(res.data.clientSecret);
             })
-    }, [axiosPublic, price]);
+    }, [axiosSecure, price]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -92,6 +98,7 @@ const CheckoutForm = () => {
             console.log(paymentIntent);
             if (paymentIntent?.status === "succeeded") {
                 setCardSuccess(`${paymentIntent?.status}! TrxID: ${paymentIntent?.id}`);
+
                 const paidClasses = selected.map(item => (
                     {
                         class_id: item.class_id,
@@ -108,6 +115,11 @@ const CheckoutForm = () => {
                         payment_status: paymentIntent?.status,
                         payment_trxID: paymentIntent?.id
                     }));
+
+                const paidClassesIDs = selected.map(item => item.class_id);
+                const enrolledCounts = selected.map(item => item.enrolled);
+                console.log(paidClassesIDs, enrolledCounts);
+
                 const payment = {
                     payment_status: paymentIntent?.status,
                     payment_trxID: paymentIntent?.id,
@@ -121,46 +133,43 @@ const CheckoutForm = () => {
                     student_email: user?.email,
                     paid_classes: [...paidClasses]
                 };
-                fetch('https://chroma-craft-server.vercel.app/payments', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payment)
-                })
+
+                await axiosSecure.post('/payments', payment)
                     .then(result => {
-                        console.log(result);
+                        console.log(result.data);
                         refetchPayments();
                     })
                     .catch(error => {
                         console.log(error);
                     })
-                fetch(`https://chroma-craft-server.vercel.app/selected?email=${user?.email}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
+
+                await axiosSecure.delete(`/selected?email=${user?.email}`)
                     .then(result => {
-                        console.log(result);
+                        console.log(result.data);
                         refetchSelected();
                         refetchEnrolled();
                     })
                     .catch(error => {
                         console.log(error);
                     })
-                fetch('https://chroma-craft-server.vercel.app/enrolled', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    // body: JSON.stringify(selected)
-                    body: JSON.stringify(paidClasses)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
+
+                await axiosSecure.post('/enrolled', paidClasses)
+                    .then(result => {
+                        console.log(result.data);
                     })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
+                await axiosSecure.patch('/count', { paidClassesIDs, enrolledCounts })
+                    .then(result => {
+                        console.log(result.data);
+                        refetchClasses();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+
                 Swal.fire({
                     position: "center",
                     icon: "success",
@@ -168,6 +177,7 @@ const CheckoutForm = () => {
                     text: `TrxID: ${paymentIntent?.id}`,
                     showConfirmButton: true,
                 });
+
                 setDisabled(true);
                 navigate("/dashboard/enrolled", { replace: true });
             }
@@ -216,7 +226,7 @@ const CheckoutForm = () => {
                 <div className='text-center'>
                     <p className='italic font-medium text-center text-success'>{cardSuccess}</p>
                     <br /><br />
-                    <Link to={'/dashboard/enrolled'} className='btn-neutral btn'>Go to Classes<TbCircleArrowRightFilled className="text-xl" /> </Link>
+                    <Link to={'/dashboard/enrolled'} className='btn-neutral btn'>Enrolled Classes<TbCircleArrowRightFilled className="text-xl" /> </Link>
                 </div>
             }
         </>

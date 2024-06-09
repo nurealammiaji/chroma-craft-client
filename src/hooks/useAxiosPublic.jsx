@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'https://chroma-craft-server.vercel.app/'
+    baseURL: 'https://chroma-craft-server.vercel.app'
 })
 
 const useAxiosPublic = () => {
