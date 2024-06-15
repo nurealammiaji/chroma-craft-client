@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
             setUser(currentUser);
             if (currentUser) {
                 const user = currentUser?.email;
-                fetch('http://localhost:5000/jwt', {
+                fetch('https://chroma-craft-server.vercel.app/jwt', {
                     method: "POST",
                     headers: {
                         "content-type": "application/json"

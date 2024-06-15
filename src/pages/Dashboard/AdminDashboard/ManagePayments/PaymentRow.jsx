@@ -11,12 +11,12 @@ const PaymentRow = ({ item, index, handleDeletePayment }) => {
                 </label>
             </td>
             <td>
-                <div className="flex items-center gap-5">
-                    <div className="font-bold uppercase">{payment_info?.brand}</div>
-                    <div>
-                        <div className="text-sm opacity-50"> {payment_amount} <span className="uppercase">{payment_currency}</span></div>
-                        <div className="text-success">{payment_status}</div>
-                    </div>
+                <div className="font-bold uppercase">{payment_info?.brand}</div>
+            </td>
+            <td>
+                <div>
+                    <div className="text-success">{payment_status}</div>
+                    <div className="text-sm opacity-50"> {payment_amount} <span className="uppercase">{payment_currency}</span></div>
                 </div>
             </td>
             <td>
@@ -26,11 +26,8 @@ const PaymentRow = ({ item, index, handleDeletePayment }) => {
                 <span className="text-xs text-neutral">Student Email: {student_email}</span>
             </td>
             <td>
-                <button className="btn btn-xs btn-neutral">Edit</button>
-            </td>
-            <th>
                 <button onClick={() => handleDeletePayment(_id)} className="btn btn-error btn-xs">Delete</button>
-            </th>
+            </td>
         </tr>
     );
 };

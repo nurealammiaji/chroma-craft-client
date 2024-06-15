@@ -65,9 +65,9 @@ const ManagePayments = () => {
                                 <thead>
                                     <tr>
                                         <th>SN</th>
-                                        <th>Method / Status</th>
+                                        <th>Method</th>
+                                        <th>Status</th>
                                         <th>Information</th>
-                                        <th>Action</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

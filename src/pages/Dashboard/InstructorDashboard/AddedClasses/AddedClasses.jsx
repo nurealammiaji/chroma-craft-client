@@ -10,7 +10,7 @@ import { TbList, TbListCheck } from "react-icons/tb";
 import useCategories from "../../../../hooks/useCategories";
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../../../hooks/useAxiosPublic";
-import useClasses from '../../../../hooks/useClasses';
+import useInstructor from "../../../../hooks/useInstructor";
 
 const AddedClasses = () => {
 
@@ -18,25 +18,39 @@ const AddedClasses = () => {
 
     const { register: register2, handleSubmit: handleSubmit2, watch: watch2, reset: reset2, formState: { errors: errors2 } } = useForm();
 
-    const [categories] = useCategories();
     const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
-    const [userData] = useUser();
+    const [categories] = useCategories();
+    const [instructorData] = useInstructor();
     const [instructorClasses, setInstructorClasses] = useState();
-    const [classes, setClasses] = useState();
     const [classInfo, setClassInfo] = useState({});
     const [categoryInfo, setCategoryInfo] = useState({});
 
-    useEffect(() => {
+    const category1 = watch1("category1");
+    const category2 = watch2("category2");
 
-        axiosPublic.get(`/instructors/classes?email=alex.turner@chromacraft.com`)
+    useEffect(() => {
+        if (category1) {
+            const categoryDetails = JSON.parse(category1);
+            console.log(categoryDetails);
+            setCategoryInfo(categoryDetails);
+        }
+
+        else if (category2) {
+            const categoryDetails = JSON.parse(category2);
+            console.log(categoryDetails);
+            setCategoryInfo(categoryDetails);
+        }
+    }, [category1, category2])
+
+    useEffect(() => {
+        axiosPublic.get(`/instructors/classes/${instructorData?.instructor_id}`)
             .then(res => {
-                console.log(res.data);
-                setClasses(res.data);
+                // console.log(res.data);
+                setInstructorClasses(res.data);
             })
             .catch(err => console.log(err));
-
-    }, [axiosPublic, userData.email])
+    }, [axiosPublic, instructorData])
 
     const handleEditClass = (data) => {
         const editClass = {
@@ -57,19 +71,12 @@ const AddedClasses = () => {
             category_id: categoryInfo?.category_id,
             category_name: categoryInfo?.name,
             reviews: classInfo?.reviews,
-            status: data?.status1
+            status: "pending"
         };
         console.log(editClass);
-        fetch(`https://chroma-craft-server.vercel.app/classes/${classInfo?._id}`, {
-            method: "PATCH",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(editClass)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
+        axiosSecure.patch(`/classes/${classInfo?._id}`, editClass)
+            .then(res => {
+                console.log(res.data);
                 Swal.fire({
                     target: document.getElementById('edit_class'),
                     position: "center",
@@ -78,7 +85,6 @@ const AddedClasses = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                refetchClasses();
                 reset1();
             })
             .catch(error => {
@@ -100,7 +106,6 @@ const AddedClasses = () => {
                 const res = await axiosSecure.delete(`/classes/${id}`)
                 console.log(res.data);
                 if (res.data) {
-                    refetchClasses();
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -113,16 +118,15 @@ const AddedClasses = () => {
         });
     }
 
-
     const handleEditClassModal = (id) => {
-        const clickedClass = classes.find(item => item._id === id);
+        const clickedClass = instructorClasses.find(item => item._id === id);
         setClassInfo(clickedClass);
         document.getElementById('edit_class').showModal()
     }
 
     const handleAddClass = async (data) => {
         const newClass = {
-            course_id: parseInt(classes?.length + 1),
+            course_id: parseInt(instructorClasses?.length + 1),
             title: data?.title2,
             description: data?.description2,
             instructor: instructorInfo?.instructor,
@@ -153,7 +157,6 @@ const AddedClasses = () => {
                 showConfirmButton: false,
                 timer: 1500
             });
-            refetchClasses();
         }
     }
 
@@ -170,7 +173,7 @@ const AddedClasses = () => {
                 <br /><br />
                 <div className="overflow-x-auto">
                     {
-                        (classes) ?
+                        (instructorClasses) ?
                             <table className="table bg-white">
                                 {/* head */}
                                 <thead>
@@ -186,8 +189,8 @@ const AddedClasses = () => {
                                 <tbody>
                                     {/* row */}
                                     {
-                                        (classes) &&
-                                        classes.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item} handleEditClassModal={handleEditClassModal} handleDeleteClass={handleDeleteClass} ></ClassRow>)
+                                        (instructorClasses) &&
+                                        instructorClasses.map((item, index) => <ClassRow key={item._id} index={index + 1} item={item} handleEditClassModal={handleEditClassModal} handleDeleteClass={handleDeleteClass} ></ClassRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -208,7 +211,7 @@ const AddedClasses = () => {
                 <br /><br />
                 <div className="flex-row items-center justify-between text-center md:flex">
                     <div>
-                        <h4 className="p-4 font-medium text-neutral badge badge-outline">Classes: {classes?.length}</h4>
+                        <h4 className="p-4 font-medium text-neutral badge badge-outline">Classes: {instructorClasses?.length}</h4>
                     </div>
                     <div className="my-5 md:my-0">
                         <button onClick={() => document.getElementById('add_class').showModal()} className="p-4 font-medium badge badge-secondary">Add Class</button>
@@ -367,27 +370,6 @@ const AddedClasses = () => {
                                 </label>}
                             </div>
                             <br />
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Class Status (<span className="text-warning">{classInfo.status}</span>)</span>
-                                </label>
-                                <select {...register1("status1", { required: true })}
-                                    type="text"
-                                    placeholder="select class level"
-                                    name="status1"
-                                    defaultValue={classInfo.level}
-                                    className="select select-bordered"
-                                >
-                                    <option value="">select status</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
-                                {errors1.status1?.type === 'required' && <label className="label">
-                                    <span className="text-error">Class Status is required !!</span>
-                                </label>}
-                            </div>
-                            <br />
                             <div className="mt-6 form-control">
                                 <button className="btn btn-neutral" type="submit">Update Class</button>
                             </div>
@@ -538,27 +520,6 @@ const AddedClasses = () => {
                                 </select>
                                 {errors2.level2?.type === 'required' && <label className="label">
                                     <span className="text-error">Class Level is required !!</span>
-                                </label>}
-                            </div>
-                            <br />
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Class Status</span>
-                                </label>
-                                <select {...register2("status2", { required: true })}
-                                    type="text"
-                                    placeholder="select class level"
-                                    name="status2"
-                                    defaultValue={classInfo.level}
-                                    className="select select-bordered"
-                                >
-                                    <option value="">select status</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
-                                {errors2.status2?.type === 'required' && <label className="label">
-                                    <span className="text-error">Class Status is required !!</span>
                                 </label>}
                             </div>
                             <br />

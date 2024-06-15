@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import { TbCategory, TbListDetails, TbMail, TbUsersGroup } from "react-icons/tb";
 import ClassCard from "../../components/ClassCard/ClassCard";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const InstructorDetails = () => {
 
     const params = useParams();
     const classes = useLoaderData();
+    const axiosPublic = useAxiosPublic();
     const [instructor, setInstructor] = useState(null);
 
     let approvedClasses;
@@ -24,11 +26,10 @@ const InstructorDetails = () => {
     }
 
     useEffect(() => {
-        fetch(`https://chroma-craft-server.vercel.app/instructors/${params?.id}`)
-            .then(res => res.json())
-            .then(data => setInstructor(data))
+        axiosPublic(`instructors/${params?.id}`)
+            .then(res => setInstructor(res.data))
             .catch(error => console.log(error))
-    }, [params])
+    }, [params, axiosPublic])
 
     return (
         <div className="min-h-screen">

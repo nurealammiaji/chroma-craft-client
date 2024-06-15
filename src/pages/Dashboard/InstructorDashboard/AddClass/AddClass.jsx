@@ -1,14 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import { useForm } from "react-hook-form";
-import useUser from '../../../../hooks/useUser';
 import useClasses from '../../../../hooks/useClasses';
 import Swal from "sweetalert2";
+import useInstructor from '../../../../hooks/useInstructor';
 
 const AddClass = () => {
 
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
-    const [userData] = useUser();
+    const [instructorData] = useInstructor();
     const [classes, refetchClasses] = useClasses();
 
     const category = watch("category");
@@ -18,10 +18,10 @@ const AddClass = () => {
             course_id: parseInt(classes?.length + 1),
             title: data?.title,
             description: data?.description,
-            instructor: userData?.name,
-            instructor_id: userData?._id,
-            instructor_email: userData?.email,
-            instructor_image: userData?.image,
+            instructor: instructorData?.instructor,
+            instructor_id: instructorData?.instructor_id,
+            instructor_email: instructorData?.instructor_email,
+            instructor_image: instructorData?.instructor_image,
             duration: parseInt(data?.duration),
             price: parseFloat(data?.price),
             seat_capacity: parseInt(data?.seat),

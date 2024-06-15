@@ -117,8 +117,6 @@ const CheckoutForm = () => {
                     }));
 
                 const paidClassesIDs = selected.map(item => item.class_id);
-                const enrolledCounts = selected.map(item => item.enrolled);
-                console.log(paidClassesIDs, enrolledCounts);
 
                 const payment = {
                     payment_status: paymentIntent?.status,
@@ -161,7 +159,7 @@ const CheckoutForm = () => {
                         console.log(error);
                     })
 
-                await axiosSecure.patch('/count', { paidClassesIDs, enrolledCounts })
+                await axiosSecure.patch('/count', paidClassesIDs)
                     .then(result => {
                         console.log(result.data);
                         refetchClasses();
