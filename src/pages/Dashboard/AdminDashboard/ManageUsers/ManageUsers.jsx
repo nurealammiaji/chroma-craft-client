@@ -133,14 +133,6 @@ const ManageUsers = () => {
             })
                 .then(result => {
                     console.log(result);
-                    // fetch(`https://chroma-craft-server.vercel.app/instructors/${data.email1}`, {
-                    //     method: "DELETE"
-                    // })
-                    //     .then(res => res.json())
-                    //     .then(data => {
-                    //         console.log(data)
-                    //         refetchInstructors();
-                    //     })
                     Swal.fire({
                         target: document.getElementById("edit_user"),
                         position: "center",

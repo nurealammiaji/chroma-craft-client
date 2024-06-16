@@ -25,7 +25,7 @@ const Instructors = () => {
                         <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-3">
                             {
                                 (instructors) &&
-                                instructors.slice(0, 6).map(item => <Instructor key={item._id} item={item}></Instructor>)
+                                instructors.map(item => <Instructor key={item._id} item={item}></Instructor>)
                             }
                         </div> : <>
                             <div className="flex items-center justify-center">

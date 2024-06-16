@@ -4,10 +4,40 @@ import InstructorRow from "./InstructorRow";
 import { DNA } from "react-loader-spinner";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 
 const ManageInstructors = () => {
 
-    const [instructors] = useInstructors();
+    const [instructors, refetchInstructors] = useInstructors();
+    const axiosSecure = useAxiosSecure();
+
+    const deleteInstructor = (email) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to delete this instructor",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff675b",
+            cancelButtonColor: "#16a34a",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const res = await axiosSecure.delete(`/instructors/${email}`)
+                console.log(res.data);
+                if (res.data) {
+                    refetchInstructors();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Deleted Successfully !!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
+    }
 
     return (
         <div className="min-h-screen">
@@ -38,7 +68,7 @@ const ManageInstructors = () => {
                                     {/* row */}
                                     {
                                         (instructors) &&
-                                        instructors.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item}></InstructorRow>)
+                                        instructors.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item} deleteInstructor={deleteInstructor}></InstructorRow>)
                                     }
                                 </tbody>
                             </table> :

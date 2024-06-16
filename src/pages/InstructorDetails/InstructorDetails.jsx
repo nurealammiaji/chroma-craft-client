@@ -19,6 +19,13 @@ const InstructorDetails = () => {
         approvedClasses = classes.filter(item => item.status === "approved");
     }
 
+    let instructorCategories;
+    if (approvedClasses) {
+        instructorCategories = approvedClasses.map(item => item.category_name);
+        instructorCategories = [...new Set(instructorCategories)]
+        instructorCategories = instructorCategories.join(", ");
+    }
+
     let enrolledStudents = 0;
     if (approvedClasses) {
         const total = approvedClasses.reduce((total, item) => total + item.enrolled, 0);
@@ -54,7 +61,7 @@ const InstructorDetails = () => {
                                     </div>
                                     <div className="flex items-center mt-2">
                                         <TbCategory className="mr-2 text-xl" />
-                                        <p><span className="font-medium">Category:</span> <Link to={`/categories/${instructor?.category_id}`}><span className="text-base badge badge-accent badge-outline">{instructor?.category_name}</span></Link></p>
+                                        <p><span className="font-medium">Category:</span> <span><span className="text-base">{instructorCategories}</span></span></p>
                                     </div>
                                     <div className="flex items-center mt-2">
                                         <TbListDetails className="mr-2 text-xl" />

@@ -1,15 +1,34 @@
 import { Helmet } from "react-helmet-async";
-import { TbHome, TbHome2, TbInfoHexagon, TbList, TbListCheck, TbListDetails, TbListLetters, TbPhoneCall, TbUsers, TbUsersGroup, TbUsersPlus, TbWallet, TbX } from "react-icons/tb";
+import { TbHome, TbHome2, TbInfoHexagon, TbList, TbListCheck, TbListDetails, TbListLetters, TbLogout, TbPhoneCall, TbUsers, TbUsersGroup, TbUsersPlus, TbWallet, TbX } from "react-icons/tb";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import logo from "/logo.png";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useUser from "../../hooks/useUser";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
 
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const [userData] = useUser();
+
+    const logoutHandler = () => {
+        logout()
+            .then(result => {
+                console.log(result);
+                localStorage.removeItem('chromaCraft-userToken');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Logged Out !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
         <div>
@@ -34,7 +53,7 @@ const Dashboard = () => {
                         <div>
                             <label htmlFor="my-drawer-2" className="absolute top-0 right-0 rounded-none btn btn-primary btn-xs drawer-button lg:hidden"><TbX className="text-xl" /></label>
                         </div>
-                        <div className="mb-5">
+                        <div className="mb-10">
                             <figure className="w-5/6 mx-auto">
                                 <img className="w-full h-full" src={logo} alt="" />
                             </figure>
@@ -71,6 +90,20 @@ const Dashboard = () => {
                         <li><Link to={"/classes"}><TbListDetails className="text-2xl" /> Classes</Link></li>
                         <li><Link to={"/instructors"}><TbUsers className="text-2xl" /> Instructors</Link></li>
                         <li><Link to={"/contact"}><TbPhoneCall className="text-2xl" /> Contact</Link></li>
+                        {
+                            (user) &&
+                            <div className="flex items-center justify-center w-5/12 py-2 mx-auto mt-10 border-2 rounded-full border-neutral">
+                                <div className="mr-3 avatar tooltip" data-tip={`${userData?.name}`}>
+                                    <div className="w-6 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                        <Link to="/profile">
+                                            <img src={userData?.image} />
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="mr-3 text-xl">||</div>
+                                <button onClick={logoutHandler} className="p-1 btn btn-sm btn-circle tooltip btn-primary" data-tip="Logout"><TbLogout className="text-2xl" /></button>
+                            </div>
+                        }
                     </ul>
                 </div>
             </div>
