@@ -84,7 +84,7 @@ const Dashboard = () => {
                                 <li><NavLink to={"/dashboard/enrolled"}><TbListCheck className="text-2xl" /> Enrolled Classes</NavLink></li>
                             </>
                         }
-                        <span className="my-5 divider"></span>
+                        <div className="my-5 divider"></div>
                         <li><Link to={"/"}><TbHome className="text-2xl" />Home</Link></li>
                         <li><Link to={"/about"}><TbInfoHexagon className="text-2xl" />About</Link></li>
                         <li><Link to={"/classes"}><TbListDetails className="text-2xl" /> Classes</Link></li>
@@ -95,9 +95,9 @@ const Dashboard = () => {
                             <div className="flex items-center justify-center w-5/12 py-2 mx-auto mt-10 border-2 rounded-full border-neutral">
                                 <div className="mr-3 avatar tooltip" data-tip={`${userData?.name}`}>
                                     <div className="w-6 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                        <Link to="/profile">
+                                        <button>
                                             <img src={userData?.image} />
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="mr-3 text-xl">||</div>

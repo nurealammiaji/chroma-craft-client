@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useUser from "../../../../hooks/useUser";
 import useEnrolled from '../../../../hooks/useEnrolled';
 
 const EnrolledRow = ({ item, index }) => {
@@ -8,9 +7,8 @@ const EnrolledRow = ({ item, index }) => {
     const { _id, class_id, class_title, class_price, class_image, class_duration, category_name, instructor_name, instructor_email } = item;
 
     const [, refetchEnrolled] = useEnrolled();
-    const [userData] = useUser();
 
-    const handleDeleteOrder = (_id) => {
+    const handleDeleteClass = (_id) => {
         console.log("Delete: ", _id);
         Swal.fire({
             title: "Are you sure?",
@@ -81,7 +79,7 @@ const EnrolledRow = ({ item, index }) => {
                 <button className="w-auto btn btn-xs btn-neutral">Review</button>
             </td>
             <th>
-                <button onClick={() => handleDeleteOrder(_id)} className="btn btn-error btn-xs">Delete</button>
+                <button onClick={() => handleDeleteClass(_id)} className="btn btn-error btn-xs">Delete</button>
             </th>
         </tr>
     );
