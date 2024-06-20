@@ -129,7 +129,7 @@ const Dashboard = () => {
                         <li><Link to={"/instructors"}><TbUsers className="text-2xl" /> Instructors</Link></li>
                         <li><Link to={"/contact"}><TbPhoneCall className="text-2xl" /> Contact</Link></li>
                         {
-                            (user) &&
+                            (user && userData) &&
                             <div className="flex items-center justify-center w-5/12 py-2 mx-auto mt-10 border rounded-full border-neutral">
                                 <div className="mr-3 avatar tooltip" data-tip={`${userData?.name}`}>
                                     <div className="w-6 rounded-full ring ring-neutral ring-offset-base-100 ring-offset-2">

@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, NavLink } from "react-router-dom";
-import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2, TbUserEdit } from "react-icons/tb";
+import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2, TbUserEdit, TbX } from "react-icons/tb";
 import Swal from "sweetalert2";
 import logo from "/logo.png";
 import shape1 from "../../assets/shapes/art-protrait-01.png";
@@ -15,8 +15,19 @@ const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
     const [userData, refetchUserData] = useUser();
     const [selected] = useSelected();
+    const [searchResult, setSearchResult] = useState();
 
     const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
+
+    const { register: register2, handleSubmit: handleSubmit2, watch: watch2, reset: reset2, formState: { errors: errors2 } } = useForm();
+
+    const searchText = watch2("searchText");
+
+    useEffect(() => {
+        if (searchText?.length <= 0) {
+            setSearchResult(null);
+        }
+    }, [searchText?.length])
 
     const logoutHandler = () => {
         logout()
@@ -72,6 +83,24 @@ const Navbar = () => {
             })
     }
 
+    const handleSearch = (data) => {
+        console.log(data);
+        fetch(`https://chroma-craft-server.vercel.app/search?text=${data.searchText}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setSearchResult(data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
@@ -115,7 +144,7 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end [&>*]:ml-1 hover:[&>*]:text-purple-700 text-base">
                     <div className="mr-1 drawer-content tooltip" data-tip="Search">
-                        <label htmlFor="wishlist-drawer" className="relative drawer-button">
+                        <label htmlFor="search" className="relative drawer-button">
                             <TbSearch className="text-xl md:text-2xl" />
                         </label>
                     </div>
@@ -219,6 +248,37 @@ const Navbar = () => {
                     </form>
                 </div>
             </dialog>
+            <div style={{ zIndex: 1000 }} className="drawer drawer-end">
+                <input id="search" type="checkbox" className="drawer-toggle" />
+                <div className="drawer-content">
+                    {/* Page content here */}
+                </div>
+                <div className="drawer-side">
+                    <label htmlFor="search" aria-label="close sidebar" className="drawer-overlay"></label>
+                    <ul className="min-h-full p-4 menu w-80 bg-base-200 text-base-content">
+                        {/* Sidebar content here */}
+                        <form onSubmit={handleSubmit2(handleSearch)} className="my-0 mb-4">
+                            <label className="flex items-center gap-2 input input-bordered">
+                                <input type="text" className="bg-transparent grow" placeholder="Search" name="searchText" {...register2("searchText", { required: true })} />
+                                <button type="submit" className="tooltip tooltip-bottom" data-tip="Search"><TbSearch className="text-xl" /></button>
+                            </label>
+                            {errors2.searchText?.type === 'required' && <label className="mt-3 label">
+                                <span className="text-error">Please type keyword !!</span>
+                            </label>}
+                            {
+                                (searchResult) &&
+                                <label className="mt-3 label">
+                                    <span className="text-success">Found {searchResult?.length} {searchResult.length <= 1 ? "Result" : "Results"} !!</span>
+                                </label>
+                            }
+                        </form>
+                        {
+                            (searchResult) &&
+                            searchResult.map((item, index) => <li key={item._id}><Link to={`/classes/${item?._id}`}>{index + 1}. {item?.title}</Link></li>)
+                        }
+                    </ul>
+                </div>
+            </div>
             <br /><br />
         </nav>
     );
