@@ -5,9 +5,9 @@ import useUser from "../hooks/useUser";
 
 const InstructorRoute = ({ children }) => {
 
-    const [userData, userLoading] = useUser();
+    const [userData, userDataLoading] = useUser();
 
-    if (userLoading) {
+    if (userDataLoading) {
         return <>
             <div className="flex items-center justify-center">
                 <DNA

@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import Class from "./Class";
 import { DNA } from "react-loader-spinner";
 import { TbList } from "react-icons/tb";
@@ -16,6 +16,7 @@ const StudentClasses = () => {
     const { register: register, handleSubmit, watch, reset, formState: { errors } } = useForm();
 
     const enrolledClasses = useLoaderData();
+    const navigate = useNavigate();
     const { email } = useParams();
     const axiosSecure = useAxiosSecure();
     const [classes] = useClasses();
@@ -60,10 +61,11 @@ const StudentClasses = () => {
                     target: document.getElementById('add_class'),
                     position: "center",
                     icon: "success",
-                    title: "Class Added Successfully !!",
+                    title: "Added Successfully !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
+                navigate(`/dashboard/student-classes/${email}`, { replace: true });
             })
             .catch(error => {
                 console.log(error);
@@ -119,7 +121,7 @@ const StudentClasses = () => {
                                     <option value="">Select Class</option>
                                     {
                                         (classes) &&
-                                        classes.map(item => <option key={item._id} value={JSON.stringify(item)}>{item.title}</option>)
+                                        classes.filter(item => item.status === "approved").map(item => <option key={item._id} value={JSON.stringify(item)}>{item.title}</option>)
                                     }
                                 </select>
                             </label>

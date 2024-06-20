@@ -1,19 +1,22 @@
 import { useContext } from "react";
 import { AuthContext } from '../../providers/AuthProvider';
 import { Link, NavLink } from "react-router-dom";
-import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2 } from "react-icons/tb";
+import { TbLogin, TbLogout, TbSearch, TbShoppingBag, TbMenu2, TbUserEdit } from "react-icons/tb";
 import Swal from "sweetalert2";
 import logo from "/logo.png";
 import shape1 from "../../assets/shapes/art-protrait-01.png";
-import useUser from "../../hooks/useUser";
 import useSelected from '../../hooks/useSelected';
+import { useForm } from "react-hook-form";
+import useUser from '../../hooks/useUser';
 
 
 const Navbar = () => {
 
-    const { user, logout} = useContext(AuthContext);
-    const [userData] = useUser();
+    const { user, logout } = useContext(AuthContext);
+    const [userData, refetchUserData] = useUser();
     const [selected] = useSelected();
+
+    const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
 
     const logoutHandler = () => {
         logout()
@@ -27,6 +30,42 @@ const Navbar = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    const updateUser = (data) => {
+        const user = {
+            name: data.name1,
+            email: data.email1,
+            phone: data.phone1,
+            image: data.image1,
+            gender: data.gender1,
+            dob: data.dob1,
+            role: userData?.role
+        }
+        console.log({ user });
+        fetch(`https://chroma-craft-server.vercel.app/users/${userData._id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+            .then(result => {
+                console.log(result);
+                Swal.fire({
+                    target: document.getElementById("edit_user"),
+                    position: "center",
+                    icon: "success",
+                    title: "Updated Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                refetchUserData();
+                reset1();
             })
             .catch(error => {
                 console.log(error);
@@ -51,7 +90,7 @@ const Navbar = () => {
             (user && userData?.role === "student") &&
             <li><NavLink to="/dashboard/student">Dashboard</NavLink></li>
         }
-    </>;
+    </>
 
     return (
         <nav className="relative">
@@ -98,9 +137,9 @@ const Navbar = () => {
                             <>
                                 <div className="mr-1 avatar tooltip" data-tip={`${userData?.name}`}>
                                     <div className="w-4 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                        <Link to="/profile">
+                                        <button onClick={() => document.getElementById('edit_user').showModal()}>
                                             <img src={userData?.image} />
-                                        </Link>
+                                        </button>
                                     </div>
                                 </div>
                                 <button onClick={logoutHandler} className="tooltip" data-tip="Logout"><TbLogout className="text-lg md:text-2xl" /></button>
@@ -111,6 +150,75 @@ const Navbar = () => {
                     }
                 </div>
             </div>
+            <dialog id="edit_user" className="modal">
+                <div className="modal-box">
+                    <div className="flex items-center">
+                        <span><TbUserEdit className="text-2xl font-bold" /></span>
+                        <h3 className="ml-3 text-xl font-bold"> Edit Profile</h3>
+                    </div>
+                    <form method="dialog">
+                        <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
+                    </form>
+                    <form onSubmit={handleSubmit1(updateUser)}>
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">Name : </span>
+                            <input defaultValue={userData?.name} {...register1("name1", { required: true })} type="text" name="name1" className="w-full grow bg-base-100 md:w-fit" placeholder={userData?.name} />
+                        </label>
+                        {errors1.name1?.type === 'required' && <label className="label">
+                            <span className="text-error">Name is required !!</span>
+                        </label>}
+                        <br />
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">Email : </span>
+                            <input type="email" name="email1" className="w-full grow bg-base-100 md:w-fit" placeholder={userData?.email} defaultValue={userData?.email} {...register1("email1", { required: true })} />
+                        </label>
+                        {errors1.email1?.type === 'required' && <label className="label">
+                            <span className="text-error">Email is required !!</span>
+                        </label>}
+                        <br />
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">Phone : </span>
+                            <input type="text" name="phone1" className="w-full grow bg-base-100 md:w-fit" placeholder={userData?.phone} defaultValue={userData?.phone} {...register1("phone1", { required: true })} />
+                        </label>
+                        {errors1.phone1?.type === 'required' && <label className="label">
+                            <span className="text-error">Phone is required !!</span>
+                        </label>}
+                        <br />
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">Image : </span>
+                            <input type="url" name="image1" className="w-full grow bg-base-100 md:w-fit" placeholder={userData?.image} defaultValue={userData?.image} {...register1("image1", { required: true })} />
+                        </label>
+                        {errors1.image1?.type === 'required' && <label className="label">
+                            <span className="text-error">Image is required !!</span>
+                        </label>}
+                        <br />
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">Gender : (<span className="text-warning">{userData?.gender}</span>)</span>
+                            <select name="gender1" defaultValue={userData?.gender} className="w-full grow bg-base-100 md:w-fit" {...register1("gender1", { required: true })}>
+                                <option value="">select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="third">Third</option>
+                            </select>
+                        </label>
+                        {errors1.gender1?.type === 'required' && <label className="label">
+                            <span className="text-error">Gender is required !!</span>
+                        </label>}
+                        <br />
+                        <label className="flex items-center gap-2 input input-bordered">
+                            <span className="w-full font-semibold md:w-fit">DOB : </span>
+                            <input type="date" name="dob1" className="w-full grow bg-base-100 md:w-fit" defaultValue={userData?.dob ? userData?.dob : false} {...register1("dob1", { required: true })} />
+                        </label>
+                        {errors1.dob1?.type === 'required' && <label className="label">
+                            <span className="text-error">DOB is required !!</span>
+                        </label>}
+                        <br /><br />
+                        <div className="text-center">
+                            <button type="submit" className="btn btn-success">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
             <br /><br />
         </nav>
     );

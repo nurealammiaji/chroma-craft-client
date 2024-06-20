@@ -85,16 +85,6 @@ const ManageUsers = () => {
             })
                 .then(result => {
                     console.log(result);
-                    // Swal.fire({
-                    //     target: document.getElementById("edit_user"),
-                    //     position: "center",
-                    //     icon: "success",
-                    //     title: "Updated Successfully !!",
-                    //     showConfirmButton: false,
-                    //     timer: 1500
-                    // });
-                    // refetchUsers();
-                    // reset1();
                     refetchInstructors();
                 })
                 .catch(error => {

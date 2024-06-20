@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import shape1 from "../../../../../assets/shapes/shape-10-2.png"
 import shape2 from "../../../../../assets/shapes/shape-12-2.png"
 import Swal from "sweetalert2";
 
 const Class = ({ item }) => {
 
-    const { _id, class_id, class_image, class_title, class_price, class_duration, instructor_name, category_name, student_name } = item;
+    const { _id, class_id, class_image, class_title, class_price, class_duration, instructor_name, category_name, student_name, student_email } = item;
+
+    const navigate = useNavigate();
 
     const handleDeleteClass = (_id) => {
         console.log("Delete: ", _id);
@@ -31,10 +33,11 @@ const Class = ({ item }) => {
                         Swal.fire({
                             position: "center",
                             icon: "success",
-                            title: "Class Deleted Successfully !!",
+                            title: "Deleted Successfully !!",
                             showConfirmButton: false,
                             timer: 1500
                         });
+                        navigate(`/dashboard/student-classes/${student_email}`, { replace: true });
                     })
                     .catch(error => {
                         console.log(error);

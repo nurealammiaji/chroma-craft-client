@@ -39,11 +39,11 @@ const CheckoutForm = () => {
     }
 
     useEffect(() => {
-        axiosSecure.post('/create-payment-intent', { price })
+        axiosPublic.post('/create-payment-intent', { price })
             .then(res => {
                 setClientSecret(res.data.clientSecret);
             })
-    }, [axiosSecure, price]);
+    }, [axiosPublic, price]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
