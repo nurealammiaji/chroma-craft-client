@@ -291,7 +291,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">DOB : </span>
-                                <input type="date" name="dob1" className="w-full grow bg-base-100 md:w-fit" value={userInfo.dob ? userInfo.dob : false} {...register1("dob1", { required: true })} />
+                                <input type="date" name="dob1" className="w-full grow bg-base-100 md:w-fit" defaultValue={userInfo?.dob ? userInfo?.dob : false} {...register1("dob1", { required: true })} />
                             </label>
                             {errors1.dob1?.type === 'required' && <label className="label">
                                 <span className="text-error">DOB is required !!</span>

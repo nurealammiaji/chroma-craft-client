@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useClasses from "../../../../hooks/useClasses";
 
-const InstructorRow = ({ item, index, deleteInstructor }) => {
+const InstructorRow = ({ item, index, deleteInstructor, handleEditInstructorModal }) => {
 
     const { instructor, instructor_id, instructor_image, instructor_email, category_name, total_classes } = item;
 
@@ -38,7 +38,7 @@ const InstructorRow = ({ item, index, deleteInstructor }) => {
                 <span className="text-xs text-neutral">{instructor_email}</span>
             </td>
             <td>
-                <Link to={"/dashboard/admin/instructor-details"} className="btn btn-xs btn-neutral">Edit</Link>
+                <button onClick={() => handleEditInstructorModal(instructor_email)} className="btn btn-xs btn-neutral">Edit</button>
             </td>
             <th>
                 <button onClick={() => deleteInstructor(instructor_email)} className="btn btn-error btn-xs">Delete</button>

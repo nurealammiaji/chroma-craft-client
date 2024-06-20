@@ -3,16 +3,17 @@ import useInstructors from '../../../../hooks/useInstructors';
 import InstructorRow from "./InstructorRow";
 import { DNA } from "react-loader-spinner";
 import SectionHeader from '../../../../components/SectionHeader/SectionHeader';
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import { TbUser, TbUserEdit } from "react-icons/tb";
+import { useState } from "react";
 
 const ManageInstructors = () => {
 
-    const [instructors, refetchInstructors] = useInstructors();
     const axiosSecure = useAxiosSecure();
+    const [instructors, refetchInstructors] = useInstructors();
+    const [instructorInfo, setInstructorInfo] = useState({});
 
     const { register: register1, handleSubmit: handleSubmit1, watch: watch1, reset: reset1, formState: { errors: errors1 } } = useForm();
 
@@ -45,12 +46,44 @@ const ManageInstructors = () => {
         });
     }
 
-    const addInstructor = (data) => {
+    const updateInstructor = (data) => {
         const instructor = {
-            instructor_id: instructors?.length + 1,
+            instructor_id: instructorInfo?.instructor_id,
             instructor: data.name1,
             instructor_email: data.email1,
             instructor_image: data.image1
+        }
+        fetch('https://chroma-craft-server.vercel.app/instructors', {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(instructor)
+        })
+            .then(result => {
+                console.log(result);
+                Swal.fire({
+                    target: document.getElementById("edit_instructor"),
+                    position: "center",
+                    icon: "success",
+                    title: "Updated Successfully !!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                refetchInstructors();
+                reset1();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    const addInstructor = (data) => {
+        const instructor = {
+            instructor_id: instructors?.length + 1,
+            instructor: data.name2,
+            instructor_email: data.email2,
+            instructor_image: data.image2
         }
         fetch('https://chroma-craft-server.vercel.app/instructors', {
             method: "POST",
@@ -62,20 +95,26 @@ const ManageInstructors = () => {
             .then(result => {
                 console.log(result);
                 Swal.fire({
-                    target: document.getElementById("edit_user"),
+                    target: document.getElementById("add_instructor"),
                     position: "center",
                     icon: "success",
-                    title: "Updated Successfully !!",
+                    title: "Added Successfully !!",
                     showConfirmButton: false,
                     timer: 1500
                 });
                 refetchInstructors();
                 reset2();
-                refetchInstructors();
             })
             .catch(error => {
                 console.log(error);
             })
+    }
+
+    const handleEditInstructorModal = (email) => {
+        const clickedInstructor = instructors.find(item => item.instructor_email === email);
+        console.log(clickedInstructor);
+        setInstructorInfo(clickedInstructor);
+        document.getElementById('edit_instructor').showModal()
     }
 
     return (
@@ -107,7 +146,7 @@ const ManageInstructors = () => {
                                     {/* row */}
                                     {
                                         (instructors) &&
-                                        instructors.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item} deleteInstructor={deleteInstructor}></InstructorRow>)
+                                        instructors.map((item, index) => <InstructorRow key={item._id} index={index + 1} item={item} deleteInstructor={deleteInstructor} handleEditInstructorModal={handleEditInstructorModal} ></InstructorRow>)
                                     }
                                 </tbody>
                             </table> :
@@ -128,21 +167,21 @@ const ManageInstructors = () => {
                 <br /><br />
                 <div className="flex-row items-center justify-between text-center md:flex">
                     <h4 className="p-4 font-medium text-neutral badge badge-outline">Instructors: {instructors?.length}</h4>
-                    <button onClick={() => document.getElementById('add_user').showModal()} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Add User</button>
+                    <button onClick={() => document.getElementById('add_instructor').showModal()} className="mt-5 md:mt-0 btn btn-sm btn-secondary">Add Instructor</button>
                 </div>
-                <dialog id="edit_user" className="modal">
+                <dialog id="edit_instructor" className="modal">
                     <div className="modal-box">
                         <div className="flex items-center">
                             <span><TbUserEdit className="text-2xl font-bold" /></span>
-                            <h3 className="ml-3 text-xl font-bold"> Edit User</h3>
+                            <h3 className="ml-3 text-xl font-bold"> Edit Instructor</h3>
                         </div>
                         <form method="dialog">
                             <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
                         </form>
-                        <form onSubmit={handleSubmit1(updateUser)}>
+                        <form onSubmit={handleSubmit1(updateInstructor)}>
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Name : </span>
-                                <input defaultValue={userInfo.name} {...register1("name1", { required: true })} type="text" name="name1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.name} />
+                                <input defaultValue={instructorInfo?.instructor} {...register1("name1", { required: true })} type="text" name="name1" className="w-full grow bg-base-100 md:w-fit" placeholder={instructorInfo?.instructor} />
                             </label>
                             {errors1.name1?.type === 'required' && <label className="label">
                                 <span className="text-error">Name is required !!</span>
@@ -150,60 +189,18 @@ const ManageInstructors = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Email : </span>
-                                <input type="email" name="email1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.email} defaultValue={userInfo.email} {...register1("email1", { required: true })} />
+                                <input type="email" name="email1" className="w-full grow bg-base-100 md:w-fit" placeholder={instructorInfo.instructor_email} defaultValue={instructorInfo.instructor_email} {...register1("email1", { required: true })} />
                             </label>
                             {errors1.email1?.type === 'required' && <label className="label">
                                 <span className="text-error">Email is required !!</span>
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Phone : </span>
-                                <input type="text" name="phone1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.phone} defaultValue={userInfo.phone} {...register1("phone1", { required: true })} />
-                            </label>
-                            {errors1.phone1?.type === 'required' && <label className="label">
-                                <span className="text-error">Phone is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Image : </span>
-                                <input type="url" name="image1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.image} defaultValue={userInfo.image} {...register1("image1", { required: true })} />
+                                <input type="url" name="image1" className="w-full grow bg-base-100 md:w-fit" placeholder={instructorInfo?.instructor_image} defaultValue={instructorInfo?.instructor_image} {...register1("image1", { required: true })} />
                             </label>
                             {errors1.image1?.type === 'required' && <label className="label">
                                 <span className="text-error">Image is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Gender : (<span className="text-warning">{userInfo?.gender}</span>)</span>
-                                <select name="gender1" defaultValue={userInfo.gender} className="w-full grow bg-base-100 md:w-fit" {...register1("gender1", { required: true })}>
-                                    <option value="">select gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="third">Third</option>
-                                </select>
-                            </label>
-                            {errors1.gender1?.type === 'required' && <label className="label">
-                                <span className="text-error">Gender is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">DOB : </span>
-                                <input type="date" name="dob1" className="w-full grow bg-base-100 md:w-fit" value={userInfo.dob ? userInfo.dob : false} {...register1("dob1", { required: true })} />
-                            </label>
-                            {errors1.dob1?.type === 'required' && <label className="label">
-                                <span className="text-error">DOB is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Role : (<span className="text-warning">{userInfo?.role}</span>)</span>
-                                <select name="role1" defaultValue={userInfo.role} className="w-full grow bg-base-100 md:w-fit" {...register1("role1", { required: true })}>
-                                    <option value="">select role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="instructor">Instructor</option>
-                                    <option value="student">Student</option>
-                                </select>
-                            </label>
-                            {errors1.role1?.type === 'required' && <label className="label">
-                                <span className="text-error">Role is required !!</span>
                             </label>}
                             <br /><br />
                             <div className="text-center">
@@ -212,11 +209,11 @@ const ManageInstructors = () => {
                         </form>
                     </div>
                 </dialog>
-                <dialog id="add_user" className="modal">
+                <dialog id="add_instructor" className="modal">
                     <div className="modal-box">
                         <div className="flex items-center">
                             <span><TbUser className="text-2xl font-bold" /></span>
-                            <h3 className="ml-3 text-xl font-bold">Add User</h3>
+                            <h3 className="ml-3 text-xl font-bold">Add Instructor</h3>
                         </div>
                         <form method="dialog">
                             <button className="absolute btn btn-sm btn-circle btn-error right-2 top-2">✕</button>
@@ -239,53 +236,11 @@ const ManageInstructors = () => {
                             </label>}
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Phone : </span>
-                                <input type="text" name="phone2" className="w-full grow bg-base-100 md:w-fit" placeholder="type phone here" {...register2("phone2", { required: true })} />
-                            </label>
-                            {errors2.phone2?.type === 'required' && <label className="label">
-                                <span className="text-error">Phone is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Image : </span>
                                 <input type="url" name="image2" className="w-full grow bg-base-100 md:w-fit" placeholder="type image url here" {...register2("image2", { required: true })} />
                             </label>
                             {errors2.image2?.type === 'required' && <label className="label">
                                 <span className="text-error">Image is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Gender : </span>
-                                <select name="gender2" className="w-full grow bg-base-100 md:w-fit" {...register2("gender2", { required: true })}>
-                                    <option value="">select gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="third">Third</option>
-                                </select>
-                            </label>
-                            {errors2.gender2?.type === 'required' && <label className="label">
-                                <span className="text-error">Gender is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">DOB : </span>
-                                <input type="date" name="dob2" className="w-full grow bg-base-100 md:w-fit" defaultValue={userInfo.dob ? userInfo.dob : false} {...register2("dob2", { required: true })} />
-                            </label>
-                            {errors2.dob2?.type === 'required' && <label className="label">
-                                <span className="text-error">DOB is required !!</span>
-                            </label>}
-                            <br />
-                            <label className="flex items-center gap-2 input input-bordered">
-                                <span className="w-full font-semibold md:w-fit">Role : </span>
-                                <select name="role2" className="w-full grow bg-base-100 md:w-fit" {...register2("role2", { required: true })} >
-                                    <option value="">select role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="instructor">Instructor</option>
-                                    <option value="student">Student</option>
-                                </select>
-                            </label>
-                            {errors2.role2?.type === 'required' && <label className="label">
-                                <span className="text-error">Role is required !!</span>
                             </label>}
                             <br /><br />
                             <div className="text-center">
