@@ -254,7 +254,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Email : </span>
-                                <input type="email" name="email1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.email} defaultValue={userInfo.email} {...register1("email1", { required: true })} />
+                                <input type="email" name="email1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo?.email} defaultValue={userInfo?.email} {...register1("email1", { required: true })} />
                             </label>
                             {errors1.email1?.type === 'required' && <label className="label">
                                 <span className="text-error">Email is required !!</span>
@@ -262,7 +262,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Phone : </span>
-                                <input type="text" name="phone1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.phone} defaultValue={userInfo.phone} {...register1("phone1", { required: true })} />
+                                <input type="text" name="phone1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo?.phone} defaultValue={userInfo?.phone} {...register1("phone1", { required: true })} />
                             </label>
                             {errors1.phone1?.type === 'required' && <label className="label">
                                 <span className="text-error">Phone is required !!</span>
@@ -270,7 +270,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Image : </span>
-                                <input type="url" name="image1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo.image} defaultValue={userInfo.image} {...register1("image1", { required: true })} />
+                                <input type="url" name="image1" className="w-full grow bg-base-100 md:w-fit" placeholder={userInfo?.image} defaultValue={userInfo?.image} {...register1("image1", { required: true })} />
                             </label>
                             {errors1.image1?.type === 'required' && <label className="label">
                                 <span className="text-error">Image is required !!</span>
@@ -278,7 +278,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Gender : (<span className="text-warning">{userInfo?.gender}</span>)</span>
-                                <select name="gender1" defaultValue={userInfo.gender} className="w-full grow bg-base-100 md:w-fit" {...register1("gender1", { required: true })}>
+                                <select name="gender1" defaultValue={userInfo?.gender} className="w-full grow bg-base-100 md:w-fit" {...register1("gender1", { required: true })}>
                                     <option value="">select gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -299,7 +299,7 @@ const ManageUsers = () => {
                             <br />
                             <label className="flex items-center gap-2 input input-bordered">
                                 <span className="w-full font-semibold md:w-fit">Role : (<span className="text-warning">{userInfo?.role}</span>)</span>
-                                <select name="role1" defaultValue={userInfo.role} className="w-full grow bg-base-100 md:w-fit" {...register1("role1", { required: true })}>
+                                <select name="role1" defaultValue={userInfo?.role} className="w-full grow bg-base-100 md:w-fit" {...register1("role1", { required: true })}>
                                     <option value="">select role</option>
                                     <option value="admin">Admin</option>
                                     <option value="instructor">Instructor</option>

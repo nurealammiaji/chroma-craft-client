@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { DNA } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";

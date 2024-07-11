@@ -8,10 +8,12 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import { TbUser, TbUserEdit } from "react-icons/tb";
 import { useState } from "react";
+import useAxiosPublic from "../../../../hooks/useAxiosPublic";
 
 const ManageInstructors = () => {
 
     const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const [instructors, refetchInstructors] = useInstructors();
     const [instructorInfo, setInstructorInfo] = useState({});
 
@@ -30,7 +32,7 @@ const ManageInstructors = () => {
             confirmButtonText: "Yes, delete it!"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await axiosSecure.delete(`/instructors/${email}`)
+                const res = await axiosPublic.delete(`/instructors/${email}`)
                 console.log(res.data);
                 if (res.data) {
                     refetchInstructors();

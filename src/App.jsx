@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import Navbar from './Common/Navbar/Navbar';
-import Footer from './Common/Footer/Footer';
+import Navbar from './common/Navbar/Navbar';
+import Footer from './common/Footer/Footer';
 import ScrollToTop from "react-scroll-to-top";
 import { TbCircleArrowUp } from 'react-icons/tb';
 
